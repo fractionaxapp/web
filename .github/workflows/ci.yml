@@ -12,19 +12,23 @@ concurrency:
 # This app depends on the @fractionax/* workspace packages, so it cannot build in
 # isolation. CI reconstructs the fractionaxapp meta-monorepo, checks out the
 # triggering commit into the apps/web submodule, and runs the web tasks through moon.
+#
+# Both fractionaxapp and this repo are private, so the default GITHUB_TOKEN cannot
+# read across them. Create a PAT (classic: `repo` scope, or fine-grained: Contents
+# read on both repos) and add it to THIS repo's Actions secrets as MONOREPO_TOKEN.
+# The same token is used for the meta-repo checkout and the submodule clone below.
 jobs:
   ci:
     name: Build, lint, typecheck
     runs-on: ubuntu-latest
     steps:
       - name: Check out meta-monorepo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: fractionaxapp/fractionaxapp
           submodules: recursive
           fetch-depth: 0
-          # If fractionaxapp is private, add a PAT with read access to both repos:
-          # token: ${{ secrets.MONOREPO_TOKEN }}
+          token: ${{ secrets.MONOREPO_TOKEN }}
 
       - name: Check out the triggering web commit
         run: |
