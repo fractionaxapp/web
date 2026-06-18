@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+# This app depends on the @fractionax/* workspace packages, so it cannot build in
+# isolation. CI reconstructs the fractionaxapp meta-monorepo, checks out the
+# triggering commit into the apps/web submodule, and runs the web tasks through moon.
+jobs:
+  ci:
+    name: Build, lint, typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out meta-monorepo
+        uses: actions/checkout@v4
+        with:
+          repository: fractionaxapp/fractionaxapp
+          submodules: recursive
+          fetch-depth: 0
+          # If fractionaxapp is private, add a PAT with read access to both repos:
+          # token: ${{ secrets.MONOREPO_TOKEN }}
+
+      - name: Check out the triggering web commit
+        run: |
+          cd apps/web
+          git fetch origin "${WEB_SHA}"
+          git checkout "${WEB_SHA}"
+        env:
+          WEB_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Install proto toolchains
+        uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
+
+      - name: Install dependencies
+        # Not --frozen-lockfile: the meta-repo lockfile is pinned to its recorded web
+        # SHA, which may differ from the commit under test.
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build, lint and typecheck the web app
+        run: moon run web:build web:lint web:typecheck
