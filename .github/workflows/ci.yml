@@ -14,21 +14,35 @@ concurrency:
 # triggering commit into the apps/web submodule, and runs the web tasks through moon.
 #
 # Both fractionaxapp and this repo are private, so the default GITHUB_TOKEN cannot
-# read across them. Create a PAT (classic: `repo` scope, or fine-grained: Contents
-# read on both repos) and add it to THIS repo's Actions secrets as MONOREPO_TOKEN.
-# The same token is used for the meta-repo checkout and the submodule clone below.
+# read across them. A GitHub App (installed on the fractionaxapp org with Contents:
+# read on both repos) mints a short-lived token at run time — no personal PAT, no
+# expiry tied to a person. Configure these ORGANISATION-level values so every
+# submodule repo inherits them:
+#   - variable MONOREPO_APP_ID          → the App's ID
+#   - secret   MONOREPO_APP_PRIVATE_KEY  → the App's private key (.pem contents)
 jobs:
   ci:
     name: Build, lint, typecheck
     runs-on: ubuntu-latest
     steps:
+      - name: Mint a cross-repo token from the GitHub App
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.MONOREPO_APP_ID }}
+          private-key: ${{ secrets.MONOREPO_APP_PRIVATE_KEY }}
+          owner: fractionaxapp
+          repositories: |
+            fractionaxapp
+            web
+
       - name: Check out meta-monorepo
         uses: actions/checkout@v5
         with:
           repository: fractionaxapp/fractionaxapp
           submodules: recursive
           fetch-depth: 0
-          token: ${{ secrets.MONOREPO_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Check out the triggering web commit
         run: |
