@@ -1,0 +1,55 @@
+# yaml-language-server: $schema=https://moonrepo.dev/schemas/project.json
+layer: "application"
+language: "typescript"
+stack: "frontend"
+tags: ["ts", "web", "app"]
+toolchains:
+  default: ["node"]
+project:
+  name: "web"
+  description: "FractionAX web application (Next.js App Router)."
+dependsOn:
+  - "ui"
+  - "core"
+
+fileGroups:
+  sources:
+    - "app/**/*"
+    - "src/**/*"
+    - "public/**/*"
+    - "next.config.mjs"
+
+# Tasks run local binaries through `pnpm exec`. Build depends on upstream package
+# builds (^:build) so @fractionax/ui and @fractionax/core dist output exists first.
+tasks:
+  build:
+    command: "pnpm exec next build"
+    deps:
+      - "^:build"
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    inputs:
+      - "@group(sources)"
+      - "tsconfig.json"
+      - "package.json"
+    outputs:
+      - ".next"
+  dev:
+    command: "pnpm exec next dev"
+    preset: "server"
+    deps:
+      - "^:build"
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+  lint:
+    command: "pnpm exec eslint ."
+    inputs:
+      - "@group(sources)"
+      - "eslint.config.js"
+  typecheck:
+    command: "pnpm exec tsc --noEmit"
+    deps:
+      - "^:build"
+    inputs:
+      - "@group(sources)"
+      - "tsconfig.json"
