@@ -55,6 +55,16 @@ jobs:
         with:
           auto-install: true
 
+      - name: Restore moon and dependency caches
+        uses: actions/cache@v4
+        with:
+          path: |
+            .moon/cache
+            ~/.local/share/pnpm/store
+          key: ci-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ci-${{ runner.os }}-
+
       - name: Install dependencies
         # Not --frozen-lockfile: the meta-repo lockfile is pinned to its recorded web
         # SHA, which may differ from the commit under test.
