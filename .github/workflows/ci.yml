@@ -15,11 +15,9 @@ concurrency:
 #
 # Both fractionaxapp and this repo are private, so the default GITHUB_TOKEN cannot
 # read across them. A GitHub App (installed on the fractionaxapp org with Contents:
-# read on both repos) mints a short-lived token at run time — no personal PAT, no
-# expiry tied to a person. Configure these ORGANISATION-level values so every
-# submodule repo inherits them:
-#   - variable MONOREPO_APP_ID          → the App's ID
-#   - secret   MONOREPO_APP_PRIVATE_KEY  → the App's private key (.pem contents)
+# read) mints a short-lived token at run time — no personal PAT, no expiry tied to a
+# person. The App ID is not secret (it appears in logs and App settings) so it is
+# inlined; only the private key is an org-level secret: MONOREPO_APP_PRIVATE_KEY.
 jobs:
   ci:
     name: Build, lint, typecheck
@@ -29,7 +27,7 @@ jobs:
         id: app-token
         uses: actions/create-github-app-token@v2
         with:
-          app-id: ${{ vars.MONOREPO_APP_ID }}
+          app-id: "4090077"
           private-key: ${{ secrets.MONOREPO_APP_PRIVATE_KEY }}
           owner: fractionaxapp
           repositories: |
