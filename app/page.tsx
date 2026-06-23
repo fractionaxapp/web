@@ -19,6 +19,9 @@ export default function HomePage() {
         <Link href="/deals" className={cn(buttonVariants({ variant: 'outline' }), 'h-11 px-6')}>
           Browse deals
         </Link>
+        <Link href="/onchain" className={cn(buttonVariants({ variant: 'ghost' }), 'h-11 px-6')}>
+          On-chain
+        </Link>
       </div>
     </main>
   );
