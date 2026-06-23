@@ -11,6 +11,7 @@ project:
 dependsOn:
   - "ui"
   - "core"
+  - "domain"
 
 fileGroups:
   sources:
@@ -43,6 +44,8 @@ tasks:
       NEXT_TELEMETRY_DISABLED: "1"
   lint:
     command: "pnpm exec eslint ."
+    deps:
+      - "^:build"
     inputs:
       - "@group(sources)"
       - "eslint.config.js"
