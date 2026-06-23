@@ -12,6 +12,7 @@ dependsOn:
   - "ui"
   - "core"
   - "domain"
+  - "solana"
 
 fileGroups:
   sources:
