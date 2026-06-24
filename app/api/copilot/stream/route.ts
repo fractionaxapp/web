@@ -2,6 +2,9 @@ const AGENTS_URL = process.env.AGENTS_URL ?? 'http://localhost:8000';
 
 // Stream live; never cache.
 export const dynamic = 'force-dynamic';
+// The Copilot pipeline (intent + deal sourcing + LLM memo) runs longer than the
+// default serverless limit, so allow up to 60s for the streamed response.
+export const maxDuration = 60;
 
 export async function POST(request: Request): Promise<Response> {
   const body = (await request.json()) as { message?: string };

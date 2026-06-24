@@ -7,6 +7,9 @@ import { buttonVariants } from '@/components/ui/button';
 import { deepCamel } from '@/lib/case';
 import { cn } from '@/lib/utils';
 
+// Fetch deals live from the agents service per request (not at build time).
+export const dynamic = 'force-dynamic';
+
 const Deals = z.array(Deal);
 const RISKS = ['', 'low', 'medium', 'high'] as const;
 const AGENTS_URL = process.env.AGENTS_URL ?? 'http://localhost:8000';
