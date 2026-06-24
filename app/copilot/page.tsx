@@ -1,5 +1,6 @@
 'use client';
 
+import type { Deal, InvestmentIntent, InvestmentMemo } from '@fractionax/domain';
 import { useState } from 'react';
 
 import { DealCard } from '@/components/deal-card';
@@ -7,7 +8,7 @@ import { IntentSummary } from '@/components/intent-summary';
 import { MemoView } from '@/components/memo-view';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { CopilotResponse } from '@/lib/copilot';
+import { streamCopilot } from '@/lib/copilot';
 
 const EXAMPLES = [
   'Invest $1,000 in low-risk Malaysian opportunities',
@@ -15,32 +16,32 @@ const EXAMPLES = [
   'Discover invoice deals in Singapore',
 ];
 
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 className="mb-3 text-sm font-medium uppercase tracking-wide text-muted-foreground">
+      {children}
+    </h2>
+  );
+}
+
 export default function CopilotPage() {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<CopilotResponse | null>(null);
+  const [intent, setIntent] = useState<InvestmentIntent | null>(null);
+  const [deals, setDeals] = useState<Deal[] | null>(null);
+  const [memo, setMemo] = useState<InvestmentMemo | null>(null);
 
   async function ask(prompt: string): Promise<void> {
     const text = prompt.trim();
     if (!text || loading) return;
     setLoading(true);
     setError(null);
-    setResult(null);
+    setIntent(null);
+    setDeals(null);
+    setMemo(null);
     try {
-      const res = await fetch('/api/copilot', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ message: text }),
-      });
-      const json: unknown = await res.json();
-      if (!res.ok) {
-        const detail = (json as { error?: string }).error;
-        throw new Error(detail ?? `Request failed (${res.status})`);
-      }
-      const parsed = CopilotResponse.safeParse(json);
-      if (!parsed.success) throw new Error('Unexpected response shape from the agent.');
-      setResult(parsed.data);
+      await streamCopilot(text, { onIntent: setIntent, onDeals: setDeals, onMemo: setMemo });
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Something went wrong.');
     } finally {
@@ -48,12 +49,18 @@ export default function CopilotPage() {
     }
   }
 
+  const expectsMemo =
+    !!intent &&
+    (intent.action === 'invest' || intent.action === 'discover') &&
+    !!deals &&
+    deals.length > 0;
+
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
       <h1 className="text-2xl font-semibold tracking-tight">Copilot</h1>
       <p className="mt-1 text-muted-foreground">
         Describe what you want to invest in. The agent parses your intent, sources matching deals,
-        and drafts an investment memo.
+        and drafts an investment memo — streamed back as each step completes.
       </p>
 
       <div className="mt-6 space-y-3">
@@ -94,35 +101,43 @@ export default function CopilotPage() {
         </div>
       )}
 
-      {result && (
+      {(intent || loading) && !error && (
         <div className="mt-8 space-y-6">
           <section>
-            <h2 className="mb-2 text-sm font-medium uppercase tracking-wide text-muted-foreground">
-              Parsed intent
-            </h2>
-            <IntentSummary intent={result.intent} />
+            <SectionLabel>Parsed intent</SectionLabel>
+            {intent ? (
+              <IntentSummary intent={intent} />
+            ) : (
+              <p className="text-sm text-muted-foreground">Parsing intent…</p>
+            )}
           </section>
 
-          <section>
-            <h2 className="mb-3 text-sm font-medium uppercase tracking-wide text-muted-foreground">
-              Matching deals ({result.deals.length})
-            </h2>
-            <div className="grid gap-3">
-              {result.deals.map((deal) => (
-                <DealCard key={deal.id} deal={deal} />
-              ))}
-              {result.deals.length === 0 && (
-                <p className="text-sm text-muted-foreground">No deals matched that intent.</p>
-              )}
-            </div>
-          </section>
-
-          {result.memo && result.deals[0] && (
+          {intent && (
             <section>
-              <h2 className="mb-3 text-sm font-medium uppercase tracking-wide text-muted-foreground">
-                Top match — underwriting
-              </h2>
-              <MemoView memo={result.memo} currency={result.deals[0].currency} />
+              <SectionLabel>Matching deals{deals ? ` (${deals.length})` : ''}</SectionLabel>
+              {deals ? (
+                <div className="grid gap-3">
+                  {deals.map((deal) => (
+                    <DealCard key={deal.id} deal={deal} />
+                  ))}
+                  {deals.length === 0 && (
+                    <p className="text-sm text-muted-foreground">No deals matched that intent.</p>
+                  )}
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground">Sourcing deals…</p>
+              )}
+            </section>
+          )}
+
+          {expectsMemo && (
+            <section>
+              <SectionLabel>Top match — underwriting</SectionLabel>
+              {memo && deals?.[0] ? (
+                <MemoView memo={memo} currency={deals[0].currency} />
+              ) : (
+                <p className="text-sm text-muted-foreground">Drafting investment memo…</p>
+              )}
             </section>
           )}
         </div>
