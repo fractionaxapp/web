@@ -74,8 +74,8 @@ export default async function OnchainPage() {
           {!deployed && (
             <p className="text-muted-foreground">
               The program is not deployed yet. Deploy the Anchor program to {DEFAULT_CLUSTER} and set{' '}
-              <code className="font-mono">FRACTIONAX_PROGRAM_ID</code> — see{' '}
-              <code className="font-mono">onchain/README.md</code>.
+              <code translate="no" className="font-mono">FRACTIONAX_PROGRAM_ID</code> — see{' '}
+              <code translate="no" className="font-mono">onchain/README.md</code>.
             </p>
           )}
           {deployed && error && (
@@ -86,8 +86,8 @@ export default async function OnchainPage() {
           {deployed && !error && !registry && (
             <p className="text-muted-foreground">
               The program is configured but the registry is not initialized. Run the{' '}
-              <code className="font-mono">initialize</code> instruction (see{' '}
-              <code className="font-mono">onchain/README.md</code>).
+              <code translate="no" className="font-mono">initialize</code> instruction (see{' '}
+              <code translate="no" className="font-mono">onchain/README.md</code>).
             </p>
           )}
           {registry && (
@@ -101,7 +101,7 @@ export default async function OnchainPage() {
 
       <Link
         href="/"
-        className="mt-8 inline-block text-sm text-muted-foreground hover:underline"
+        className="mt-8 inline-block rounded text-sm text-muted-foreground hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         ← Back
       </Link>

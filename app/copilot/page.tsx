@@ -130,7 +130,7 @@ export default function CopilotPage() {
             Ask
           </Button>
         </div>
-        <p className="text-xs text-muted-foreground">Press ⌘/Ctrl + Enter to send.</p>
+        <p className="text-xs text-muted-foreground">Press&nbsp;⌘/Ctrl&nbsp;+&nbsp;Enter to send.</p>
       </div>
 
       {error && (
