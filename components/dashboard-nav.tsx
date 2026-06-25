@@ -1,5 +1,6 @@
 'use client';
 
+import { useWallet } from '@solana/wallet-adapter-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -43,6 +44,29 @@ function NavLinks({ pathname, className }: { pathname: string; className: string
   );
 }
 
+function WalletChip() {
+  const { publicKey, disconnect } = useWallet();
+  if (!publicKey) return null;
+  const b58 = publicKey.toBase58();
+  return (
+    <div className="flex items-center gap-2 text-xs">
+      <span
+        title={b58}
+        className="rounded-full bg-accent px-2 py-1 font-mono text-accent-foreground"
+      >
+        {b58.slice(0, 4)}…{b58.slice(-4)}
+      </span>
+      <button
+        type="button"
+        onClick={() => void disconnect()}
+        className="inline-flex min-h-11 items-center rounded text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        Disconnect
+      </button>
+    </div>
+  );
+}
+
 /** Dashboard chrome: a left sidebar on desktop, a stacked top bar on mobile. */
 export function DashboardNav() {
   const pathname = usePathname();
@@ -57,17 +81,23 @@ export function DashboardNav() {
           FractionAX
         </Link>
         <NavLinks pathname={pathname} className="flex flex-col gap-1 px-2 pb-2" />
+        <div className="mt-auto border-t p-3">
+          <WalletChip />
+        </div>
       </aside>
 
       <header className="border-b md:hidden [padding-top:env(safe-area-inset-top)]">
         <div className="px-safe py-2">
-          <Link
-            href="/"
-            translate="no"
-            className={cn('inline-flex font-semibold tracking-tight', brandRing)}
-          >
-            FractionAX
-          </Link>
+          <div className="flex items-center justify-between gap-3">
+            <Link
+              href="/"
+              translate="no"
+              className={cn('inline-flex font-semibold tracking-tight', brandRing)}
+            >
+              FractionAX
+            </Link>
+            <WalletChip />
+          </div>
           <NavLinks pathname={pathname} className="mt-1 flex flex-wrap gap-1 text-sm" />
         </div>
       </header>
