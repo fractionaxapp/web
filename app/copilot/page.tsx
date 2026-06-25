@@ -1,12 +1,14 @@
 'use client';
 
 import type { Deal, InvestmentIntent, InvestmentMemo } from '@fractionax/domain';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { DealCard } from '@/components/deal-card';
 import { IntentSummary } from '@/components/intent-summary';
 import { MemoView } from '@/components/memo-view';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
 import { streamCopilot } from '@/lib/copilot';
 
@@ -32,10 +34,24 @@ export default function CopilotPage() {
   const [deals, setDeals] = useState<Deal[] | null>(null);
   const [memo, setMemo] = useState<InvestmentMemo | null>(null);
 
+  // Restore a shared/refreshed prompt from the URL (does not auto-run). This must
+  // run after mount, not during SSR/render, to stay hydration-safe — the one
+  // legitimate case for a synchronous setState in an effect.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('q');
+    // eslint-disable-next-line react-hooks/set-state-in-effect, @eslint-react/set-state-in-effect
+    if (q) setMessage(q);
+  }, []);
+
   async function ask(prompt: string): Promise<void> {
     const text = prompt.trim();
     if (!text || loading) return;
+    // Persist the prompt in the URL so it survives refresh and is shareable.
+    const url = new URL(window.location.href);
+    url.searchParams.set('q', text);
+    window.history.replaceState(null, '', url);
     setLoading(true);
+    const startedAt = performance.now();
     setError(null);
     setIntent(null);
     setDeals(null);
@@ -45,6 +61,9 @@ export default function CopilotPage() {
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Something went wrong.');
     } finally {
+      // Keep the loading state visible long enough to avoid a flicker on fast responses.
+      const elapsed = performance.now() - startedAt;
+      if (elapsed < 400) await new Promise((resolve) => setTimeout(resolve, 400 - elapsed));
       setLoading(false);
     }
   }
@@ -58,16 +77,22 @@ export default function CopilotPage() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
       <h1 className="text-2xl font-semibold tracking-tight">Copilot</h1>
-      <p className="mt-1 text-muted-foreground">
+      <p className="mt-1 max-w-2xl text-muted-foreground">
         Describe what you want to invest in. The agent parses your intent, sources matching deals,
         and drafts an investment memo — streamed back as each step completes.
       </p>
 
       <div className="mt-6 space-y-3">
+        <label htmlFor="copilot-input" className="sr-only">
+          Describe your investment
+        </label>
         <Textarea
+          id="copilot-input"
+          name="prompt"
+          autoFocus
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="e.g. Invest $1,000 in low-risk Malaysian real estate"
+          placeholder="e.g. Invest $1,000 in low-risk Malaysian real estate…"
           onKeyDown={(e) => {
             if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) void ask(message);
           }}
@@ -89,26 +114,36 @@ export default function CopilotPage() {
               </Button>
             ))}
           </div>
-          <Button onClick={() => void ask(message)} disabled={loading || !message.trim()}>
-            {loading ? 'Thinking…' : 'Ask'}
+          <Button
+            onClick={() => void ask(message)}
+            disabled={loading || !message.trim()}
+            aria-busy={loading}
+            className="min-w-20"
+          >
+            {loading && <Spinner className="size-4" />}
+            Ask
           </Button>
         </div>
+        <p className="text-xs text-muted-foreground">Press ⌘/Ctrl + Enter to send.</p>
       </div>
 
       {error && (
-        <div className="mt-6 rounded-md border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
+        <div
+          role="alert"
+          className="mt-6 rounded-md border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive"
+        >
           {error}
         </div>
       )}
 
       {(intent || loading) && !error && (
-        <div className="mt-8 space-y-6">
+        <div className="mt-8 space-y-6" aria-live="polite" aria-busy={loading}>
           <section>
             <SectionLabel>Parsed intent</SectionLabel>
             {intent ? (
               <IntentSummary intent={intent} />
             ) : (
-              <p className="text-sm text-muted-foreground">Parsing intent…</p>
+              <Skeleton className="h-7 w-72" />
             )}
           </section>
 
@@ -125,7 +160,10 @@ export default function CopilotPage() {
                   )}
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground">Sourcing deals…</p>
+                <div className="grid gap-3">
+                  <Skeleton className="h-28 rounded-xl" />
+                  <Skeleton className="h-28 rounded-xl" />
+                </div>
               )}
             </section>
           )}
@@ -136,7 +174,7 @@ export default function CopilotPage() {
               {memo && deals?.[0] ? (
                 <MemoView memo={memo} currency={deals[0].currency} />
               ) : (
-                <p className="text-sm text-muted-foreground">Drafting investment memo…</p>
+                <Skeleton className="h-44 rounded-xl" />
               )}
             </section>
           )}

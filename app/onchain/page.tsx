@@ -11,6 +11,8 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
+export const metadata = { title: 'On-Chain — FractionAX' };
+
 // Always read live chain state.
 export const dynamic = 'force-dynamic';
 
@@ -42,17 +44,18 @@ export default async function OnchainPage() {
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-12">
+    <main id="main" className="mx-auto max-w-3xl px-6 py-12">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold tracking-tight">On-chain</h1>
         <Badge variant="secondary" className="uppercase">
           {DEFAULT_CLUSTER}
         </Badge>
       </div>
-      <p className="mt-1 text-muted-foreground">
+      <p className="mt-1 max-w-2xl text-muted-foreground">
         The Fractionax Solana program and its registry, read live from {DEFAULT_CLUSTER}.
       </p>
 
+      <h2 className="sr-only">Program details</h2>
       <Card className="mt-6">
         <CardHeader>
           <CardTitle className="text-base">Program</CardTitle>
@@ -76,7 +79,9 @@ export default async function OnchainPage() {
             </p>
           )}
           {deployed && error && (
-            <p className="text-destructive">Could not read the chain: {error}</p>
+            <p role="alert" className="text-destructive">
+              Could not read the chain: {error}
+            </p>
           )}
           {deployed && !error && !registry && (
             <p className="text-muted-foreground">

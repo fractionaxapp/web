@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 
 export default function HomePage() {
   return (
-    <main className="mx-auto max-w-3xl px-6 py-20">
+    <main id="main" className="mx-auto max-w-3xl px-6 py-20">
       <h1 className="text-4xl font-semibold tracking-tight">Agentic RWA investing on Solana</h1>
       <p className="mt-4 max-w-xl text-lg text-muted-foreground">
         Describe an investment in plain language. FractionAX agents parse your intent, source vetted
@@ -17,7 +17,7 @@ export default function HomePage() {
           Try the Copilot
         </Link>
         <Link href="/deals" className={cn(buttonVariants({ variant: 'outline' }), 'h-11 px-6')}>
-          Browse deals
+          Browse Deals
         </Link>
         <Link href="/onchain" className={cn(buttonVariants({ variant: 'ghost' }), 'h-11 px-6')}>
           On-chain

@@ -7,6 +7,8 @@ import { buttonVariants } from '@/components/ui/button';
 import { deepCamel } from '@/lib/case';
 import { cn } from '@/lib/utils';
 
+export const metadata = { title: 'Deal Discovery — FractionAX' };
+
 // Fetch deals live from the agents service per request (not at build time).
 export const dynamic = 'force-dynamic';
 
@@ -36,9 +38,9 @@ export default async function DealsPage({
   const { deals, error } = await fetchDeals(riskTier);
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-12">
+    <main id="main" className="mx-auto max-w-3xl px-6 py-12">
       <h1 className="text-2xl font-semibold tracking-tight">Deal discovery</h1>
-      <p className="mt-1 text-muted-foreground">
+      <p className="mt-1 max-w-2xl text-muted-foreground">
         Browse sourced alternative-asset opportunities — sorted by projected yield.
       </p>
 
@@ -57,8 +59,13 @@ export default async function DealsPage({
         ))}
       </div>
 
-      {error && <p className="mt-6 text-sm text-destructive">{error}</p>}
+      {error && (
+        <p role="alert" className="mt-6 text-sm text-destructive">
+          {error}
+        </p>
+      )}
 
+      <h2 className="sr-only">Sourced deals</h2>
       <div className="mt-6 grid gap-3">
         {deals.map((deal) => (
           <DealCard key={deal.id} deal={deal} />

@@ -6,9 +6,10 @@ export function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs));
 }
 
-/** Format an amount in minor units (e.g. cents) as a currency string. */
+/** Format an amount in minor units (e.g. cents) as a currency string, using the
+ * runtime locale so MYR/SGD/USD group and symbolize correctly. */
 export function formatMinor(minor: number, currency: string): string {
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat(undefined, {
     style: 'currency',
     currency,
     maximumFractionDigits: 0,

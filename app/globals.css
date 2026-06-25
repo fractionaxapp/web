@@ -26,6 +26,7 @@
 }
 
 :root {
+  color-scheme: light;
   --radius: 0.625rem;
   --background: oklch(0.99 0.004 160);
   --foreground: oklch(0.18 0.02 165);
@@ -38,7 +39,8 @@
   --secondary: oklch(0.96 0.01 165);
   --secondary-foreground: oklch(0.25 0.03 165);
   --muted: oklch(0.96 0.01 165);
-  --muted-foreground: oklch(0.52 0.02 165);
+  /* Darkened from 0.52 to clear WCAG 4.5:1 on the light background (~5.2:1). */
+  --muted-foreground: oklch(0.45 0.02 165);
   --accent: oklch(0.94 0.03 165);
   --accent-foreground: oklch(0.25 0.04 165);
   --destructive: oklch(0.58 0.22 25);
@@ -47,7 +49,34 @@
   --ring: oklch(0.55 0.13 165);
 }
 
+/* Activate the dark palette by system preference (no JS toggle wired yet). */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --background: oklch(0.16 0.02 165);
+    --foreground: oklch(0.97 0.01 160);
+    --card: oklch(0.2 0.02 165);
+    --card-foreground: oklch(0.97 0.01 160);
+    --popover: oklch(0.2 0.02 165);
+    --popover-foreground: oklch(0.97 0.01 160);
+    --primary: oklch(0.7 0.13 165);
+    --primary-foreground: oklch(0.18 0.03 165);
+    --secondary: oklch(0.26 0.02 165);
+    --secondary-foreground: oklch(0.97 0.01 160);
+    --muted: oklch(0.26 0.02 165);
+    --muted-foreground: oklch(0.7 0.02 165);
+    --accent: oklch(0.3 0.04 165);
+    --accent-foreground: oklch(0.97 0.01 160);
+    --destructive: oklch(0.65 0.2 25);
+    --border: oklch(0.3 0.02 165);
+    --input: oklch(0.32 0.02 165);
+    --ring: oklch(0.7 0.13 165);
+  }
+}
+
+/* Explicit `.dark` class override, for a future user-facing theme toggle. */
 .dark {
+  color-scheme: dark;
   --background: oklch(0.16 0.02 165);
   --foreground: oklch(0.97 0.01 160);
   --card: oklch(0.2 0.02 165);
@@ -71,6 +100,9 @@
 @layer base {
   * {
     border-color: var(--color-border);
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     background-color: var(--color-background);
