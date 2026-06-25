@@ -1,4 +1,5 @@
 import { Deal } from '@fractionax/domain';
+import { headers } from 'next/headers';
 import Link from 'next/link';
 import { z } from 'zod';
 
@@ -36,6 +37,9 @@ export default async function DealsPage({
 }) {
   const { riskTier } = await searchParams;
   const { deals, error } = await fetchDeals(riskTier);
+  // Format currency in the visitor's locale (server render has no browser locale).
+  const locale =
+    (await headers()).get('accept-language')?.split(',')[0]?.split(';')[0]?.trim() || undefined;
 
   return (
     <main id="main" className="px-safe mx-auto max-w-3xl py-12">
@@ -45,18 +49,22 @@ export default async function DealsPage({
       </p>
 
       <div className="mt-6 flex flex-wrap gap-2">
-        {RISKS.map((r) => (
-          <Link
-            key={r || 'all'}
-            href={r ? `/deals?riskTier=${r}` : '/deals'}
-            className={cn(
-              buttonVariants({ variant: (riskTier ?? '') === r ? 'default' : 'outline', size: 'sm' }),
-              'capitalize',
-            )}
-          >
-            {r === '' ? 'All' : `${r} risk`}
-          </Link>
-        ))}
+        {RISKS.map((r) => {
+          const active = (riskTier ?? '') === r;
+          return (
+            <Link
+              key={r || 'all'}
+              href={r ? `/deals?riskTier=${r}` : '/deals'}
+              aria-current={active ? 'true' : undefined}
+              className={cn(
+                buttonVariants({ variant: active ? 'default' : 'outline', size: 'sm' }),
+                'capitalize',
+              )}
+            >
+              {r === '' ? 'All' : `${r} risk`}
+            </Link>
+          );
+        })}
       </div>
 
       {error && (
@@ -68,7 +76,7 @@ export default async function DealsPage({
       <h2 className="sr-only">Sourced deals</h2>
       <div className="mt-6 grid gap-3">
         {deals.map((deal) => (
-          <DealCard key={deal.id} deal={deal} />
+          <DealCard key={deal.id} deal={deal} locale={locale} />
         ))}
         {!error && deals.length === 0 && (
           <p className="text-sm text-muted-foreground">No deals match that filter.</p>

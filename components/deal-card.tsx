@@ -13,7 +13,7 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-export function DealCard({ deal }: { deal: Deal }) {
+export function DealCard({ deal, locale }: { deal: Deal; locale?: string }) {
   return (
     <Card>
       <CardHeader>
@@ -24,7 +24,7 @@ export function DealCard({ deal }: { deal: Deal }) {
       </CardHeader>
       <CardContent className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-3">
         <Stat label="Projected yield" value={`${deal.projectedYieldPct}%`} />
-        <Stat label="Minimum" value={formatMinor(deal.minInvestmentMinor, deal.currency)} />
+        <Stat label="Minimum" value={formatMinor(deal.minInvestmentMinor, deal.currency, locale)} />
         <Stat label="Jurisdiction" value={deal.jurisdiction} />
       </CardContent>
     </Card>
