@@ -62,7 +62,7 @@ export default function MarketingHome() {
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link href="/app" className={cn(buttonVariants(), 'h-11 px-6')}>
-            Launch the App
+            Launch App
           </Link>
           <Link
             href="/app/deals"
@@ -117,7 +117,7 @@ export default function MarketingHome() {
               </p>
             </div>
             <Link href="/app" className={cn(buttonVariants(), 'h-11 px-6')}>
-              Launch the App
+              Launch App
             </Link>
           </CardContent>
         </Card>

@@ -34,7 +34,7 @@
   --card-foreground: oklch(0.18 0.02 165);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.18 0.02 165);
-  --primary: oklch(0.55 0.13 165);
+  --primary: oklch(0.48 0.13 165);
   --primary-foreground: oklch(0.99 0.01 160);
   --secondary: oklch(0.96 0.01 165);
   --secondary-foreground: oklch(0.25 0.03 165);
@@ -46,7 +46,7 @@
   --destructive: oklch(0.58 0.22 25);
   --border: oklch(0.9 0.01 165);
   --input: oklch(0.9 0.01 165);
-  --ring: oklch(0.55 0.13 165);
+  --ring: oklch(0.48 0.13 165);
 }
 
 /* Activate the dark palette by system preference (no JS toggle wired yet). */

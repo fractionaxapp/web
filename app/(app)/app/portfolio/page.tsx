@@ -20,7 +20,7 @@ function Stat({ label, value }: { label: string; value: string }) {
 export default function PortfolioPage() {
   // No auth or positions yet — an honest empty state until on-chain holdings are wired.
   return (
-    <main id="main" className="px-safe mx-auto max-w-3xl py-12">
+    <main id="main" className="px-safe max-w-3xl py-12">
       <h1 className="text-2xl font-semibold tracking-tight">Portfolio</h1>
       <p className="mt-1 max-w-2xl text-muted-foreground">
         Your positions, projected yield, and risk concentration — once you start investing.

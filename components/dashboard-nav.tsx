@@ -13,21 +13,13 @@ const LINKS = [
   { href: '/app/onchain', label: 'On-chain' },
 ];
 
-const ring = 'rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+const brandRing = 'rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 
 function isActive(pathname: string, href: string): boolean {
   return href === '/app' ? pathname === '/app' : pathname.startsWith(href);
 }
 
-function NavLinks({
-  pathname,
-  className,
-  linkClassName,
-}: {
-  pathname: string;
-  className: string;
-  linkClassName?: string;
-}) {
+function NavLinks({ pathname, className }: { pathname: string; className: string }) {
   return (
     <nav className={className} aria-label="Dashboard">
       {LINKS.map(({ href, label }) => {
@@ -38,10 +30,10 @@ function NavLinks({
             href={href}
             aria-current={active ? 'page' : undefined}
             className={cn(
-              'inline-flex min-h-11 items-center whitespace-nowrap transition-colors',
-              active ? 'font-medium text-foreground' : 'text-muted-foreground hover:text-foreground',
-              ring,
-              linkClassName,
+              'inline-flex min-h-11 items-center whitespace-nowrap rounded-md px-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+              active
+                ? 'bg-accent font-medium text-accent-foreground'
+                : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground',
             )}
           >
             {label}
@@ -52,7 +44,7 @@ function NavLinks({
   );
 }
 
-/** Dashboard chrome: a left sidebar on desktop, a top bar on mobile. */
+/** Dashboard chrome: a left sidebar on desktop, a stacked top bar on mobile. */
 export function DashboardNav() {
   const pathname = usePathname();
   return (
@@ -61,19 +53,23 @@ export function DashboardNav() {
         <Link
           href="/"
           translate="no"
-          className={cn('m-4 inline-flex font-semibold tracking-tight', ring)}
+          className={cn('m-4 inline-flex font-semibold tracking-tight', brandRing)}
         >
           FractionAX
         </Link>
-        <NavLinks pathname={pathname} className="flex flex-col gap-1 px-2" linkClassName="px-2" />
+        <NavLinks pathname={pathname} className="flex flex-col gap-1 px-2 pb-2" />
       </aside>
 
       <header className="border-b md:hidden [padding-top:env(safe-area-inset-top)]">
-        <div className="px-safe flex items-center gap-4 py-2">
-          <Link href="/" translate="no" className={cn('font-semibold tracking-tight', ring)}>
+        <div className="px-safe py-2">
+          <Link
+            href="/"
+            translate="no"
+            className={cn('inline-flex font-semibold tracking-tight', brandRing)}
+          >
             FractionAX
           </Link>
-          <NavLinks pathname={pathname} className="flex gap-4 overflow-x-auto text-sm" />
+          <NavLinks pathname={pathname} className="mt-1 flex flex-wrap gap-1 text-sm" />
         </div>
       </header>
     </>
