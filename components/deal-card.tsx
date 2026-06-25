@@ -1,8 +1,9 @@
 import type { Deal } from '@fractionax/domain';
+import Link from 'next/link';
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { formatMinor } from '@/lib/utils';
+import { formatMinor, regionName } from '@/lib/utils';
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
@@ -14,6 +15,7 @@ function Stat({ label, value }: { label: string; value: string }) {
 }
 
 export function DealCard({ deal, locale }: { deal: Deal; locale?: string }) {
+  const memoPrompt = `Draft an investment memo for ${deal.title}`;
   return (
     <Card>
       <CardHeader>
@@ -22,10 +24,23 @@ export function DealCard({ deal, locale }: { deal: Deal; locale?: string }) {
           <Badge variant={deal.riskTier}>{deal.riskTier} risk</Badge>
         </div>
       </CardHeader>
-      <CardContent className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-3">
-        <Stat label="Projected yield" value={`${deal.projectedYieldPct}%`} />
-        <Stat label="Minimum" value={formatMinor(deal.minInvestmentMinor, deal.currency, locale)} />
-        <Stat label="Jurisdiction" value={deal.jurisdiction} />
+      <CardContent className="space-y-4 text-sm">
+        <div className="flex flex-wrap items-end gap-x-8 gap-y-3">
+          <div>
+            <div className="text-xs text-muted-foreground">Projected yield</div>
+            <div className="text-2xl font-semibold tabular-nums text-primary">
+              {deal.projectedYieldPct}%
+            </div>
+          </div>
+          <Stat label="Minimum" value={formatMinor(deal.minInvestmentMinor, deal.currency, locale)} />
+          <Stat label="Jurisdiction" value={regionName(deal.jurisdiction)} />
+        </div>
+        <Link
+          href={`/copilot?q=${encodeURIComponent(memoPrompt)}`}
+          className="inline-flex rounded text-sm font-medium text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          Draft memo →
+        </Link>
       </CardContent>
     </Card>
   );

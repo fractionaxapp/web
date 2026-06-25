@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 const LINKS = [
   { href: '/copilot', label: 'Copilot' },
   { href: '/deals', label: 'Deals' },
+  { href: '/onchain', label: 'On-chain' },
 ];
 
 const focusRing =

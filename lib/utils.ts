@@ -16,3 +16,21 @@ export function formatMinor(minor: number, currency: string, locale?: string): s
     maximumFractionDigits: 0,
   }).format(minor / 100);
 }
+
+const REGION_NAMES = new Intl.DisplayNames(['en'], { type: 'region' });
+
+/** Turn an ISO region code (e.g. "MY") into a country name ("Malaysia").
+ * Falls back to the input if it isn't a known code. */
+export function regionName(code: string): string {
+  try {
+    return REGION_NAMES.of(code.toUpperCase()) ?? code;
+  } catch {
+    return code;
+  }
+}
+
+/** Sentence-case a snake/kebab token, e.g. "revenue_share" -> "Revenue share". */
+export function humanize(token: string): string {
+  const text = token.replaceAll(/[_-]/g, ' ').trim();
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}

@@ -1,28 +1,31 @@
 import Link from 'next/link';
 
-import { buttonVariants } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { Copilot } from '@/components/copilot';
 
 export default function HomePage() {
   return (
-    <main id="main" className="px-safe mx-auto max-w-3xl py-20">
-      <h1 className="text-4xl font-semibold tracking-tight">Agentic RWA investing on Solana</h1>
-      <p className="mt-4 max-w-xl text-lg text-muted-foreground">
-        Describe an investment in plain language. FractionAX agents parse your intent, source vetted
-        real-world-asset deals, underwrite them, and prepare them for on-chain execution — with you
-        in control at every step.
+    <main id="main" className="px-safe mx-auto max-w-3xl py-16">
+      <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+        Agentic RWA investing on Solana
+      </h1>
+      <p className="mt-3 max-w-xl text-lg text-muted-foreground">
+        Describe an investment in plain language. Agents parse your intent, source vetted
+        real-world-asset deals, and draft a memo — with you in control at every step.
       </p>
-      <div className="mt-8 flex flex-wrap gap-3">
-        <Link href="/copilot" className={cn(buttonVariants(), 'h-11 px-6')}>
-          Try the Copilot
-        </Link>
-        <Link href="/deals" className={cn(buttonVariants({ variant: 'outline' }), 'h-11 px-6')}>
-          Browse Deals
-        </Link>
-        <Link href="/onchain" className={cn(buttonVariants({ variant: 'ghost' }), 'h-11 px-6')}>
-          On-chain
-        </Link>
+
+      <div className="mt-8">
+        <Copilot />
       </div>
+
+      <p className="mt-10 text-sm text-muted-foreground">
+        Prefer to browse?{' '}
+        <Link
+          href="/deals"
+          className="rounded font-medium text-foreground underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          See all deals →
+        </Link>
+      </p>
     </main>
   );
 }
