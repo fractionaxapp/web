@@ -36,7 +36,7 @@ export function DealCard({ deal, locale }: { deal: Deal; locale?: string }) {
           <Stat label="Jurisdiction" value={regionName(deal.jurisdiction)} />
         </div>
         <Link
-          href={`/copilot?q=${encodeURIComponent(memoPrompt)}`}
+          href={`/app/copilot?q=${encodeURIComponent(memoPrompt)}`}
           className="inline-flex rounded text-sm font-medium text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           Draft memo →

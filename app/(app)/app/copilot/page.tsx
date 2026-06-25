@@ -1,5 +1,7 @@
 import { Copilot } from '@/components/copilot';
 
+export const metadata = { title: 'Copilot' };
+
 export default function CopilotPage() {
   return (
     <main id="main" className="px-safe mx-auto max-w-3xl py-12">

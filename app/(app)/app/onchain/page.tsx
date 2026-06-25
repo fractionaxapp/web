@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-export const metadata = { title: 'On-Chain — FractionAX' };
+export const metadata = { title: 'On-Chain' };
 
 // Always read live chain state.
 export const dynamic = 'force-dynamic';
@@ -100,10 +100,10 @@ export default async function OnchainPage() {
       </Card>
 
       <Link
-        href="/"
+        href="/app"
         className="mt-8 inline-block rounded text-sm text-muted-foreground hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
-        ← Back
+        ← Back to dashboard
       </Link>
     </main>
   );

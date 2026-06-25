@@ -8,7 +8,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { deepCamel } from '@/lib/case';
 import { cn } from '@/lib/utils';
 
-export const metadata = { title: 'Deal Discovery — FractionAX' };
+export const metadata = { title: 'Deal Discovery' };
 
 // Fetch deals live from the agents service per request (not at build time).
 export const dynamic = 'force-dynamic';

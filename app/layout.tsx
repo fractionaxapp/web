@@ -1,12 +1,10 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 
-import { MainNav } from '@/components/main-nav';
-
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'FractionAX',
+  title: { default: 'FractionAX', template: '%s — FractionAX' },
   description: 'Agentic RWA investment infrastructure on Solana.',
 };
 
@@ -28,9 +26,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         >
           Skip to content
         </a>
-        <header className="border-b [padding-top:env(safe-area-inset-top)]">
-          <MainNav />
-        </header>
+        {/* Each zone — marketing and /app dashboard — supplies its own chrome. */}
         {children}
       </body>
     </html>

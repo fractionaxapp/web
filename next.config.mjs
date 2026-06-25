@@ -3,8 +3,14 @@ const nextConfig = {
   reactStrictMode: true,
   // Consume the shared workspace packages directly from source.
   transpilePackages: ['@fractionax/ui', '@fractionax/core', '@fractionax/domain'],
-  // Linting and type-checking run as dedicated moon tasks, not during the build.
-  eslint: { ignoreDuringBuilds: true },
+  // The product surfaces moved under /app; keep old links working.
+  async redirects() {
+    return [
+      { source: '/copilot', destination: '/app/copilot', permanent: true },
+      { source: '/deals', destination: '/app/deals', permanent: true },
+      { source: '/onchain', destination: '/app/onchain', permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;
