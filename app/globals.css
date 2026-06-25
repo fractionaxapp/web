@@ -19,82 +19,94 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  /* Brand accents from the FractionAX logo. */
+  --color-brand-gold: var(--brand-gold);
+  --color-brand-forest: var(--brand-forest);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
 }
 
 :root {
   color-scheme: light;
   --radius: 0.625rem;
-  --background: oklch(0.99 0.004 160);
-  --foreground: oklch(0.18 0.02 165);
+  /* Light — derived from the FractionAX logo: teal #16af8e, gold #f9b73f, forest #114036, cream #f9f3d9 */
+  --background: oklch(0.985 0.004 172.43);
+  --foreground: oklch(0.233 0.01 172.43);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.02 165);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.02 165);
-  --primary: oklch(0.48 0.13 165);
-  --primary-foreground: oklch(0.99 0.01 160);
-  --secondary: oklch(0.96 0.01 165);
-  --secondary-foreground: oklch(0.25 0.03 165);
-  --muted: oklch(0.96 0.01 165);
-  /* Darkened from 0.52 to clear WCAG 4.5:1 on the light background (~5.2:1). */
-  --muted-foreground: oklch(0.45 0.02 165);
-  --accent: oklch(0.94 0.03 165);
-  --accent-foreground: oklch(0.25 0.04 165);
-  --destructive: oklch(0.58 0.22 25);
-  --border: oklch(0.9 0.01 165);
-  --input: oklch(0.9 0.01 165);
-  --ring: oklch(0.48 0.13 165);
+  --card-foreground: oklch(0.233 0.01 172.43);
+  --popover: oklch(0.962 0.035 96.296);
+  --popover-foreground: oklch(0.24 0.02 172.43);
+  --primary: oklch(0.52 0.13 172.43);
+  --primary-foreground: oklch(0.99 0.005 172.43);
+  --secondary: oklch(0.95 0.02 172.43);
+  --secondary-foreground: oklch(0.26 0.03 172.43);
+  --muted: oklch(0.955 0.008 172.43);
+  --muted-foreground: oklch(0.45 0.02 172.43);
+  --accent: oklch(0.93 0.04 172.43);
+  --accent-foreground: oklch(0.26 0.04 172.43);
+  --destructive: oklch(0.577 0.245 27);
+  --border: oklch(0.9 0.008 172.43);
+  --input: oklch(0.96 0.006 172.43);
+  --ring: oklch(0.52 0.13 172.43);
+  --brand-gold: oklch(0.62 0.13 78.224);
+  --brand-forest: oklch(0.337 0.053 176.003);
 }
 
 /* Activate the dark palette by system preference (no JS toggle wired yet). */
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --background: oklch(0.16 0.02 165);
-    --foreground: oklch(0.97 0.01 160);
-    --card: oklch(0.2 0.02 165);
-    --card-foreground: oklch(0.97 0.01 160);
-    --popover: oklch(0.2 0.02 165);
-    --popover-foreground: oklch(0.97 0.01 160);
-    --primary: oklch(0.7 0.13 165);
-    --primary-foreground: oklch(0.18 0.03 165);
-    --secondary: oklch(0.26 0.02 165);
-    --secondary-foreground: oklch(0.97 0.01 160);
-    --muted: oklch(0.26 0.02 165);
-    --muted-foreground: oklch(0.7 0.02 165);
-    --accent: oklch(0.3 0.04 165);
-    --accent-foreground: oklch(0.97 0.01 160);
+    /* Dark — forest-tinted near-black */
+    --background: oklch(0.17 0.018 172.43);
+    --foreground: oklch(0.97 0.006 172.43);
+    --card: oklch(0.21 0.02 172.43);
+    --card-foreground: oklch(0.97 0.006 172.43);
+    --popover: oklch(0.23 0.022 172.43);
+    --popover-foreground: oklch(0.97 0.006 172.43);
+    --primary: oklch(0.674 0.126 172.43);
+    --primary-foreground: oklch(0.14 0.02 172.43);
+    --secondary: oklch(0.25 0.025 172.43);
+    --secondary-foreground: oklch(0.97 0.006 172.43);
+    --muted: oklch(0.23 0.02 172.43);
+    --muted-foreground: oklch(0.72 0.015 172.43);
+    --accent: oklch(0.27 0.04 172.43);
+    --accent-foreground: oklch(0.97 0.006 172.43);
     --destructive: oklch(0.65 0.2 25);
-    --border: oklch(0.3 0.02 165);
-    --input: oklch(0.32 0.02 165);
-    --ring: oklch(0.7 0.13 165);
+    --border: oklch(0.28 0.022 172.43);
+    --input: oklch(0.21 0.02 172.43);
+    --ring: oklch(0.674 0.126 172.43);
+    --brand-gold: oklch(0.821 0.15 78.224);
+    --brand-forest: oklch(0.337 0.053 176.003);
   }
 }
 
 /* Explicit `.dark` class override, for a future user-facing theme toggle. */
 .dark {
   color-scheme: dark;
-  --background: oklch(0.16 0.02 165);
-  --foreground: oklch(0.97 0.01 160);
-  --card: oklch(0.2 0.02 165);
-  --card-foreground: oklch(0.97 0.01 160);
-  --popover: oklch(0.2 0.02 165);
-  --popover-foreground: oklch(0.97 0.01 160);
-  --primary: oklch(0.7 0.13 165);
-  --primary-foreground: oklch(0.18 0.03 165);
-  --secondary: oklch(0.26 0.02 165);
-  --secondary-foreground: oklch(0.97 0.01 160);
-  --muted: oklch(0.26 0.02 165);
-  --muted-foreground: oklch(0.7 0.02 165);
-  --accent: oklch(0.3 0.04 165);
-  --accent-foreground: oklch(0.97 0.01 160);
+  --background: oklch(0.17 0.018 172.43);
+  --foreground: oklch(0.97 0.006 172.43);
+  --card: oklch(0.21 0.02 172.43);
+  --card-foreground: oklch(0.97 0.006 172.43);
+  --popover: oklch(0.23 0.022 172.43);
+  --popover-foreground: oklch(0.97 0.006 172.43);
+  --primary: oklch(0.674 0.126 172.43);
+  --primary-foreground: oklch(0.14 0.02 172.43);
+  --secondary: oklch(0.25 0.025 172.43);
+  --secondary-foreground: oklch(0.97 0.006 172.43);
+  --muted: oklch(0.23 0.02 172.43);
+  --muted-foreground: oklch(0.72 0.015 172.43);
+  --accent: oklch(0.27 0.04 172.43);
+  --accent-foreground: oklch(0.97 0.006 172.43);
   --destructive: oklch(0.65 0.2 25);
-  --border: oklch(0.3 0.02 165);
-  --input: oklch(0.32 0.02 165);
-  --ring: oklch(0.7 0.13 165);
+  --border: oklch(0.28 0.022 172.43);
+  --input: oklch(0.21 0.02 172.43);
+  --ring: oklch(0.674 0.126 172.43);
+  --brand-gold: oklch(0.821 0.15 78.224);
+  --brand-forest: oklch(0.337 0.053 176.003);
 }
 
 @layer base {
@@ -107,6 +119,7 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
   }
 }
 

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { useAuthIdentity } from '@/components/auth-context';
+import { Logo } from '@/components/logo';
 import { cn } from '@/lib/utils';
 
 const LINKS = [
@@ -72,12 +73,8 @@ export function DashboardNav() {
   return (
     <>
       <aside className="hidden border-r md:flex md:w-56 md:shrink-0 md:flex-col">
-        <Link
-          href="/"
-          translate="no"
-          className={cn('m-4 inline-flex font-semibold tracking-tight', brandRing)}
-        >
-          FractionAX
+        <Link href="/" aria-label="FractionAX — home" className={cn('m-4 inline-flex', brandRing)}>
+          <Logo className="h-7" />
         </Link>
         <NavLinks pathname={pathname} className="flex flex-col gap-1 px-2 pb-2" />
         <div className="mt-auto border-t p-3">
@@ -88,12 +85,8 @@ export function DashboardNav() {
       <header className="border-b md:hidden [padding-top:env(safe-area-inset-top)]">
         <div className="px-safe py-2">
           <div className="flex items-center justify-between gap-3">
-            <Link
-              href="/"
-              translate="no"
-              className={cn('inline-flex font-semibold tracking-tight', brandRing)}
-            >
-              FractionAX
+            <Link href="/" aria-label="FractionAX — home" className={cn('inline-flex', brandRing)}>
+              <Logo className="h-6" />
             </Link>
             <WalletChip />
           </div>

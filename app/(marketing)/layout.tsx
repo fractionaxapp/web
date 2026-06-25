@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 
+import { Logo } from '@/components/logo';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -11,12 +12,8 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
     <div className="flex min-h-dvh flex-col">
       <header className="border-b [padding-top:env(safe-area-inset-top)]">
         <nav className="px-safe mx-auto flex max-w-5xl items-center justify-between py-3">
-          <Link
-            href="/"
-            translate="no"
-            className={cn('font-semibold tracking-tight', ring)}
-          >
-            FractionAX
+          <Link href="/" aria-label="FractionAX — home" className={cn('inline-flex', ring)}>
+            <Logo className="h-7" />
           </Link>
           <div className="flex items-center gap-1">
             <Link
