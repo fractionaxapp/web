@@ -6,8 +6,7 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
 const LINKS = [
-  { href: '/app', label: 'Dashboard' },
-  { href: '/app/copilot', label: 'Copilot' },
+  { href: '/app', label: 'Copilot' },
   { href: '/app/deals', label: 'Deals' },
   { href: '/app/portfolio', label: 'Portfolio' },
   { href: '/app/onchain', label: 'On-chain' },

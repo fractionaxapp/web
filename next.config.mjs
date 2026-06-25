@@ -6,7 +6,8 @@ const nextConfig = {
   // The product surfaces moved under /app; keep old links working.
   async redirects() {
     return [
-      { source: '/copilot', destination: '/app/copilot', permanent: true },
+      { source: '/copilot', destination: '/app', permanent: true },
+      { source: '/app/copilot', destination: '/app', permanent: true },
       { source: '/deals', destination: '/app/deals', permanent: true },
       { source: '/onchain', destination: '/app/onchain', permanent: true },
     ];

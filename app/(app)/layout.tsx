@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 import { DashboardNav } from '@/components/dashboard-nav';
 
 export const metadata: Metadata = {
-  title: { default: 'Dashboard — FractionAX', template: '%s — FractionAX' },
+  title: { default: 'FractionAX', template: '%s — FractionAX' },
 };
 
 export default function AppLayout({ children }: { children: ReactNode }) {

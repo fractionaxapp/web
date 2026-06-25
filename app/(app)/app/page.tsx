@@ -6,6 +6,8 @@ import { cn } from '@/lib/utils';
 
 const ring = 'rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 
+export const metadata = { title: 'Copilot' };
+
 const SHORTCUTS = [
   { href: '/app/deals', title: 'Browse deals', body: 'Filter sourced alternative-asset opportunities by risk and yield.' },
   { href: '/app/portfolio', title: 'Your portfolio', body: 'Track positions, projected yield, and concentration.' },
@@ -15,14 +17,14 @@ const SHORTCUTS = [
 export default function DashboardHome() {
   return (
     <main id="main" className="px-safe max-w-3xl py-12">
-      <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
+      <h1 className="text-2xl font-semibold tracking-tight">Copilot</h1>
       <p className="mt-1 max-w-2xl text-muted-foreground">
         Describe an investment in plain language — the agents parse your intent, source matching
         deals, and draft a memo.
       </p>
 
       <div className="mt-6">
-        <Copilot />
+        <Copilot autoFocus />
       </div>
 
       <h2 className="mt-10 text-sm font-medium uppercase tracking-wide text-muted-foreground">
