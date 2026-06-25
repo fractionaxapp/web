@@ -15,6 +15,7 @@ export const metadata = { title: 'On-Chain' };
 
 // Always read live chain state.
 export const dynamic = 'force-dynamic';
+export const maxDuration = 30;
 
 // The default program id (System Program) means "not deployed yet".
 const PLACEHOLDER_ID = '11111111111111111111111111111111';

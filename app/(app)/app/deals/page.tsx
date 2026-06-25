@@ -12,6 +12,9 @@ export const metadata = { title: 'Deal Discovery' };
 
 // Fetch deals live from the agents service per request (not at build time).
 export const dynamic = 'force-dynamic';
+// The agents service runs on a free tier that sleeps when idle. Allow headroom
+// for a cold start, but fail gracefully (never a gateway 504) if it's too slow.
+export const maxDuration = 30;
 
 const Deals = z.array(Deal);
 const RISKS = ['', 'low', 'medium', 'high'] as const;
@@ -20,13 +23,22 @@ const AGENTS_URL = process.env.AGENTS_URL ?? 'http://localhost:8000';
 async function fetchDeals(riskTier?: string): Promise<{ deals: Deal[]; error: string | null }> {
   try {
     const qs = riskTier ? `?risk_tier=${riskTier}` : '';
-    const res = await fetch(`${AGENTS_URL}/deals${qs}`, { cache: 'no-store' });
+    const res = await fetch(`${AGENTS_URL}/deals${qs}`, {
+      cache: 'no-store',
+      signal: AbortSignal.timeout(25_000),
+    });
     if (!res.ok) return { deals: [], error: `Agents service error (${res.status})` };
     const parsed = Deals.safeParse(deepCamel(await res.json()));
     if (!parsed.success) return { deals: [], error: 'Unexpected response shape.' };
     return { deals: parsed.data, error: null };
-  } catch {
-    return { deals: [], error: 'Agents service unreachable.' };
+  } catch (e) {
+    const waking = e instanceof Error && e.name === 'TimeoutError';
+    return {
+      deals: [],
+      error: waking
+        ? 'The agents service is waking up (free tier) — refresh in a few seconds.'
+        : 'Agents service unreachable.',
+    };
   }
 }
 
