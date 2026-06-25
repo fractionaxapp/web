@@ -44,7 +44,7 @@ export default async function OnchainPage() {
   }
 
   return (
-    <main id="main" className="mx-auto max-w-3xl px-6 py-12">
+    <main id="main" className="px-safe mx-auto max-w-3xl py-12">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold tracking-tight">On-chain</h1>
         <Badge variant="secondary" className="uppercase">

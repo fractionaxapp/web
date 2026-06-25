@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
-import Link from 'next/link';
 import type { ReactNode } from 'react';
+
+import { MainNav } from '@/components/main-nav';
 
 import './globals.css';
 
@@ -27,20 +28,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         >
           Skip to content
         </a>
-        <header className="border-b">
-          <nav className="mx-auto flex max-w-3xl items-center gap-6 px-6 py-4">
-            <Link href="/" translate="no" className="font-semibold tracking-tight">
-              FractionAX
-            </Link>
-            <div className="flex gap-4 text-sm text-muted-foreground">
-              <Link href="/copilot" className="transition-colors hover:text-foreground">
-                Copilot
-              </Link>
-              <Link href="/deals" className="transition-colors hover:text-foreground">
-                Deals
-              </Link>
-            </div>
-          </nav>
+        <header className="border-b [padding-top:env(safe-area-inset-top)]">
+          <MainNav />
         </header>
         {children}
       </body>

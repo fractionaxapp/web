@@ -1,7 +1,7 @@
 'use client';
 
 import type { Deal, InvestmentIntent, InvestmentMemo } from '@fractionax/domain';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { DealCard } from '@/components/deal-card';
 import { IntentSummary } from '@/components/intent-summary';
@@ -33,14 +33,16 @@ export default function CopilotPage() {
   const [intent, setIntent] = useState<InvestmentIntent | null>(null);
   const [deals, setDeals] = useState<Deal[] | null>(null);
   const [memo, setMemo] = useState<InvestmentMemo | null>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Restore a shared/refreshed prompt from the URL (does not auto-run). This must
-  // run after mount, not during SSR/render, to stay hydration-safe — the one
-  // legitimate case for a synchronous setState in an effect.
+  // On mount: restore a shared/refreshed prompt from the URL (does not auto-run),
+  // and focus the input on desktop only (autofocus is jarring on mobile — it pops
+  // the keyboard). Runs after mount to stay hydration-safe.
   useEffect(() => {
     const q = new URLSearchParams(window.location.search).get('q');
     // eslint-disable-next-line react-hooks/set-state-in-effect, @eslint-react/set-state-in-effect
     if (q) setMessage(q);
+    if (window.matchMedia('(pointer: fine)').matches) inputRef.current?.focus();
   }, []);
 
   async function ask(prompt: string): Promise<void> {
@@ -59,7 +61,11 @@ export default function CopilotPage() {
     try {
       await streamCopilot(text, { onIntent: setIntent, onDeals: setDeals, onMemo: setMemo });
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Something went wrong.');
+      setError(
+        e instanceof Error
+          ? e.message
+          : 'Could not reach the agent. Check your connection and try again.',
+      );
     } finally {
       // Keep the loading state visible long enough to avoid a flicker on fast responses.
       const elapsed = performance.now() - startedAt;
@@ -75,7 +81,7 @@ export default function CopilotPage() {
     deals.length > 0;
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-12">
+    <main id="main" className="px-safe mx-auto max-w-3xl py-12">
       <h1 className="text-2xl font-semibold tracking-tight">Copilot</h1>
       <p className="mt-1 max-w-2xl text-muted-foreground">
         Describe what you want to invest in. The agent parses your intent, sources matching deals,
@@ -89,7 +95,7 @@ export default function CopilotPage() {
         <Textarea
           id="copilot-input"
           name="prompt"
-          autoFocus
+          ref={inputRef}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="e.g. Invest $1,000 in low-risk Malaysian real estate…"

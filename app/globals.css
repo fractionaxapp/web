@@ -109,3 +109,17 @@
     color: var(--color-foreground);
   }
 }
+
+@layer components {
+  /* Horizontal padding that respects notch/cutout safe areas (defaults to 1.5rem). */
+  .px-safe {
+    padding-left: max(1.5rem, env(safe-area-inset-left));
+    padding-right: max(1.5rem, env(safe-area-inset-right));
+  }
+  /* Two-layer shadow: ambient + direct, per the visual guidelines. */
+  .shadow-card {
+    box-shadow:
+      0 1px 2px rgb(0 0 0 / 0.04),
+      0 1px 3px rgb(0 0 0 / 0.06);
+  }
+}

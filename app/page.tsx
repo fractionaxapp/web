@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 
 export default function HomePage() {
   return (
-    <main id="main" className="mx-auto max-w-3xl px-6 py-20">
+    <main id="main" className="px-safe mx-auto max-w-3xl py-20">
       <h1 className="text-4xl font-semibold tracking-tight">Agentic RWA investing on Solana</h1>
       <p className="mt-4 max-w-xl text-lg text-muted-foreground">
         Describe an investment in plain language. FractionAX agents parse your intent, source vetted
