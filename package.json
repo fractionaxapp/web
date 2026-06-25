@@ -27,7 +27,9 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tailwind-merge": "^3.0.0",
-    "zod": "^3.25.46"
+    "zod": "^3.25.46",
+    "@privy-io/react-auth": "^3.32.2",
+    "@solana-program/memo": "^0.11.2"
   },
   "devDependencies": {
     "@fractionax/config": "workspace:*",

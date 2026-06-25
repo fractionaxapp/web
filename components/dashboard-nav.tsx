@@ -1,9 +1,9 @@
 'use client';
 
-import { useWallet } from '@solana/wallet-adapter-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { useAuthIdentity } from '@/components/auth-context';
 import { cn } from '@/lib/utils';
 
 const LINKS = [
@@ -45,23 +45,22 @@ function NavLinks({ pathname, className }: { pathname: string; className: string
 }
 
 function WalletChip() {
-  const { publicKey, disconnect } = useWallet();
-  if (!publicKey) return null;
-  const b58 = publicKey.toBase58();
+  const identity = useAuthIdentity();
+  if (!identity) return null;
   return (
     <div className="flex items-center gap-2 text-xs">
       <span
-        title={b58}
-        className="rounded-full bg-accent px-2 py-1 font-mono text-accent-foreground"
+        title={identity.label}
+        className="max-w-[16ch] truncate rounded-full bg-accent px-2 py-1 text-accent-foreground"
       >
-        {b58.slice(0, 4)}…{b58.slice(-4)}
+        {identity.label}
       </span>
       <button
         type="button"
-        onClick={() => void disconnect()}
+        onClick={identity.signOut}
         className="inline-flex min-h-11 items-center rounded text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
-        Disconnect
+        Sign out
       </button>
     </div>
   );

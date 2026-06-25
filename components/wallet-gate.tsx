@@ -4,34 +4,42 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import { useEffect, useState, type ReactNode } from 'react';
 
+import { AuthIdentityProvider, shortenAddress } from '@/components/auth-context';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 
-/** Gates the dashboard behind a connected Solana wallet (devnet). This is a UX
- * gate — there is no protected server data yet. */
+/** Shared loading state while wallet/auth state resolves (avoids hydration flash). */
+export function GateLoading() {
+  return (
+    <main id="main" className="flex min-h-dvh items-center justify-center" aria-busy="true">
+      <Spinner className="size-6 text-muted-foreground" />
+      <span className="sr-only">Loading…</span>
+    </main>
+  );
+}
+
+/** Wallet-adapter-only gate (used when Privy is not configured). */
 export function WalletGate({ children }: { children: ReactNode }) {
-  const { connected, connecting } = useWallet();
+  const { connected, connecting, publicKey, disconnect } = useWallet();
   const { setVisible } = useWalletModal();
   const [mounted, setMounted] = useState(false);
 
-  // Wallet state is client-only; decide the gate after mount so the server and
-  // first client render agree (no hydration mismatch).
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect, @eslint-react/set-state-in-effect
     setMounted(true);
   }, []);
 
-  if (!mounted || connecting) {
+  if (!mounted || connecting) return <GateLoading />;
+
+  if (connected) {
+    const label = shortenAddress(publicKey?.toBase58()) ?? 'Wallet';
     return (
-      <main id="main" className="flex min-h-dvh items-center justify-center" aria-busy="true">
-        <Spinner className="size-6 text-muted-foreground" />
-        <span className="sr-only">Connecting…</span>
-      </main>
+      <AuthIdentityProvider value={{ label, signOut: () => void disconnect() }}>
+        {children}
+      </AuthIdentityProvider>
     );
   }
-
-  if (connected) return <>{children}</>;
 
   return (
     <main
