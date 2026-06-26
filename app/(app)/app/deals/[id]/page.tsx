@@ -48,7 +48,7 @@ export default async function DealDetailPage({ params }: { params: Promise<{ id:
 
       {error && !deal && (
         <div className="mt-10">
-          <h1 className="text-2xl font-semibold tracking-tight">Couldn’t load this deal</h1>
+          <h1 className="font-serif text-2xl font-semibold tracking-tight">Couldn’t load this deal</h1>
           <div role="alert" className="mt-3 flex flex-wrap items-center gap-3 text-sm">
             <span className="text-destructive">{error}</span>
             <RetryButton />
@@ -59,7 +59,7 @@ export default async function DealDetailPage({ params }: { params: Promise<{ id:
       {!deal && !error && (
         <div className="mt-10">
           <p className="font-mono text-sm text-muted-foreground">404</p>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight">Deal not found</h1>
+          <h1 className="mt-2 font-serif text-2xl font-semibold tracking-tight">Deal not found</h1>
           <p className="mt-1 text-muted-foreground">
             This deal doesn’t exist or is no longer available.
           </p>
@@ -72,7 +72,7 @@ export default async function DealDetailPage({ params }: { params: Promise<{ id:
       {deal && (
         <>
           <div className="mt-4 flex items-start justify-between gap-4">
-            <h1 className="text-balance text-2xl font-semibold tracking-tight">{deal.title}</h1>
+            <h1 className="text-balance font-serif text-2xl font-semibold tracking-tight">{deal.title}</h1>
             <Badge variant={deal.riskTier}>{deal.riskTier} risk</Badge>
           </div>
           <p className="mt-1 text-muted-foreground">

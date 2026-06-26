@@ -1,9 +1,20 @@
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata, Viewport } from 'next';
+import { Fraunces } from 'next/font/google';
 import type { ReactNode } from 'react';
 
 import './globals.css';
+
+// High-contrast display serif for headings — the "luxury editorial" voice,
+// paired with Geist Sans (body) and Geist Mono (data/labels). Optical sizing
+// gives big headings extra stroke contrast.
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-fraunces',
+  display: 'swap',
+  axes: ['opsz'],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://staging.fractionax.app'),
@@ -26,7 +37,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
-      className={`${GeistSans.variable} ${GeistMono.variable}`}
+      className={`${GeistSans.variable} ${GeistMono.variable} ${fraunces.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen antialiased">

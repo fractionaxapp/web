@@ -43,7 +43,7 @@ export default function DocsPage() {
   return (
     <main id="main" className="px-safe mx-auto max-w-2xl py-16">
       <p className="text-sm font-medium text-primary">Documentation</p>
-      <h1 className="mt-2 text-balance text-3xl font-semibold tracking-tight">
+      <h1 className="mt-2 text-balance font-serif text-3xl font-semibold tracking-tight">
         How <span translate="no">FractionAX</span> works
       </h1>
       <p className="mt-3 text-pretty text-lg text-muted-foreground">

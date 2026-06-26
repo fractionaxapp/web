@@ -56,14 +56,15 @@ export default function MarketingHome() {
   return (
     <main id="main" className="bg-hero-glow blueprint-grid">
       {/* Hero */}
-      <section className="px-safe mx-auto max-w-6xl py-20 sm:py-28">
+      <section className="px-safe mx-auto max-w-6xl py-24 sm:py-32">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div>
+            <div aria-hidden className="mb-6 h-px w-10 bg-brand-gold" />
             <p className="kicker text-primary">Agentic RWA · Solana</p>
-            <h1 className="mt-4 text-balance text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+            <h1 className="mt-5 text-balance font-serif text-[2.75rem] font-semibold leading-[1.04] tracking-tight sm:text-6xl lg:text-7xl">
               Invest in real-world assets by describing what you want
             </h1>
-            <p className="mt-6 max-w-xl text-pretty text-lg text-muted-foreground">
+            <p className="mt-7 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground">
               <span translate="no">FractionAX</span> agents source vetted deals, underwrite them,
               and prepare them for on-chain execution on Solana — you stay in control at every step.
             </p>
@@ -91,7 +92,7 @@ export default function MarketingHome() {
               The flow
             </p>
             <h2
-              className="reveal-item mt-3 text-balance text-3xl font-semibold tracking-tight"
+              className="reveal-item mt-3 text-balance font-serif text-3xl font-semibold tracking-tight sm:text-4xl"
               style={revealStyle(1)}
             >
               How it works
@@ -120,7 +121,7 @@ export default function MarketingHome() {
             What you get
           </p>
           <h2
-            className="reveal-item mt-3 text-balance text-3xl font-semibold tracking-tight"
+            className="reveal-item mt-3 text-balance font-serif text-3xl font-semibold tracking-tight sm:text-4xl"
             style={revealStyle(1)}
           >
             Built for the next wave of RWA
@@ -145,7 +146,9 @@ export default function MarketingHome() {
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
                 <p className="kicker text-muted-foreground">Ready</p>
-                <h2 className="mt-2 text-2xl font-semibold tracking-tight">Ready to try it?</h2>
+                <h2 className="mt-2 font-serif text-3xl font-semibold tracking-tight">
+                  Ready to try it?
+                </h2>
                 <p className="mt-1 text-sm text-muted-foreground">
                   Open the app and ask the Copilot for your first deal.
                 </p>

@@ -56,7 +56,7 @@ export default async function DealsPage({
 
   return (
     <main id="main" className="px-safe max-w-3xl py-12">
-      <h1 className="text-2xl font-semibold tracking-tight">Deal discovery</h1>
+      <h1 className="font-serif text-2xl font-semibold tracking-tight">Deal discovery</h1>
       <p className="mt-1 max-w-2xl text-muted-foreground">
         Browse sourced alternative-asset opportunities — sorted by projected yield.
       </p>
