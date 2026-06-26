@@ -58,12 +58,12 @@ export default function TermsPage() {
         {SECTIONS.map((s) => (
           <section key={s.h} className="space-y-2">
             <h2 className="text-lg font-semibold tracking-tight">{s.h}</h2>
-            <p className="leading-relaxed text-muted-foreground">{s.p}</p>
+            <p className="text-pretty leading-relaxed text-muted-foreground">{s.p}</p>
           </section>
         ))}
         <section className="space-y-2">
           <h2 className="text-lg font-semibold tracking-tight">10. Contact</h2>
-          <p className="leading-relaxed text-muted-foreground">
+          <p className="text-pretty leading-relaxed text-muted-foreground">
             Questions about these terms? Email{' '}
             <a
               href="mailto:hello@fractionax.app"

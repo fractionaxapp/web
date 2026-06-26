@@ -53,10 +53,10 @@ export default function MarketingHome() {
       {/* Hero */}
       <section className="px-safe mx-auto max-w-5xl py-20 sm:py-28">
         <p className="text-sm font-medium text-primary">Agentic RWA investment infrastructure</p>
-        <h1 className="mt-3 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">
+        <h1 className="mt-3 max-w-3xl text-balance text-4xl font-semibold tracking-tight sm:text-5xl">
           Invest in real-world assets by describing what you want
         </h1>
-        <p className="mt-5 max-w-xl text-lg text-muted-foreground">
+        <p className="mt-5 max-w-xl text-pretty text-lg text-muted-foreground">
           FractionAX agents source vetted deals, underwrite them, and prepare them for on-chain
           execution on Solana — you stay in control at every step.
         </p>
@@ -76,7 +76,7 @@ export default function MarketingHome() {
       {/* How it works */}
       <section className="border-t bg-muted/30">
         <div className="px-safe mx-auto max-w-5xl py-16">
-          <h2 className="text-2xl font-semibold tracking-tight">How it works</h2>
+          <h2 className="text-balance text-2xl font-semibold tracking-tight">How it works</h2>
           <ol className="mt-8 grid gap-6 sm:grid-cols-3">
             {STEPS.map((s) => (
               <li key={s.n}>
@@ -93,7 +93,7 @@ export default function MarketingHome() {
 
       {/* Features */}
       <section className="px-safe mx-auto max-w-5xl py-16">
-        <h2 className="text-2xl font-semibold tracking-tight">Built for the next wave of RWA</h2>
+        <h2 className="text-balance text-2xl font-semibold tracking-tight">Built for the next wave of RWA</h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           {FEATURES.map((f) => (
             <Card key={f.title}>
