@@ -19,6 +19,11 @@ const EXAMPLES = [
   'Discover invoice deals in Singapore',
 ];
 
+const RECENTS_KEY = 'copilot:recents';
+const MAX_RECENTS = 5;
+const chipClass =
+  'touch-manipulation rounded-full border border-input px-3 py-1 transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 [@media(pointer:coarse)]:min-h-11';
+
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <h2 className="mb-3 text-sm font-medium uppercase tracking-wide text-muted-foreground">
@@ -91,6 +96,7 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
   const [intent, setIntent] = useState<InvestmentIntent | null>(null);
   const [deals, setDeals] = useState<Deal[] | null>(null);
   const [memo, setMemo] = useState<InvestmentMemo | null>(null);
+  const [recents, setRecents] = useState<string[]>([]);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // On mount: restore a shared/refreshed prompt from the URL (does not auto-run),
@@ -100,8 +106,36 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
     const q = new URLSearchParams(window.location.search).get('q');
     // eslint-disable-next-line react-hooks/set-state-in-effect, @eslint-react/set-state-in-effect
     if (q) setMessage(q);
+    try {
+      const raw = localStorage.getItem(RECENTS_KEY);
+      // eslint-disable-next-line @eslint-react/set-state-in-effect
+      if (raw) setRecents(JSON.parse(raw) as string[]);
+    } catch {
+      /* ignore unreadable storage */
+    }
     if (autoFocus && window.matchMedia('(pointer: fine)').matches) inputRef.current?.focus();
   }, [autoFocus]);
+
+  function recordRecent(text: string): void {
+    setRecents((prev) => {
+      const next = [text, ...prev.filter((p) => p !== text)].slice(0, MAX_RECENTS);
+      try {
+        localStorage.setItem(RECENTS_KEY, JSON.stringify(next));
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
+  }
+
+  function clearRecents(): void {
+    setRecents([]);
+    try {
+      localStorage.removeItem(RECENTS_KEY);
+    } catch {
+      /* ignore */
+    }
+  }
 
   // Auto-grow the textarea to fit its content (capped by max-height in the class).
   useEffect(() => {
@@ -114,6 +148,7 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
   async function ask(prompt: string): Promise<void> {
     const text = prompt.trim();
     if (!text || loading) return;
+    recordRecent(text);
     // Persist the prompt in the URL so it survives refresh and is shareable.
     const url = new URL(window.location.href);
     url.searchParams.set('q', text);
@@ -130,7 +165,7 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
       setError(
         e instanceof Error
           ? e.message
-          : 'Could not reach the agent. Check your connection and try again.',
+          : 'Couldn’t reach the agents. Check your connection and try again.',
       );
     } finally {
       // Keep the loading state visible long enough to avoid a flicker on fast responses.
@@ -182,23 +217,51 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
             Ask
           </Button>
         </div>
-        <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-          <span>Try:</span>
-          {EXAMPLES.map((example) => (
+        {recents.length > 0 ? (
+          <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+            <span>Recent:</span>
+            {recents.map((r) => (
+              <button
+                key={r}
+                type="button"
+                disabled={loading}
+                title={r}
+                onClick={() => {
+                  setMessage(r);
+                  void ask(r);
+                }}
+                className={cn(chipClass, 'max-w-[30ch] truncate')}
+              >
+                {r}
+              </button>
+            ))}
             <button
-              key={example}
               type="button"
-              disabled={loading}
-              onClick={() => {
-                setMessage(example);
-                void ask(example);
-              }}
-              className="touch-manipulation rounded-full border border-input px-3 py-1 transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 [@media(pointer:coarse)]:min-h-11"
+              onClick={clearRecents}
+              className="rounded px-1 underline-offset-2 hover:text-foreground hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
-              {example}
+              Clear
             </button>
-          ))}
-        </div>
+          </div>
+        ) : (
+          <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+            <span>Try:</span>
+            {EXAMPLES.map((example) => (
+              <button
+                key={example}
+                type="button"
+                disabled={loading}
+                onClick={() => {
+                  setMessage(example);
+                  void ask(example);
+                }}
+                className={chipClass}
+              >
+                {example}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {error && (

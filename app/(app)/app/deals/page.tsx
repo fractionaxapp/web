@@ -28,17 +28,17 @@ async function fetchDeals(riskTier?: string): Promise<{ deals: Deal[]; error: st
       cache: 'no-store',
       signal: AbortSignal.timeout(25_000),
     });
-    if (!res.ok) return { deals: [], error: `Agents service error (${res.status})` };
+    if (!res.ok) return { deals: [], error: 'Couldn’t load deals right now. Try again in a moment.' };
     const parsed = Deals.safeParse(deepCamel(await res.json()));
-    if (!parsed.success) return { deals: [], error: 'Unexpected response shape.' };
+    if (!parsed.success) return { deals: [], error: 'Couldn’t read the deals response. Try again.' };
     return { deals: parsed.data, error: null };
   } catch (e) {
     const waking = e instanceof Error && e.name === 'TimeoutError';
     return {
       deals: [],
       error: waking
-        ? 'The agents service is waking up (free tier) — refresh in a few seconds.'
-        : 'Agents service unreachable.',
+        ? 'The agents are waking up — give it a few seconds, then try again.'
+        : 'Couldn’t reach the agents. Check your connection and try again.',
     };
   }
 }
