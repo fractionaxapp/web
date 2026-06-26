@@ -37,14 +37,34 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
       <div className="flex-1">{children}</div>
 
       <footer className="mt-24 border-t">
-        <div className="px-safe mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 py-8 text-sm text-muted-foreground">
-          <span translate="no">FractionAX — agentic RWA investing on Solana.</span>
-          <Link
-            href="/app"
-            className={cn('inline-flex min-h-11 items-center hover:text-foreground', ring)}
-          >
-            Launch app →
-          </Link>
+        <div className="px-safe mx-auto flex max-w-5xl flex-col gap-4 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <span translate="no">© 2026 FractionAX — agentic RWA investing on Solana.</span>
+          <nav className="flex flex-wrap items-center gap-x-5 gap-y-1" aria-label="Footer">
+            <Link
+              href="/docs"
+              className={cn('inline-flex min-h-11 items-center hover:text-foreground', ring)}
+            >
+              Docs
+            </Link>
+            <Link
+              href="/terms"
+              className={cn('inline-flex min-h-11 items-center hover:text-foreground', ring)}
+            >
+              Terms
+            </Link>
+            <Link
+              href="/privacy"
+              className={cn('inline-flex min-h-11 items-center hover:text-foreground', ring)}
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/app"
+              className={cn('inline-flex min-h-11 items-center hover:text-foreground', ring)}
+            >
+              Launch app →
+            </Link>
+          </nav>
         </div>
       </footer>
     </div>
