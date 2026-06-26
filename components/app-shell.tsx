@@ -2,9 +2,9 @@
 
 import type { ReactNode } from 'react';
 
+import { AuthBridge } from '@/components/auth-bridge';
 import { DashboardNav } from '@/components/dashboard-nav';
 import { PRIVY_APP_ID, PrivyProviders } from '@/components/privy';
-import { PrivyGate } from '@/components/privy-gate';
 
 function Shell({ children }: { children: ReactNode }) {
   return (
@@ -15,8 +15,9 @@ function Shell({ children }: { children: ReactNode }) {
   );
 }
 
-/** The /app dashboard chrome, gated by Privy. NEXT_PUBLIC_PRIVY_APP_ID must be set
- * at build time; without it, sign-in is unavailable. */
+/** The /app dashboard chrome. The nav + Privy context wrap every page; individual
+ * pages decide whether to gate their content (Copilot, portfolio) via RequireAuth.
+ * Deals and on-chain are public. NEXT_PUBLIC_PRIVY_APP_ID must be set at build time. */
 export function AppShell({ children }: { children: ReactNode }) {
   if (!PRIVY_APP_ID) {
     return (
@@ -34,9 +35,9 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <PrivyProviders>
-      <PrivyGate>
+      <AuthBridge>
         <Shell>{children}</Shell>
-      </PrivyGate>
+      </AuthBridge>
     </PrivyProviders>
   );
 }

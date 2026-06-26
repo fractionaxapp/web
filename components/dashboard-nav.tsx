@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { useAuthIdentity } from '@/components/auth-context';
+import { useAuth } from '@/components/auth-context';
 import { Logo } from '@/components/logo';
 import { cn } from '@/lib/utils';
 
@@ -45,20 +45,33 @@ function NavLinks({ pathname, className }: { pathname: string; className: string
   );
 }
 
-function WalletChip() {
-  const identity = useAuthIdentity();
-  if (!identity) return null;
+function AccountChip() {
+  const { ready, authenticated, label, signIn, signOut } = useAuth();
+  if (!ready) return null;
+
+  if (!authenticated) {
+    return (
+      <button
+        type="button"
+        onClick={signIn}
+        className="inline-flex min-h-11 items-center rounded-full bg-primary px-3 text-xs font-medium text-primary-foreground transition-[background-color,transform] duration-100 ease-out hover:bg-primary/90 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        Sign in
+      </button>
+    );
+  }
+
   return (
     <div className="flex items-center gap-2 text-xs">
       <span
-        title={identity.label}
+        title={label}
         className="max-w-[16ch] truncate rounded-full bg-accent px-2 py-1 text-accent-foreground"
       >
-        {identity.label}
+        {label}
       </span>
       <button
         type="button"
-        onClick={identity.signOut}
+        onClick={signOut}
         className="inline-flex min-h-11 items-center rounded text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         Sign out
@@ -78,7 +91,7 @@ export function DashboardNav() {
         </Link>
         <NavLinks pathname={pathname} className="flex flex-col gap-1 px-2 pb-2" />
         <div className="mt-auto border-t p-3">
-          <WalletChip />
+          <AccountChip />
         </div>
       </aside>
 
@@ -88,7 +101,7 @@ export function DashboardNav() {
             <Link href="/" aria-label="FractionAX — home" className={cn('inline-flex', brandRing)}>
               <Logo className="h-6" />
             </Link>
-            <WalletChip />
+            <AccountChip />
           </div>
           <NavLinks pathname={pathname} className="mt-1 flex flex-wrap gap-1 text-sm" />
         </div>

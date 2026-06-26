@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { Copilot } from '@/components/copilot';
+import { RequireAuth } from '@/components/require-auth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
@@ -16,8 +17,9 @@ const SHORTCUTS = [
 
 export default function DashboardHome() {
   return (
-    <main id="main" className="px-safe max-w-3xl py-12">
-      <h1 className="text-2xl font-semibold tracking-tight">Copilot</h1>
+    <RequireAuth>
+      <main id="main" className="px-safe max-w-3xl py-12">
+        <h1 className="text-2xl font-semibold tracking-tight">Copilot</h1>
       <p className="mt-1 max-w-2xl text-muted-foreground">
         Describe an investment in plain language — the agents parse your intent, source matching
         deals, and draft a memo.
@@ -50,6 +52,7 @@ export default function DashboardHome() {
           </Link>
         ))}
       </div>
-    </main>
+      </main>
+    </RequireAuth>
   );
 }

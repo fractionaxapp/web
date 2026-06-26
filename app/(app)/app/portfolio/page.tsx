@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { RequireAuth } from '@/components/require-auth';
 import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -10,8 +11,9 @@ export default function PortfolioPage() {
   // No auth or positions yet — a single, honest empty state (no placeholder zeros
   // that read as a broken/loading dashboard). Stats return once holdings are wired.
   return (
-    <main id="main" className="px-safe max-w-3xl py-12">
-      <h1 className="text-2xl font-semibold tracking-tight">Portfolio</h1>
+    <RequireAuth>
+      <main id="main" className="px-safe max-w-3xl py-12">
+        <h1 className="text-2xl font-semibold tracking-tight">Portfolio</h1>
       <p className="mt-1 max-w-2xl text-muted-foreground">
         Your positions, projected yield, and risk concentration — once you start investing.
       </p>
@@ -53,6 +55,7 @@ export default function PortfolioPage() {
           </div>
         </CardContent>
       </Card>
-    </main>
+      </main>
+    </RequireAuth>
   );
 }

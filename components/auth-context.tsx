@@ -2,22 +2,27 @@
 
 import { createContext, use, type ReactNode } from 'react';
 
-/** The signed-in identity, abstracted over the auth provider (Privy) so the
- * dashboard chrome doesn't reach into the auth SDK directly. */
-export type AuthIdentity = { label: string; signOut: () => void } | null;
+/** Auth state shared across the /app chrome, abstracted over Privy so the nav
+ * and gates don't reach into the SDK directly. Always present (signed in or not). */
+export type AuthState = {
+  ready: boolean;
+  authenticated: boolean;
+  label?: string;
+  signIn: () => void;
+  signOut: () => void;
+};
 
-const AuthIdentityContext = createContext<AuthIdentity>(null);
+const AuthContext = createContext<AuthState>({
+  ready: false,
+  authenticated: false,
+  signIn: () => {},
+  signOut: () => {},
+});
 
-export const useAuthIdentity = (): AuthIdentity => use(AuthIdentityContext);
+export const useAuth = (): AuthState => use(AuthContext);
 
-export function AuthIdentityProvider({
-  value,
-  children,
-}: {
-  value: AuthIdentity;
-  children: ReactNode;
-}) {
-  return <AuthIdentityContext value={value}>{children}</AuthIdentityContext>;
+export function AuthProvider({ value, children }: { value: AuthState; children: ReactNode }) {
+  return <AuthContext value={value}>{children}</AuthContext>;
 }
 
 /** Shorten a wallet address for display, e.g. "5xJ2…9aQ1". */
