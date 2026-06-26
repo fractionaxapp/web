@@ -20,7 +20,14 @@ export function DealCard({ deal, locale }: { deal: Deal; locale?: string }) {
     <Card>
       <CardHeader>
         <div className="flex items-start justify-between gap-3">
-          <CardTitle className="text-base">{deal.title}</CardTitle>
+          <CardTitle className="text-base">
+            <Link
+              href={`/app/deals/${deal.id}`}
+              className="rounded hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              {deal.title}
+            </Link>
+          </CardTitle>
           <Badge variant={deal.riskTier}>{deal.riskTier} risk</Badge>
         </div>
       </CardHeader>

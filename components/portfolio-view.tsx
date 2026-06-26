@@ -1,0 +1,158 @@
+'use client';
+
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+
+import { Badge } from '@/components/ui/badge';
+import { buttonVariants } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { getPositions, POSITIONS_CHANGED, type Position, removePosition } from '@/lib/positions';
+import { cn, formatMinor } from '@/lib/utils';
+
+function Stat({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+  return (
+    <Card>
+      <CardContent className="p-4">
+        <div className="text-xs text-muted-foreground">{label}</div>
+        <div
+          className={cn(
+            'mt-1 font-mono text-xl font-semibold tabular-nums',
+            accent ? 'text-brand-gold' : 'text-foreground',
+          )}
+        >
+          {value}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function EmptyState() {
+  return (
+    <Card className="mt-6">
+      <CardContent className="flex flex-col items-center gap-4 py-16 text-center">
+        <div
+          aria-hidden
+          className="flex size-12 items-center justify-center rounded-full bg-secondary text-primary"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="size-6"
+          >
+            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+            <polyline points="16 7 22 7 22 13" />
+          </svg>
+        </div>
+        <div className="space-y-1">
+          <p className="font-medium">No positions yet</p>
+          <p className="mx-auto max-w-sm text-sm text-muted-foreground">
+            Discover a deal and express interest — your positions, projected yield, and risk
+            concentration will show up here.
+          </p>
+        </div>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link href="/app/deals" className={cn(buttonVariants(), 'h-10 px-4')}>
+            Browse deals
+          </Link>
+          <Link href="/app" className={cn(buttonVariants({ variant: 'outline' }), 'h-10 px-4')}>
+            Ask Copilot
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+export function PortfolioView() {
+  // null = not yet read (avoid a flash of the empty state before localStorage loads)
+  const [positions, setPositions] = useState<Position[] | null>(null);
+
+  useEffect(() => {
+    const refresh = () => {
+      // eslint-disable-next-line @eslint-react/set-state-in-effect
+      setPositions(getPositions());
+    };
+    refresh();
+    window.addEventListener(POSITIONS_CHANGED, refresh);
+    window.addEventListener('storage', refresh);
+    return () => {
+      window.removeEventListener(POSITIONS_CHANGED, refresh);
+      window.removeEventListener('storage', refresh);
+    };
+  }, []);
+
+  if (positions === null) {
+    return (
+      <div className="mt-6 grid gap-3" aria-busy="true">
+        <Skeleton className="h-20 rounded-xl" />
+        <Skeleton className="h-24 rounded-xl" />
+      </div>
+    );
+  }
+
+  if (positions.length === 0) return <EmptyState />;
+
+  const currency = positions[0]?.currency ?? 'USD';
+  const totalMinor = positions.reduce((s, p) => s + p.amountMinor, 0);
+  const blended = positions.reduce((s, p) => s + p.amountMinor * p.projectedYieldPct, 0) / totalMinor;
+
+  return (
+    <div className="mt-6 space-y-6">
+      <div className="grid gap-4 sm:grid-cols-3">
+        <Stat label="Invested" value={formatMinor(totalMinor, currency)} />
+        <Stat label="Blended yield" value={`${blended.toFixed(1)}%`} accent />
+        <Stat label="Positions" value={String(positions.length)} />
+      </div>
+
+      <div>
+        <h2 className="mb-3 text-sm font-medium uppercase tracking-wide text-muted-foreground">
+          Holdings
+        </h2>
+        <ul className="grid gap-3">
+          {positions.map((p) => (
+            <li key={p.id}>
+              <Card>
+                <CardContent className="flex flex-wrap items-center justify-between gap-3 p-4">
+                  <div className="min-w-0">
+                    <Link
+                      href={`/app/deals/${p.dealId}`}
+                      className="rounded font-medium hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    >
+                      {p.dealTitle}
+                    </Link>
+                    <div className="mt-1 flex items-center gap-3 text-sm text-muted-foreground">
+                      <span className="font-mono tabular-nums text-foreground">
+                        {formatMinor(p.amountMinor, p.currency)}
+                      </span>
+                      <span className="font-mono tabular-nums text-brand-gold">
+                        {p.projectedYieldPct}%
+                      </span>
+                      <Badge variant={p.riskTier}>{p.riskTier}</Badge>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removePosition(p.id)}
+                    className="inline-flex min-h-11 touch-manipulation items-center rounded px-2 text-sm text-muted-foreground transition-colors hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    Withdraw
+                  </button>
+                </CardContent>
+              </Card>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-3 text-xs text-muted-foreground">
+          Recorded locally on this device — devnet, no funds moved.
+        </p>
+      </div>
+    </div>
+  );
+}
