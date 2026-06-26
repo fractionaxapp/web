@@ -1,10 +1,14 @@
 import Link from 'next/link';
+import type { CSSProperties } from 'react';
 
 import { HeroPreview } from '@/components/hero-preview';
 import { Reveal } from '@/components/reveal';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+
+// Per-item stagger index for the Reveal `stagger` mode.
+const revealStyle = (i: number) => ({ '--reveal-i': i }) as CSSProperties;
 
 export const metadata = {
   title: { absolute: 'FractionAX — Agentic RWA investing on Solana' },
@@ -83,13 +87,15 @@ export default function MarketingHome() {
       </section>
 
       {/* How it works */}
-      <Reveal>
+      <Reveal stagger>
       <section className="border-t bg-muted/30">
         <div className="px-safe mx-auto max-w-5xl py-16">
-          <h2 className="text-balance text-2xl font-semibold tracking-tight">How it works</h2>
+          <h2 className="reveal-item text-balance text-2xl font-semibold tracking-tight" style={revealStyle(0)}>
+            How it works
+          </h2>
           <ol className="mt-8 grid gap-6 sm:grid-cols-3">
-            {STEPS.map((s) => (
-              <li key={s.n}>
+            {STEPS.map((s, i) => (
+              <li key={s.n} className="reveal-item" style={revealStyle(i + 1)}>
                 <div className="flex size-9 items-center justify-center rounded-full bg-primary font-semibold text-primary-foreground tabular-nums">
                   {s.n}
                 </div>
@@ -103,12 +109,14 @@ export default function MarketingHome() {
       </Reveal>
 
       {/* Features */}
-      <Reveal>
+      <Reveal stagger>
       <section className="px-safe mx-auto max-w-5xl py-16">
-        <h2 className="text-balance text-2xl font-semibold tracking-tight">Built for the next wave of RWA</h2>
+        <h2 className="reveal-item text-balance text-2xl font-semibold tracking-tight" style={revealStyle(0)}>
+          Built for the next wave of RWA
+        </h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          {FEATURES.map((f) => (
-            <Card key={f.title}>
+          {FEATURES.map((f, i) => (
+            <Card key={f.title} className="reveal-item" style={revealStyle(i + 1)}>
               <CardHeader>
                 <CardTitle className="text-base">{f.title}</CardTitle>
               </CardHeader>

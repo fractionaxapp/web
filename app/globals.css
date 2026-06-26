@@ -160,4 +160,18 @@
     opacity: 1;
     transform: none;
   }
+
+  /* Staggered variant: descendants cascade in by their --reveal-i index. */
+  .reveal-group .reveal-item {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.5s cubic-bezier(0, 0, 0.2, 1),
+      transform 0.5s cubic-bezier(0, 0, 0.2, 1);
+    transition-delay: calc(var(--reveal-i, 0) * 70ms);
+  }
+  .reveal-group[data-visible='true'] .reveal-item {
+    opacity: 1;
+    transform: none;
+  }
 }

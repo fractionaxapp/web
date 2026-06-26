@@ -9,7 +9,16 @@ import { cn } from '@/lib/utils';
  * (no React state / re-render). The .reveal CSS is gated to
  * prefers-reduced-motion: no-preference, and a <noscript> fallback shows the
  * content when JS is off — so it never hides content from anyone. */
-export function Reveal({ children, className }: { children: ReactNode; className?: string }) {
+export function Reveal({
+  children,
+  className,
+  stagger = false,
+}: {
+  children: ReactNode;
+  className?: string;
+  /** Stagger descendants marked `.reveal-item` instead of fading the block. */
+  stagger?: boolean;
+}) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -35,7 +44,7 @@ export function Reveal({ children, className }: { children: ReactNode; className
   }, []);
 
   return (
-    <div ref={ref} className={cn('reveal', className)}>
+    <div ref={ref} className={cn(stagger ? 'reveal-group' : 'reveal', className)}>
       {children}
     </div>
   );
