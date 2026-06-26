@@ -225,10 +225,11 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
                 key={r}
                 type="button"
                 disabled={loading}
-                title={r}
+                title={`Edit and re-run: ${r}`}
                 onClick={() => {
+                  // A past prompt is yours to refine — populate and focus, don't auto-run.
                   setMessage(r);
-                  void ask(r);
+                  inputRef.current?.focus();
                 }}
                 className={cn(chipClass, 'max-w-[30ch] truncate')}
               >
