@@ -28,15 +28,11 @@ const SECTIONS = [
     h: 'Your choices',
     p: 'You can sign out at any time, clear your browser’s local storage to remove preferences and session, and email us to request deletion of account data we hold.',
   },
-  {
-    h: 'Contact',
-    p: 'Questions about privacy? Email hello@fractionax.app.',
-  },
 ];
 
 export default function PrivacyPage() {
   return (
-    <main id="main" className="px-safe mx-auto max-w-3xl py-16">
+    <main id="main" className="px-safe mx-auto max-w-2xl py-16">
       <p className="text-sm font-medium text-primary">Legal</p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight">Privacy Policy</h1>
       <p className="mt-2 text-sm text-muted-foreground">Last updated: 26 June 2026</p>
@@ -53,6 +49,19 @@ export default function PrivacyPage() {
             <p className="leading-relaxed text-muted-foreground">{s.p}</p>
           </section>
         ))}
+        <section className="space-y-2">
+          <h2 className="text-lg font-semibold tracking-tight">Contact</h2>
+          <p className="leading-relaxed text-muted-foreground">
+            Questions about privacy? Email{' '}
+            <a
+              href="mailto:hello@fractionax.app"
+              className="rounded text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              hello@fractionax.app
+            </a>
+            .
+          </p>
+        </section>
       </div>
     </main>
   );

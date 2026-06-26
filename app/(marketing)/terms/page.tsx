@@ -40,15 +40,11 @@ const SECTIONS = [
     h: '9. Changes',
     p: 'We may update these terms as the project evolves. Continued use after changes means you accept the updated terms.',
   },
-  {
-    h: '10. Contact',
-    p: 'Questions about these terms? Email hello@fractionax.app.',
-  },
 ];
 
 export default function TermsPage() {
   return (
-    <main id="main" className="px-safe mx-auto max-w-3xl py-16">
+    <main id="main" className="px-safe mx-auto max-w-2xl py-16">
       <p className="text-sm font-medium text-primary">Legal</p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight">Terms of Use</h1>
       <p className="mt-2 text-sm text-muted-foreground">Last updated: 26 June 2026</p>
@@ -65,6 +61,19 @@ export default function TermsPage() {
             <p className="leading-relaxed text-muted-foreground">{s.p}</p>
           </section>
         ))}
+        <section className="space-y-2">
+          <h2 className="text-lg font-semibold tracking-tight">10. Contact</h2>
+          <p className="leading-relaxed text-muted-foreground">
+            Questions about these terms? Email{' '}
+            <a
+              href="mailto:hello@fractionax.app"
+              className="rounded text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              hello@fractionax.app
+            </a>
+            .
+          </p>
+        </section>
       </div>
     </main>
   );

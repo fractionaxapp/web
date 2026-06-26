@@ -41,7 +41,7 @@ const SECTIONS = [
 
 export default function DocsPage() {
   return (
-    <main id="main" className="px-safe mx-auto max-w-3xl py-16">
+    <main id="main" className="px-safe mx-auto max-w-2xl py-16">
       <p className="text-sm font-medium text-primary">Documentation</p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight">How FractionAX works</h1>
       <p className="mt-3 text-lg text-muted-foreground">

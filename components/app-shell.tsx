@@ -1,16 +1,38 @@
 'use client';
 
+import Link from 'next/link';
 import type { ReactNode } from 'react';
 
 import { AuthBridge } from '@/components/auth-bridge';
 import { DashboardNav } from '@/components/dashboard-nav';
 import { PRIVY_APP_ID, PrivyProviders } from '@/components/privy';
 
+const footerLink =
+  'inline-flex min-h-11 items-center rounded hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+
 function Shell({ children }: { children: ReactNode }) {
   return (
     <div className="md:flex md:min-h-dvh">
       <DashboardNav />
-      <div className="min-w-0 flex-1">{children}</div>
+      <div className="flex min-w-0 flex-1 flex-col">
+        <div className="flex-1">{children}</div>
+        <footer className="px-safe border-t py-3">
+          <nav
+            className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground"
+            aria-label="Footer"
+          >
+            <Link href="/docs" className={footerLink}>
+              Docs
+            </Link>
+            <Link href="/terms" className={footerLink}>
+              Terms
+            </Link>
+            <Link href="/privacy" className={footerLink}>
+              Privacy
+            </Link>
+          </nav>
+        </footer>
+      </div>
     </div>
   );
 }
