@@ -49,7 +49,7 @@ const FEATURES = [
 
 export default function MarketingHome() {
   return (
-    <main id="main">
+    <main id="main" className="bg-hero-glow">
       {/* Hero */}
       <section className="px-safe mx-auto max-w-5xl py-20 sm:py-28">
         <p className="text-sm font-medium text-primary">Agentic RWA investment infrastructure</p>

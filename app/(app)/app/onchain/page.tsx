@@ -20,11 +20,27 @@ export const maxDuration = 30;
 // The default program id (System Program) means "not deployed yet".
 const PLACEHOLDER_ID = '11111111111111111111111111111111';
 
-function Row({ label, value }: { label: string; value: string }) {
+// Explorer URL with the active cluster baked in, so devnet links stay on devnet.
+const explorerUrl = (address: string) =>
+  `https://explorer.solana.com/address/${address}?cluster=${DEFAULT_CLUSTER}`;
+
+function Row({ label, value, href }: { label: string; value: string; href?: string }) {
   return (
     <div className="flex flex-col gap-0.5">
       <span className="text-xs uppercase tracking-wide text-muted-foreground">{label}</span>
-      <span className="break-all font-mono text-xs">{value}</span>
+      {href ? (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${label} — view on Solana Explorer`}
+          className="break-all rounded font-mono text-xs text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          {value}
+        </a>
+      ) : (
+        <span className="break-all font-mono text-xs">{value}</span>
+      )}
     </div>
   );
 }
@@ -62,8 +78,12 @@ export default async function OnchainPage() {
           <CardTitle className="text-base">Program</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <Row label="Program ID" value={programId.toBase58()} />
-          <Row label="Registry PDA" value={registryPda.toBase58()} />
+          <Row
+            label="Program ID"
+            value={programId.toBase58()}
+            href={deployed ? explorerUrl(programId.toBase58()) : undefined}
+          />
+          <Row label="Registry PDA" value={registryPda.toBase58()} href={explorerUrl(registryPda.toBase58())} />
         </CardContent>
       </Card>
 
@@ -93,7 +113,11 @@ export default async function OnchainPage() {
           )}
           {registry && (
             <>
-              <Row label="Authority" value={registry.authority.toBase58()} />
+              <Row
+                label="Authority"
+                value={registry.authority.toBase58()}
+                href={explorerUrl(registry.authority.toBase58())}
+              />
               <Row label="Deals registered on-chain" value={registry.dealCount.toString()} />
             </>
           )}

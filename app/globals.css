@@ -52,7 +52,8 @@
   --border: oklch(0.9 0.008 172.43);
   --input: oklch(0.96 0.006 172.43);
   --ring: oklch(0.52 0.13 172.43);
-  --brand-gold: oklch(0.62 0.13 78.224);
+  /* Deepened so gold yield figures clear AA as text on light surfaces. */
+  --brand-gold: oklch(0.58 0.135 75);
   --brand-forest: oklch(0.337 0.053 176.003);
 }
 
@@ -134,5 +135,19 @@
     box-shadow:
       0 1px 2px rgb(0 0 0 / 0.04),
       0 1px 3px rgb(0 0 0 / 0.06);
+  }
+  /* Soft brand glow behind the marketing hero (teal + a touch of gold). Static. */
+  .bg-hero-glow {
+    background-image:
+      radial-gradient(
+        60% 50% at 78% -8%,
+        color-mix(in oklch, var(--primary) 16%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        42% 38% at 4% 2%,
+        color-mix(in oklch, var(--brand-gold) 8%, transparent),
+        transparent 70%
+      );
   }
 }

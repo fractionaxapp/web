@@ -2,13 +2,31 @@ import type { InvestmentMemo } from '@fractionax/domain';
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { formatMinor } from '@/lib/utils';
+import { cn, formatMinor } from '@/lib/utils';
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({
+  label,
+  value,
+  mono,
+  accent,
+}: {
+  label: string;
+  value: string;
+  mono?: boolean;
+  accent?: boolean;
+}) {
   return (
     <div>
       <div className="text-xs text-muted-foreground">{label}</div>
-      <div className="font-medium capitalize tabular-nums">{value}</div>
+      <div
+        className={cn(
+          'font-medium capitalize',
+          mono && 'font-mono tabular-nums',
+          accent && 'text-brand-gold',
+        )}
+      >
+        {value}
+      </div>
     </div>
   );
 }
@@ -25,8 +43,8 @@ export function MemoView({ memo, currency }: { memo: InvestmentMemo; currency: s
       <CardContent className="space-y-4 text-sm">
         <p className="text-muted-foreground">{memo.summary}</p>
         <div className="flex flex-wrap gap-6">
-          <Stat label="Valuation" value={formatMinor(memo.valuationMinor, currency)} />
-          <Stat label="Projected yield" value={`${memo.projectedYieldPct}%`} />
+          <Stat label="Valuation" value={formatMinor(memo.valuationMinor, currency)} mono />
+          <Stat label="Projected yield" value={`${memo.projectedYieldPct}%`} mono accent />
           <Stat label="Risk tier" value={memo.riskTier} />
         </div>
         {memo.risks.length > 0 && (

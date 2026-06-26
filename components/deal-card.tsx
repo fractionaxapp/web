@@ -3,13 +3,13 @@ import Link from 'next/link';
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { formatMinor, regionName } from '@/lib/utils';
+import { cn, formatMinor, regionName } from '@/lib/utils';
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
   return (
     <div>
       <div className="text-xs text-muted-foreground">{label}</div>
-      <div className="font-medium tabular-nums">{value}</div>
+      <div className={cn('font-medium', mono && 'font-mono tabular-nums')}>{value}</div>
     </div>
   );
 }
@@ -28,11 +28,11 @@ export function DealCard({ deal, locale }: { deal: Deal; locale?: string }) {
         <div className="flex flex-wrap items-end gap-x-8 gap-y-3">
           <div>
             <div className="text-xs text-muted-foreground">Projected yield</div>
-            <div className="text-2xl font-semibold tabular-nums text-primary">
+            <div className="font-mono text-2xl font-semibold tabular-nums text-brand-gold">
               {deal.projectedYieldPct}%
             </div>
           </div>
-          <Stat label="Minimum" value={formatMinor(deal.minInvestmentMinor, deal.currency, locale)} />
+          <Stat label="Minimum" value={formatMinor(deal.minInvestmentMinor, deal.currency, locale)} mono />
           <Stat label="Jurisdiction" value={regionName(deal.jurisdiction)} />
         </div>
         <Link
