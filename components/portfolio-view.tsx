@@ -103,12 +103,42 @@ export function PortfolioView() {
   const totalMinor = positions.reduce((s, p) => s + p.amountMinor, 0);
   const blended = positions.reduce((s, p) => s + p.amountMinor * p.projectedYieldPct, 0) / totalMinor;
 
+  // Amount-weighted concentration by risk tier (only tiers actually held).
+  const tierMeta = [
+    { key: 'low' as const, label: 'Low', color: 'bg-emerald-500' },
+    { key: 'medium' as const, label: 'Medium', color: 'bg-amber-500' },
+    { key: 'high' as const, label: 'High', color: 'bg-rose-500' },
+  ];
+  const riskMix = tierMeta
+    .map((t) => {
+      const amt = positions.reduce((s, p) => (p.riskTier === t.key ? s + p.amountMinor : s), 0);
+      return { ...t, pct: totalMinor ? (amt / totalMinor) * 100 : 0 };
+    })
+    .filter((t) => t.pct > 0);
+
   return (
     <div className="mt-6 space-y-6">
       <div className="grid gap-4 sm:grid-cols-3">
         <Stat label="Invested" value={formatMinor(totalMinor, currency)} />
         <Stat label="Blended yield" value={`${blended.toFixed(1)}%`} accent />
         <Stat label="Positions" value={String(positions.length)} />
+      </div>
+
+      <div>
+        <div className="mb-2 text-xs text-muted-foreground">Risk mix</div>
+        <div aria-hidden className="flex h-2 overflow-hidden rounded-full bg-secondary">
+          {riskMix.map((t) => (
+            <div key={t.key} className={t.color} style={{ width: `${t.pct}%` }} />
+          ))}
+        </div>
+        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+          {riskMix.map((t) => (
+            <span key={t.key} className="inline-flex items-center gap-1.5">
+              <span aria-hidden className={cn('size-2 rounded-full', t.color)} />
+              {t.label} {Math.round(t.pct)}%
+            </span>
+          ))}
+        </div>
       </div>
 
       <div>
