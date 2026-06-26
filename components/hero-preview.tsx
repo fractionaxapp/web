@@ -16,6 +16,9 @@ export function HeroPreview() {
             <span className="size-2.5 rounded-full bg-muted-foreground/25" />
           </span>
           <span className="text-xs font-medium text-muted-foreground">Copilot</span>
+          <span className="ml-auto rounded-full bg-secondary px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+            Example
+          </span>
         </div>
 
         <div className="space-y-4 p-4">
