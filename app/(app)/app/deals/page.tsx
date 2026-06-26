@@ -8,7 +8,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { deepCamel } from '@/lib/case';
 import { cn } from '@/lib/utils';
 
-export const metadata = { title: 'Deal Discovery' };
+export const metadata = { title: 'Deal discovery' };
 
 // Fetch deals live from the agents service per request (not at build time).
 export const dynamic = 'force-dynamic';
@@ -66,7 +66,7 @@ export default async function DealsPage({
           return (
             <Link
               key={r || 'all'}
-              href={r ? `/deals?riskTier=${r}` : '/deals'}
+              href={r ? `/app/deals?riskTier=${r}` : '/app/deals'}
               aria-current={active ? 'true' : undefined}
               className={cn(
                 buttonVariants({ variant: active ? 'default' : 'outline', size: 'sm' }),

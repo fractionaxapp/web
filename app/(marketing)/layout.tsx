@@ -26,7 +26,7 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
               Deals
             </Link>
             <Link href="/app" className={cn(buttonVariants(), 'h-10 px-4')}>
-              Launch App
+              Launch app
             </Link>
           </div>
         </nav>
@@ -41,7 +41,7 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
             href="/app"
             className={cn('inline-flex min-h-11 items-center hover:text-foreground', ring)}
           >
-            Launch App →
+            Launch app →
           </Link>
         </div>
       </footer>

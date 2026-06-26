@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-export const metadata = { title: 'On-Chain' };
+export const metadata = { title: 'On-chain' };
 
 // Always read live chain state.
 export const dynamic = 'force-dynamic';

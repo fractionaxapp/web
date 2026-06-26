@@ -62,13 +62,13 @@ export default function MarketingHome() {
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link href="/app" className={cn(buttonVariants(), 'h-11 px-6')}>
-            Launch App
+            Launch app
           </Link>
           <Link
             href="/app/deals"
             className={cn(buttonVariants({ variant: 'outline' }), 'h-11 px-6')}
           >
-            Browse Deals
+            Browse deals
           </Link>
         </div>
       </section>
@@ -117,7 +117,7 @@ export default function MarketingHome() {
               </p>
             </div>
             <Link href="/app" className={cn(buttonVariants(), 'h-11 px-6')}>
-              Launch App
+              Launch app
             </Link>
           </CardContent>
         </Card>
