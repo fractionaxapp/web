@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { HeroPreview } from '@/components/hero-preview';
+import { Reveal } from '@/components/reveal';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -82,6 +83,7 @@ export default function MarketingHome() {
       </section>
 
       {/* How it works */}
+      <Reveal>
       <section className="border-t bg-muted/30">
         <div className="px-safe mx-auto max-w-5xl py-16">
           <h2 className="text-balance text-2xl font-semibold tracking-tight">How it works</h2>
@@ -98,8 +100,10 @@ export default function MarketingHome() {
           </ol>
         </div>
       </section>
+      </Reveal>
 
       {/* Features */}
+      <Reveal>
       <section className="px-safe mx-auto max-w-5xl py-16">
         <h2 className="text-balance text-2xl font-semibold tracking-tight">Built for the next wave of RWA</h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -113,8 +117,10 @@ export default function MarketingHome() {
           ))}
         </div>
       </section>
+      </Reveal>
 
       {/* CTA */}
+      <Reveal>
       <section className="px-safe mx-auto max-w-5xl pb-8">
         <Card className="bg-primary/5">
           <CardContent className="flex flex-wrap items-center justify-between gap-4 py-8">
@@ -130,6 +136,7 @@ export default function MarketingHome() {
           </CardContent>
         </Card>
       </section>
+      </Reveal>
     </main>
   );
 }

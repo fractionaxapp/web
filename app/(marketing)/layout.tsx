@@ -12,6 +12,10 @@ const ring =
 export default function MarketingLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-dvh flex-col">
+      {/* Without JS the IntersectionObserver never fires — keep reveal content visible. */}
+      <noscript>
+        <style>{'.reveal{opacity:1!important;transform:none!important}'}</style>
+      </noscript>
       <header className="border-b [padding-top:env(safe-area-inset-top)]">
         <nav className="px-safe mx-auto flex max-w-5xl items-center justify-between py-3">
           <Link href="/" aria-label="FractionAX — home" className={cn('inline-flex', ring)}>
