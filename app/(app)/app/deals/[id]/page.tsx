@@ -1,10 +1,10 @@
 import { headers } from 'next/headers';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 
 import { ExpressInterest } from '@/components/express-interest';
 import { RetryButton } from '@/components/retry-button';
 import { Badge } from '@/components/ui/badge';
+import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { fetchDeal } from '@/lib/deals';
 import { cn, formatMinor, humanize, regionName } from '@/lib/utils';
@@ -37,9 +37,6 @@ export default async function DealDetailPage({ params }: { params: Promise<{ id:
   const locale =
     (await headers()).get('accept-language')?.split(',')[0]?.split(';')[0]?.trim() || undefined;
 
-  // Live list reached but no such deal → a real 404.
-  if (!deal && !error) notFound();
-
   const backLink =
     'inline-flex rounded text-sm text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 
@@ -53,6 +50,19 @@ export default async function DealDetailPage({ params }: { params: Promise<{ id:
         <div role="alert" className="mt-6 flex flex-wrap items-center gap-3 text-sm">
           <span className="text-destructive">{error}</span>
           <RetryButton />
+        </div>
+      )}
+
+      {!deal && !error && (
+        <div className="mt-10">
+          <p className="font-mono text-sm text-muted-foreground">404</p>
+          <h1 className="mt-2 text-2xl font-semibold tracking-tight">Deal not found</h1>
+          <p className="mt-1 text-muted-foreground">
+            This deal doesn’t exist or is no longer available.
+          </p>
+          <Link href="/app/deals" className={cn(buttonVariants(), 'mt-4 h-10 px-4')}>
+            Browse deals
+          </Link>
         </div>
       )}
 
