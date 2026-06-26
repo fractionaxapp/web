@@ -47,9 +47,12 @@ export default async function DealDetailPage({ params }: { params: Promise<{ id:
       </Link>
 
       {error && !deal && (
-        <div role="alert" className="mt-6 flex flex-wrap items-center gap-3 text-sm">
-          <span className="text-destructive">{error}</span>
-          <RetryButton />
+        <div className="mt-10">
+          <h1 className="text-2xl font-semibold tracking-tight">Couldn’t load this deal</h1>
+          <div role="alert" className="mt-3 flex flex-wrap items-center gap-3 text-sm">
+            <span className="text-destructive">{error}</span>
+            <RetryButton />
+          </div>
         </div>
       )}
 
