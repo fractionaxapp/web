@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { HeroPreview } from '@/components/hero-preview';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -51,25 +52,32 @@ export default function MarketingHome() {
   return (
     <main id="main" className="bg-hero-glow">
       {/* Hero */}
-      <section className="px-safe mx-auto max-w-5xl py-20 sm:py-28">
-        <p className="text-sm font-medium text-primary">Agentic RWA investment infrastructure</p>
-        <h1 className="mt-3 max-w-3xl text-balance text-4xl font-semibold tracking-tight sm:text-5xl">
-          Invest in real-world assets by describing what you want
-        </h1>
-        <p className="mt-5 max-w-xl text-pretty text-lg text-muted-foreground">
-          <span translate="no">FractionAX</span> agents source vetted deals, underwrite them, and
-          prepare them for on-chain execution on Solana — you stay in control at every step.
-        </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/app" className={cn(buttonVariants(), 'h-11 px-6')}>
-            Launch app
-          </Link>
-          <Link
-            href="/app/deals"
-            className={cn(buttonVariants({ variant: 'outline' }), 'h-11 px-6')}
-          >
-            Browse deals
-          </Link>
+      <section className="px-safe mx-auto max-w-6xl py-20 sm:py-28">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
+          <div>
+            <p className="text-sm font-medium text-primary">
+              Agentic RWA investment infrastructure
+            </p>
+            <h1 className="mt-3 text-balance text-4xl font-semibold tracking-tight sm:text-5xl">
+              Invest in real-world assets by describing what you want
+            </h1>
+            <p className="mt-5 max-w-xl text-pretty text-lg text-muted-foreground">
+              <span translate="no">FractionAX</span> agents source vetted deals, underwrite them,
+              and prepare them for on-chain execution on Solana — you stay in control at every step.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/app" className={cn(buttonVariants(), 'h-11 px-6')}>
+                Launch app
+              </Link>
+              <Link
+                href="/app/deals"
+                className={cn(buttonVariants({ variant: 'outline' }), 'h-11 px-6')}
+              >
+                Browse deals
+              </Link>
+            </div>
+          </div>
+          <HeroPreview />
         </div>
       </section>
 
