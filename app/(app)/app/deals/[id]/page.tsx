@@ -90,7 +90,7 @@ export default async function DealDetailPage({ params }: { params: Promise<{ id:
           </div>
 
           <div className="mt-8">
-            <h2 className="mb-3 text-sm font-medium uppercase tracking-wide text-muted-foreground">
+            <h2 className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
               Invest
             </h2>
             <ExpressInterest deal={deal} locale={locale} />

@@ -26,7 +26,7 @@ const chipClass =
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="mb-3 text-sm font-medium uppercase tracking-wide text-muted-foreground">
+    <h2 className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
       {children}
     </h2>
   );

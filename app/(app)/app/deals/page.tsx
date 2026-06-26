@@ -87,7 +87,7 @@ export default async function DealsPage({
         </div>
       )}
 
-      <h2 className="mb-3 mt-8 text-sm font-medium uppercase tracking-wide text-muted-foreground">
+      <h2 className="mb-3 mt-8 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
         Sourced deals{deals.length > 0 ? ` · ${deals.length}` : ''}
       </h2>
       <div className="grid gap-3">

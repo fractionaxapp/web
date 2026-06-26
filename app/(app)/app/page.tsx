@@ -29,7 +29,7 @@ export default function DashboardHome() {
         <Copilot autoFocus />
       </div>
 
-      <h2 className="mt-10 text-sm font-medium uppercase tracking-wide text-muted-foreground">
+      <h2 className="mt-10 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
         Explore
       </h2>
       <div className="mt-3 grid gap-4 sm:grid-cols-3">

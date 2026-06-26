@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
  * and non-interactive (no fake controls / dead zones). */
 export function HeroPreview() {
   return (
-    <div aria-hidden className="pointer-events-none select-none">
+    <div aria-hidden className="bracket pointer-events-none select-none">
       <div className="shadow-card overflow-hidden rounded-xl border bg-card">
         {/* window chrome */}
         <div className="flex items-center gap-2 border-b px-4 py-3">
@@ -29,7 +29,7 @@ export function HeroPreview() {
 
           {/* parsed intent */}
           <div>
-            <div className="mb-2 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+            <div className="mb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
               Parsed intent
             </div>
             <div className="flex flex-wrap gap-1.5">
@@ -46,7 +46,7 @@ export function HeroPreview() {
 
           {/* top match */}
           <div>
-            <div className="mb-2 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+            <div className="mb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
               Top match
             </div>
             <div className="rounded-lg border bg-background p-3">

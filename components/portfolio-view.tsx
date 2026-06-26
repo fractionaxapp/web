@@ -142,7 +142,7 @@ export function PortfolioView() {
       </div>
 
       <div>
-        <h2 className="mb-3 text-sm font-medium uppercase tracking-wide text-muted-foreground">
+        <h2 className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
           Holdings
         </h2>
         <ul className="grid gap-3">

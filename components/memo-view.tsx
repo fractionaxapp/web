@@ -49,7 +49,7 @@ export function MemoView({ memo, currency }: { memo: InvestmentMemo; currency: s
         </div>
         {memo.risks.length > 0 && (
           <div>
-            <div className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            <div className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
               Risks
             </div>
             <ul className="space-y-2">

@@ -3,7 +3,6 @@ import type { CSSProperties } from 'react';
 
 import { HeroPreview } from '@/components/hero-preview';
 import { Reveal } from '@/components/reveal';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -18,17 +17,17 @@ export const metadata = {
 
 const STEPS = [
   {
-    n: '1',
+    n: '01',
     title: 'Describe it',
     body: 'Tell the Copilot what you want in plain language — “Invest $1,000 in low-risk Malaysian real estate.”',
   },
   {
-    n: '2',
+    n: '02',
     title: 'Agents work',
     body: 'They parse your intent, source matching deals, value the asset from fundamentals, and draft an investment memo.',
   },
   {
-    n: '3',
+    n: '03',
     title: 'You decide',
     body: 'Review the memo and approve. Settlement happens on-chain on Solana — you stay in control at every step.',
   },
@@ -55,18 +54,16 @@ const FEATURES = [
 
 export default function MarketingHome() {
   return (
-    <main id="main" className="bg-hero-glow">
+    <main id="main" className="bg-hero-glow blueprint-grid">
       {/* Hero */}
       <section className="px-safe mx-auto max-w-6xl py-20 sm:py-28">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div>
-            <p className="text-sm font-medium text-primary">
-              Agentic RWA investment infrastructure
-            </p>
-            <h1 className="mt-3 text-balance text-4xl font-semibold tracking-tight sm:text-5xl">
+            <p className="kicker text-primary">Agentic RWA · Solana</p>
+            <h1 className="mt-4 text-balance text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
               Invest in real-world assets by describing what you want
             </h1>
-            <p className="mt-5 max-w-xl text-pretty text-lg text-muted-foreground">
+            <p className="mt-6 max-w-xl text-pretty text-lg text-muted-foreground">
               <span translate="no">FractionAX</span> agents source vetted deals, underwrite them,
               and prepare them for on-chain execution on Solana — you stay in control at every step.
             </p>
@@ -88,62 +85,77 @@ export default function MarketingHome() {
 
       {/* How it works */}
       <Reveal stagger>
-      <section className="border-t bg-muted/30">
-        <div className="px-safe mx-auto max-w-5xl py-16">
-          <h2 className="reveal-item text-balance text-2xl font-semibold tracking-tight" style={revealStyle(0)}>
-            How it works
-          </h2>
-          <ol className="mt-8 grid gap-6 sm:grid-cols-3">
-            {STEPS.map((s, i) => (
-              <li key={s.n} className="reveal-item" style={revealStyle(i + 1)}>
-                <div className="flex size-9 items-center justify-center rounded-full bg-primary font-semibold text-primary-foreground tabular-nums">
-                  {s.n}
-                </div>
-                <h3 className="mt-4 font-medium">{s.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{s.body}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+        <section className="border-t bg-muted/30">
+          <div className="px-safe mx-auto max-w-5xl py-16 sm:py-20">
+            <p className="kicker reveal-item text-muted-foreground" style={revealStyle(0)}>
+              The flow
+            </p>
+            <h2
+              className="reveal-item mt-3 text-balance text-3xl font-semibold tracking-tight"
+              style={revealStyle(1)}
+            >
+              How it works
+            </h2>
+            <ol className="mt-10 grid gap-8 sm:grid-cols-3">
+              {STEPS.map((s, i) => (
+                <li key={s.n} className="reveal-item" style={revealStyle(i + 2)}>
+                  <div className="font-mono text-2xl font-semibold tabular-nums text-primary">
+                    {s.n}
+                  </div>
+                  <div className="mt-3 border-t pt-4">
+                    <h3 className="font-medium">{s.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
       </Reveal>
 
       {/* Features */}
       <Reveal stagger>
-      <section className="px-safe mx-auto max-w-5xl py-16">
-        <h2 className="reveal-item text-balance text-2xl font-semibold tracking-tight" style={revealStyle(0)}>
-          Built for the next wave of RWA
-        </h2>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          {FEATURES.map((f, i) => (
-            <Card key={f.title} className="reveal-item" style={revealStyle(i + 1)}>
-              <CardHeader>
-                <CardTitle className="text-base">{f.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">{f.body}</CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
+        <section className="px-safe mx-auto max-w-5xl py-16 sm:py-20">
+          <p className="kicker reveal-item text-muted-foreground" style={revealStyle(0)}>
+            What you get
+          </p>
+          <h2
+            className="reveal-item mt-3 text-balance text-3xl font-semibold tracking-tight"
+            style={revealStyle(1)}
+          >
+            Built for the next wave of RWA
+          </h2>
+          {/* Hairline-divided grid of flat cells — blueprint, no shadows. */}
+          <div className="mt-10 grid gap-px overflow-hidden rounded-xl border bg-border sm:grid-cols-2">
+            {FEATURES.map((f, i) => (
+              <div key={f.title} className="reveal-item bg-card p-6" style={revealStyle(i + 2)}>
+                <div className="kicker text-muted-foreground">{String(i + 1).padStart(2, '0')}</div>
+                <h3 className="mt-3 font-medium">{f.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
       </Reveal>
 
       {/* CTA */}
       <Reveal>
-      <section className="px-safe mx-auto max-w-5xl pb-8">
-        <Card className="bg-primary/5">
-          <CardContent className="flex flex-wrap items-center justify-between gap-4 py-8">
-            <div>
-              <h2 className="text-xl font-semibold tracking-tight">Ready to try it?</h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Open the app and ask the Copilot for your first deal.
-              </p>
+        <section className="px-safe mx-auto max-w-5xl pb-12">
+          <div className="bracket rounded-xl border bg-primary/5 px-6 py-10">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <p className="kicker text-muted-foreground">Ready</p>
+                <h2 className="mt-2 text-2xl font-semibold tracking-tight">Ready to try it?</h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Open the app and ask the Copilot for your first deal.
+                </p>
+              </div>
+              <Link href="/app" className={cn(buttonVariants(), 'h-11 px-6')}>
+                Launch app
+              </Link>
             </div>
-            <Link href="/app" className={cn(buttonVariants(), 'h-11 px-6')}>
-              Launch app
-            </Link>
-          </CardContent>
-        </Card>
-      </section>
+          </div>
+        </section>
       </Reveal>
     </main>
   );

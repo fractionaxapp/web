@@ -27,7 +27,7 @@ const explorerUrl = (address: string) =>
 function Row({ label, value, href }: { label: string; value: string; href?: string }) {
   return (
     <div className="flex flex-col gap-0.5">
-      <span className="text-xs uppercase tracking-wide text-muted-foreground">{label}</span>
+      <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">{label}</span>
       {href ? (
         <a
           href={href}
