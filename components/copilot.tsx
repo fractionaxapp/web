@@ -79,7 +79,7 @@ function Stepper({ steps }: { steps: { label: string; state: StepState }[] }) {
               s.state === 'active' && 'font-medium',
             )}
           >
-            {s.label}
+            {s.state === 'active' ? `${s.label}…` : s.label}
           </span>
         </li>
       ))}
@@ -196,6 +196,7 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
         <Textarea
           id="copilot-input"
           name="prompt"
+          autoComplete="off"
           ref={inputRef}
           value={message}
           onChange={(e) => setMessage(e.target.value)}

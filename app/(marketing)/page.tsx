@@ -57,8 +57,8 @@ export default function MarketingHome() {
           Invest in real-world assets by describing what you want
         </h1>
         <p className="mt-5 max-w-xl text-pretty text-lg text-muted-foreground">
-          FractionAX agents source vetted deals, underwrite them, and prepare them for on-chain
-          execution on Solana — you stay in control at every step.
+          <span translate="no">FractionAX</span> agents source vetted deals, underwrite them, and
+          prepare them for on-chain execution on Solana — you stay in control at every step.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link href="/app" className={cn(buttonVariants(), 'h-11 px-6')}>
