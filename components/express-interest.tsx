@@ -78,7 +78,7 @@ export function ExpressInterest({ deal, locale }: { deal: Deal; locale?: string 
       <label htmlFor={fieldId} className="text-sm font-medium">
         How much would you like to invest?
       </label>
-      <div className="mt-2 flex items-center gap-2">
+      <div className="mt-2 flex flex-wrap items-center gap-2">
         <div className="flex items-center rounded-md border border-input bg-background pl-3 focus-within:ring-2 focus-within:ring-ring">
           <span className="text-sm text-muted-foreground" aria-hidden>
             {deal.currency === 'USD' ? '$' : ''}
