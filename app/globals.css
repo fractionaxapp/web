@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Drive Tailwind's `dark:` variant from the `.dark` class (set by the theme
+ * toggle), not the system media query — so utilities and tokens flip together. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
