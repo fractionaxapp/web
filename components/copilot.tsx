@@ -11,6 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
 import { streamCopilot } from '@/lib/copilot';
+import { cn } from '@/lib/utils';
 
 const EXAMPLES = [
   'Invest $1,000 in low-risk Malaysian opportunities',
@@ -23,6 +24,61 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
     <h2 className="mb-3 text-sm font-medium uppercase tracking-wide text-muted-foreground">
       {children}
     </h2>
+  );
+}
+
+type StepState = 'done' | 'active' | 'pending';
+
+function StepDot({ state }: { state: StepState }) {
+  if (state === 'done') {
+    return (
+      <span className="flex size-4 items-center justify-center rounded-full bg-primary text-primary-foreground">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="size-2.5"
+        >
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      </span>
+    );
+  }
+  if (state === 'active') return <Spinner className="size-4 text-primary" />;
+  return <span className="size-3.5 rounded-full border-2 border-muted-foreground/30" />;
+}
+
+/** Live status for the agent pipeline — each stage lights up as its result lands. */
+function Stepper({ steps }: { steps: { label: string; state: StepState }[] }) {
+  return (
+    <ol aria-label="Agent progress" className="flex flex-wrap items-center gap-x-2 gap-y-1.5 text-sm">
+      {steps.map((s, i) => (
+        <li
+          key={s.label}
+          aria-current={s.state === 'active' ? 'step' : undefined}
+          className="flex items-center gap-2"
+        >
+          {i > 0 && (
+            <span aria-hidden className="select-none text-muted-foreground/40">
+              →
+            </span>
+          )}
+          <StepDot state={s.state} />
+          <span
+            className={cn(
+              'whitespace-nowrap',
+              s.state === 'pending' ? 'text-muted-foreground' : 'text-foreground',
+              s.state === 'active' && 'font-medium',
+            )}
+          >
+            {s.label}
+          </span>
+        </li>
+      ))}
+    </ol>
   );
 }
 
@@ -82,6 +138,12 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
     !!deals &&
     deals.length > 0;
 
+  const steps: { label: string; state: StepState }[] = [
+    { label: 'Parsing intent', state: intent ? 'done' : 'active' },
+    { label: 'Sourcing deals', state: deals ? 'done' : intent ? 'active' : 'pending' },
+    { label: 'Underwriting', state: memo ? 'done' : deals && expectsMemo ? 'active' : 'pending' },
+  ];
+
   return (
     <div>
       <div className="space-y-3">
@@ -140,43 +202,50 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
       )}
 
       {(intent || loading) && !error && (
-        <div className="mt-8 space-y-6" aria-live="polite" aria-busy={loading}>
-          <section className="animate-rise">
-            <SectionLabel>Parsed intent</SectionLabel>
-            {intent ? <IntentSummary intent={intent} /> : <Skeleton className="h-7 w-72" />}
-          </section>
-
-          {intent && (
-            <section className="animate-rise">
-              <SectionLabel>Matching deals{deals ? ` (${deals.length})` : ''}</SectionLabel>
-              {deals ? (
-                <div className="grid gap-3">
-                  {deals.map((deal) => (
-                    <DealCard key={deal.id} deal={deal} />
-                  ))}
-                  {deals.length === 0 && (
-                    <p className="text-sm text-muted-foreground">No deals matched that intent.</p>
-                  )}
-                </div>
-              ) : (
-                <div className="grid gap-3">
-                  <Skeleton className="h-28 rounded-xl" />
-                  <Skeleton className="h-28 rounded-xl" />
-                </div>
-              )}
-            </section>
+        <div className="mt-8 space-y-6">
+          {loading && (
+            <div className="rounded-lg border bg-card/40 px-4 py-3">
+              <Stepper steps={steps} />
+            </div>
           )}
-
-          {expectsMemo && (
+          <div className="space-y-6" aria-live="polite" aria-busy={loading}>
             <section className="animate-rise">
-              <SectionLabel>Top match — underwriting</SectionLabel>
-              {memo && deals?.[0] ? (
-                <MemoView memo={memo} currency={deals[0].currency} />
-              ) : (
-                <Skeleton className="h-44 rounded-xl" />
-              )}
+              <SectionLabel>Parsed intent</SectionLabel>
+              {intent ? <IntentSummary intent={intent} /> : <Skeleton className="h-7 w-72" />}
             </section>
-          )}
+
+            {intent && (
+              <section className="animate-rise">
+                <SectionLabel>Matching deals{deals ? ` (${deals.length})` : ''}</SectionLabel>
+                {deals ? (
+                  <div className="grid gap-3">
+                    {deals.map((deal) => (
+                      <DealCard key={deal.id} deal={deal} />
+                    ))}
+                    {deals.length === 0 && (
+                      <p className="text-sm text-muted-foreground">No deals matched that intent.</p>
+                    )}
+                  </div>
+                ) : (
+                  <div className="grid gap-3">
+                    <Skeleton className="h-28 rounded-xl" />
+                    <Skeleton className="h-28 rounded-xl" />
+                  </div>
+                )}
+              </section>
+            )}
+
+            {expectsMemo && (
+              <section className="animate-rise">
+                <SectionLabel>Top match — underwriting</SectionLabel>
+                {memo && deals?.[0] ? (
+                  <MemoView memo={memo} currency={deals[0].currency} />
+                ) : (
+                  <Skeleton className="h-44 rounded-xl" />
+                )}
+              </section>
+            )}
+          </div>
         </div>
       )}
     </div>
