@@ -87,8 +87,10 @@ export default async function DealsPage({
         </div>
       )}
 
-      <h2 className="sr-only">Sourced deals</h2>
-      <div className="mt-6 grid gap-3">
+      <h2 className="mb-3 mt-8 text-sm font-medium uppercase tracking-wide text-muted-foreground">
+        Sourced deals{deals.length > 0 ? ` · ${deals.length}` : ''}
+      </h2>
+      <div className="grid gap-3">
         {deals.map((deal) => (
           <DealCard key={deal.id} deal={deal} locale={locale} />
         ))}

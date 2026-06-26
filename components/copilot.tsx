@@ -103,6 +103,14 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
     if (autoFocus && window.matchMedia('(pointer: fine)').matches) inputRef.current?.focus();
   }, [autoFocus]);
 
+  // Auto-grow the textarea to fit its content (capped by max-height in the class).
+  useEffect(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.style.height = 'auto';
+    el.style.height = `${el.scrollHeight}px`;
+  }, [message]);
+
   async function ask(prompt: string): Promise<void> {
     const text = prompt.trim();
     if (!text || loading) return;
@@ -156,6 +164,7 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
           ref={inputRef}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          className="max-h-60 resize-none"
           placeholder="e.g. Invest $1,000 in low-risk Malaysian real estate…"
           onKeyDown={(e) => {
             if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) void ask(message);
