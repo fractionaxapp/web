@@ -87,13 +87,15 @@ export function DashboardNav() {
   return (
     <>
       <aside className="hidden border-r md:flex md:w-56 md:shrink-0 md:flex-col">
-        <Link href="/" aria-label="FractionAX — home" className={cn('m-4 inline-flex', brandRing)}>
-          <Logo className="h-7" />
-        </Link>
-        <NavLinks pathname={pathname} className="flex flex-col gap-1 px-2 pb-2" />
-        <div className="mt-auto flex items-center justify-between gap-2 border-t p-3">
-          <AccountChip />
+        <div className="m-4 flex items-center justify-between gap-2">
+          <Link href="/" aria-label="FractionAX — home" className={cn('inline-flex', brandRing)}>
+            <Logo className="h-7" />
+          </Link>
           <ThemeToggle />
+        </div>
+        <NavLinks pathname={pathname} className="flex flex-col gap-1 px-2 pb-2" />
+        <div className="mt-auto border-t p-3">
+          <AccountChip />
         </div>
       </aside>
 
@@ -103,12 +105,12 @@ export function DashboardNav() {
             <Link href="/" aria-label="FractionAX — home" className={cn('inline-flex', brandRing)}>
               <Logo className="h-6" />
             </Link>
-            <div className="flex items-center gap-1">
-              <ThemeToggle />
-              <AccountChip />
-            </div>
+            <AccountChip />
           </div>
-          <NavLinks pathname={pathname} className="mt-1 flex flex-wrap gap-1 text-sm" />
+          <div className="mt-1 flex items-center justify-between gap-2">
+            <NavLinks pathname={pathname} className="flex flex-wrap gap-1 text-sm" />
+            <ThemeToggle />
+          </div>
         </div>
       </header>
     </>
