@@ -26,18 +26,18 @@
   /* Brand accents from the FractionAX logo. */
   --color-brand-gold: var(--brand-gold);
   --color-brand-forest: var(--brand-forest);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  /* Brutalist: hard corners everywhere. */
+  --radius-sm: var(--radius);
+  --radius-md: var(--radius);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: var(--radius);
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
-  --font-serif: var(--font-fraunces), ui-serif, Georgia, 'Times New Roman', serif;
 }
 
 :root {
   color-scheme: light;
-  --radius: 0.625rem;
+  --radius: 0rem;
   /* Light — derived from the FractionAX logo: teal #16af8e, gold #f9b73f, forest #114036, cream #f9f3d9 */
   --background: oklch(0.985 0.004 172.43);
   --foreground: oklch(0.233 0.01 172.43);
@@ -109,11 +109,13 @@
     padding-left: max(1.5rem, env(safe-area-inset-left));
     padding-right: max(1.5rem, env(safe-area-inset-right));
   }
-  /* Two-layer shadow: a tight direct edge + a softer ambient cast. */
+  /* Brutalist hard offset shadow — no blur, a solid cast block. */
   .shadow-card {
-    box-shadow:
-      0 1px 2px rgb(0 0 0 / 0.04),
-      0 8px 24px -8px rgb(0 0 0 / 0.1);
+    box-shadow: 3px 3px 0 0 color-mix(in oklch, var(--foreground) 16%, transparent);
+  }
+  /* Loud neon-teal hard shadow for accent surfaces (hero preview, CTA). */
+  .shadow-brutal {
+    box-shadow: 6px 6px 0 0 var(--primary);
   }
   /* Mono micro-label — the "terminal/blueprint" kicker. ≥12px, uppercase, tracked. */
   .kicker {
@@ -138,19 +140,19 @@
     background-image:
       linear-gradient(
         to right,
-        color-mix(in oklch, var(--border) 45%, transparent) 1px,
+        color-mix(in oklch, var(--primary) 18%, transparent) 1px,
         transparent 1px
       ),
       linear-gradient(
         to bottom,
-        color-mix(in oklch, var(--border) 45%, transparent) 1px,
+        color-mix(in oklch, var(--primary) 18%, transparent) 1px,
         transparent 1px
       );
-    background-size: 56px 56px;
-    mask-image: radial-gradient(115% 85% at 50% 0%, #000 30%, transparent 78%);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(120% 90% at 50% 0%, #000 38%, transparent 82%);
   }
 
-  /* Blueprint registration corners — teal ticks on two corners. Decorative. */
+  /* HUD registration corners — thick neon-teal ticks on two corners. */
   .bracket {
     position: relative;
   }
@@ -158,21 +160,21 @@
   .bracket::after {
     content: '';
     position: absolute;
-    width: 14px;
-    height: 14px;
+    width: 18px;
+    height: 18px;
     pointer-events: none;
   }
   .bracket::before {
-    top: -1px;
-    left: -1px;
-    border-top: 1px solid var(--brand-gold);
-    border-left: 1px solid var(--brand-gold);
+    top: -2px;
+    left: -2px;
+    border-top: 2px solid var(--primary);
+    border-left: 2px solid var(--primary);
   }
   .bracket::after {
-    right: -1px;
-    bottom: -1px;
-    border-bottom: 1px solid var(--brand-gold);
-    border-right: 1px solid var(--brand-gold);
+    right: -2px;
+    bottom: -2px;
+    border-bottom: 2px solid var(--primary);
+    border-right: 2px solid var(--primary);
   }
 
   /* Soft brand glow behind the marketing hero (teal + a touch of gold). Static. */
@@ -180,7 +182,7 @@
     background-image:
       radial-gradient(
         60% 50% at 78% -8%,
-        color-mix(in oklch, var(--primary) 16%, transparent),
+        color-mix(in oklch, var(--primary) 24%, transparent),
         transparent 70%
       ),
       radial-gradient(

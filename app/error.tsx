@@ -16,7 +16,7 @@ export default function Error({
       id="main"
       className="px-safe mx-auto flex min-h-dvh max-w-md flex-col items-center justify-center gap-4 py-12 text-center"
     >
-      <h1 className="font-serif text-2xl font-semibold tracking-tight">Something went wrong</h1>
+      <h1 className="font-mono uppercase text-2xl font-semibold tracking-tight">Something went wrong</h1>
       <p className="text-muted-foreground">An unexpected error occurred. You can try again.</p>
       <Button onClick={reset} className="mt-2 h-10 px-4">
         Try again

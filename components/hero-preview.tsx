@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 export function HeroPreview() {
   return (
     <div aria-hidden className="bracket pointer-events-none select-none">
-      <div className="shadow-card overflow-hidden rounded-xl border bg-card">
+      <div className="shadow-brutal overflow-hidden rounded-xl border-2 bg-card">
         {/* window chrome */}
         <div className="flex items-center gap-2 border-b px-4 py-3">
           <span className="flex gap-1.5">
