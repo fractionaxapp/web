@@ -57,35 +57,9 @@
   --brand-forest: oklch(0.337 0.053 176.003);
 }
 
-/* Activate the dark palette by system preference (no JS toggle wired yet). */
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    /* Dark — forest-tinted near-black */
-    --background: oklch(0.17 0.018 172.43);
-    --foreground: oklch(0.97 0.006 172.43);
-    --card: oklch(0.21 0.02 172.43);
-    --card-foreground: oklch(0.97 0.006 172.43);
-    --popover: oklch(0.23 0.022 172.43);
-    --popover-foreground: oklch(0.97 0.006 172.43);
-    --primary: oklch(0.674 0.126 172.43);
-    --primary-foreground: oklch(0.14 0.02 172.43);
-    --secondary: oklch(0.25 0.025 172.43);
-    --secondary-foreground: oklch(0.97 0.006 172.43);
-    --muted: oklch(0.23 0.02 172.43);
-    --muted-foreground: oklch(0.72 0.015 172.43);
-    --accent: oklch(0.27 0.04 172.43);
-    --accent-foreground: oklch(0.97 0.006 172.43);
-    --destructive: oklch(0.65 0.2 25);
-    --border: oklch(0.28 0.022 172.43);
-    --input: oklch(0.21 0.02 172.43);
-    --ring: oklch(0.674 0.126 172.43);
-    --brand-gold: oklch(0.821 0.15 78.224);
-    --brand-forest: oklch(0.337 0.053 176.003);
-  }
-}
-
-/* Explicit `.dark` class override, for a future user-facing theme toggle. */
+/* Dark palette. Applied via a `.dark` class on <html>, set before paint by the
+ * inline theme script in the root layout (defaults to system preference, then
+ * honors the user's saved choice from the theme toggle). */
 .dark {
   color-scheme: dark;
   --background: oklch(0.17 0.018 172.43);

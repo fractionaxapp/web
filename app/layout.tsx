@@ -19,10 +19,21 @@ export const viewport: Viewport = {
   ],
 };
 
+// Set the theme class before first paint to avoid a flash: saved choice wins,
+// otherwise system preference. Kept tiny and inlined so it runs synchronously.
+const themeScript = `(function(){try{var t=localStorage.getItem('theme');var d=t?t==='dark':matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',d);}catch(e){}})();`;
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html
+      lang="en"
+      className={`${GeistSans.variable} ${GeistMono.variable}`}
+      suppressHydrationWarning
+    >
       <body className="min-h-screen antialiased">
+        {/* Trusted static string; runs before paint to prevent a theme flash. */}
+        {/* eslint-disable-next-line @eslint-react/dom-no-dangerously-set-innerhtml */}
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:ring-2 focus:ring-ring"

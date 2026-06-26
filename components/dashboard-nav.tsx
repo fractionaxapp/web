@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 
 import { useAuth } from '@/components/auth-context';
 import { Logo } from '@/components/logo';
+import { ThemeToggle } from '@/components/theme-toggle';
 import { cn } from '@/lib/utils';
 
 const LINKS = [
@@ -90,8 +91,9 @@ export function DashboardNav() {
           <Logo className="h-7" />
         </Link>
         <NavLinks pathname={pathname} className="flex flex-col gap-1 px-2 pb-2" />
-        <div className="mt-auto border-t p-3">
+        <div className="mt-auto flex items-center justify-between gap-2 border-t p-3">
           <AccountChip />
+          <ThemeToggle />
         </div>
       </aside>
 
@@ -101,7 +103,10 @@ export function DashboardNav() {
             <Link href="/" aria-label="FractionAX — home" className={cn('inline-flex', brandRing)}>
               <Logo className="h-6" />
             </Link>
-            <AccountChip />
+            <div className="flex items-center gap-1">
+              <ThemeToggle />
+              <AccountChip />
+            </div>
           </div>
           <NavLinks pathname={pathname} className="mt-1 flex flex-wrap gap-1 text-sm" />
         </div>

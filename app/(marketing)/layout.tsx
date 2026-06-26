@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 
 import { Logo } from '@/components/logo';
+import { ThemeToggle } from '@/components/theme-toggle';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -25,6 +26,7 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
             >
               Deals
             </Link>
+            <ThemeToggle />
             <Link href="/app" className={cn(buttonVariants(), 'h-10 px-4')}>
               Launch app
             </Link>
