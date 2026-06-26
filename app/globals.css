@@ -151,3 +151,21 @@
       );
   }
 }
+
+/* A short fade-and-rise for content that streams in (Copilot results). Tied to a
+ * deliberate action, so it doesn't grow stale; disabled under reduced motion. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .animate-rise {
+    animation: rise 0.32s cubic-bezier(0, 0, 0.2, 1) both;
+  }
+}

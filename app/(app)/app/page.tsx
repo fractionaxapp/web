@@ -32,10 +32,18 @@ export default function DashboardHome() {
       </h2>
       <div className="mt-3 grid gap-4 sm:grid-cols-3">
         {SHORTCUTS.map((s) => (
-          <Link key={s.href} href={s.href} className={cn('block', ring)}>
-            <Card className="h-full transition-colors hover:border-primary/40">
+          <Link key={s.href} href={s.href} className={cn('group block', ring)}>
+            <Card className="h-full transition-[transform,box-shadow,border-color] duration-150 ease-out hover:border-primary/40 hover:shadow-md motion-safe:hover:-translate-y-0.5">
               <CardHeader>
-                <CardTitle className="text-base">{s.title}</CardTitle>
+                <CardTitle className="flex items-center justify-between gap-2 text-base">
+                  {s.title}
+                  <span
+                    aria-hidden
+                    className="text-muted-foreground transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:text-primary"
+                  >
+                    →
+                  </span>
+                </CardTitle>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">{s.body}</CardContent>
             </Card>

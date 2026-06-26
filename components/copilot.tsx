@@ -133,7 +133,7 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
       {error && (
         <div
           role="alert"
-          className="mt-6 rounded-md border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive"
+          className="animate-rise mt-6 rounded-md border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive"
         >
           {error}
         </div>
@@ -141,13 +141,13 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
 
       {(intent || loading) && !error && (
         <div className="mt-8 space-y-6" aria-live="polite" aria-busy={loading}>
-          <section>
+          <section className="animate-rise">
             <SectionLabel>Parsed intent</SectionLabel>
             {intent ? <IntentSummary intent={intent} /> : <Skeleton className="h-7 w-72" />}
           </section>
 
           {intent && (
-            <section>
+            <section className="animate-rise">
               <SectionLabel>Matching deals{deals ? ` (${deals.length})` : ''}</SectionLabel>
               {deals ? (
                 <div className="grid gap-3">
@@ -168,7 +168,7 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
           )}
 
           {expectsMemo && (
-            <section>
+            <section className="animate-rise">
               <SectionLabel>Top match — underwriting</SectionLabel>
               {memo && deals?.[0] ? (
                 <MemoView memo={memo} currency={deals[0].currency} />

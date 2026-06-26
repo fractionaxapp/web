@@ -1,14 +1,14 @@
 'use client';
 
-import { createContext, useContext, type ReactNode } from 'react';
+import { createContext, use, type ReactNode } from 'react';
 
-/** The signed-in identity, abstracted over the auth system (wallet-adapter or
- * Privy) so the dashboard chrome doesn't depend on which one is active. */
+/** The signed-in identity, abstracted over the auth provider (Privy) so the
+ * dashboard chrome doesn't reach into the auth SDK directly. */
 export type AuthIdentity = { label: string; signOut: () => void } | null;
 
 const AuthIdentityContext = createContext<AuthIdentity>(null);
 
-export const useAuthIdentity = (): AuthIdentity => useContext(AuthIdentityContext);
+export const useAuthIdentity = (): AuthIdentity => use(AuthIdentityContext);
 
 export function AuthIdentityProvider({
   value,
@@ -17,7 +17,7 @@ export function AuthIdentityProvider({
   value: AuthIdentity;
   children: ReactNode;
 }) {
-  return <AuthIdentityContext.Provider value={value}>{children}</AuthIdentityContext.Provider>;
+  return <AuthIdentityContext value={value}>{children}</AuthIdentityContext>;
 }
 
 /** Shorten a wallet address for display, e.g. "5xJ2…9aQ1". */
