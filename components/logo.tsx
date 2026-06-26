@@ -9,11 +9,15 @@ export function Logo({ className }: { className?: string }) {
       <img
         src="/brand/fractionax-logo-full-dark.svg"
         alt="FractionAX"
+        width={1648}
+        height={346}
         className={cn(base, 'dark:hidden', className)}
       />
       <img
         src="/brand/fractionax-logo-full-light.svg"
         alt="FractionAX"
+        width={1648}
+        height={346}
         className={cn(base, 'hidden dark:block', className)}
       />
     </>

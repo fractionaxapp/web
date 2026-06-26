@@ -13,15 +13,14 @@ export const metadata: Metadata = {
 
 // Match the browser chrome to the page background in each color scheme.
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f6f6f6' },
-    { media: '(prefers-color-scheme: dark)', color: '#141b18' },
-  ],
+  // Single value (not media-query split) so the inline script + toggle can keep
+  // it in sync with the user's chosen theme, not just the system preference.
+  themeColor: '#f6f6f6',
 };
 
 // Set the theme class before first paint to avoid a flash: saved choice wins,
 // otherwise system preference. Kept tiny and inlined so it runs synchronously.
-const themeScript = `(function(){try{var t=localStorage.getItem('theme');var d=t?t==='dark':matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',d);}catch(e){}})();`;
+const themeScript = `(function(){try{var t=localStorage.getItem('theme');var d=t?t==='dark':matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',d);var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',d?'#141b18':'#f6f6f6');}catch(e){}})();`;
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

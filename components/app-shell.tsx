@@ -8,7 +8,7 @@ import { DashboardNav } from '@/components/dashboard-nav';
 import { PRIVY_APP_ID, PrivyProviders } from '@/components/privy';
 
 const footerLink =
-  'inline-flex min-h-11 items-center rounded hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+  'inline-flex min-h-11 touch-manipulation items-center rounded hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 
 function Shell({ children }: { children: ReactNode }) {
   return (

@@ -32,7 +32,7 @@ function NavLinks({ pathname, className }: { pathname: string; className: string
             href={href}
             aria-current={active ? 'page' : undefined}
             className={cn(
-              'inline-flex min-h-11 items-center whitespace-nowrap rounded-md px-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+              'inline-flex min-h-11 touch-manipulation items-center whitespace-nowrap rounded-md px-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
               active
                 ? 'bg-accent font-medium text-accent-foreground'
                 : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground',
@@ -55,7 +55,7 @@ function AccountChip() {
       <button
         type="button"
         onClick={signIn}
-        className="inline-flex min-h-11 items-center rounded-full bg-primary px-3 text-xs font-medium text-primary-foreground transition-[background-color,transform] duration-100 ease-out hover:bg-primary/90 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="inline-flex min-h-11 touch-manipulation items-center rounded-full bg-primary px-3 text-xs font-medium text-primary-foreground transition-[background-color,transform] duration-100 ease-out hover:bg-primary/90 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         Sign in
       </button>
@@ -73,7 +73,7 @@ function AccountChip() {
       <button
         type="button"
         onClick={signOut}
-        className="inline-flex min-h-11 items-center rounded text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="inline-flex min-h-11 touch-manipulation items-center rounded text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         Sign out
       </button>

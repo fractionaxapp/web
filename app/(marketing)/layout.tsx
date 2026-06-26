@@ -6,7 +6,8 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-const ring = 'rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+const ring =
+  'touch-manipulation rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 
 export default function MarketingLayout({ children }: { children: ReactNode }) {
   return (

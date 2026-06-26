@@ -17,6 +17,10 @@ export function ThemeToggle() {
     const next = !dark;
     setDark(next);
     document.documentElement.classList.toggle('dark', next);
+    // Keep the browser chrome (theme-color) in sync with the chosen theme.
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', next ? '#141b18' : '#f6f6f6');
     try {
       localStorage.setItem('theme', next ? 'dark' : 'light');
     } catch {
@@ -30,7 +34,7 @@ export function ThemeToggle() {
       onClick={toggle}
       aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'}
       title={dark ? 'Switch to light theme' : 'Switch to dark theme'}
-      className="inline-flex size-10 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="inline-flex size-10 touch-manipulation items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <svg
         viewBox="0 0 24 24"
