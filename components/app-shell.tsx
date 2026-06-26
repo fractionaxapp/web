@@ -3,10 +3,8 @@
 import type { ReactNode } from 'react';
 
 import { DashboardNav } from '@/components/dashboard-nav';
-import { DualGate } from '@/components/dual-gate';
 import { PRIVY_APP_ID, PrivyProviders } from '@/components/privy';
-import { WalletGate } from '@/components/wallet-gate';
-import { WalletProviders } from '@/components/wallet';
+import { PrivyGate } from '@/components/privy-gate';
 
 function Shell({ children }: { children: ReactNode }) {
   return (
@@ -17,25 +15,28 @@ function Shell({ children }: { children: ReactNode }) {
   );
 }
 
-/** The /app dashboard chrome. Auth is a wallet-adapter gate by default; when a
- * Privy app id is configured, it becomes a dual gate (Privy + wallet-adapter).
- * The branch is resolved at build time from NEXT_PUBLIC_PRIVY_APP_ID. */
+/** The /app dashboard chrome, gated by Privy. NEXT_PUBLIC_PRIVY_APP_ID must be set
+ * at build time; without it, sign-in is unavailable. */
 export function AppShell({ children }: { children: ReactNode }) {
-  const shell = <Shell>{children}</Shell>;
-
-  if (PRIVY_APP_ID) {
+  if (!PRIVY_APP_ID) {
     return (
-      <PrivyProviders>
-        <WalletProviders>
-          <DualGate>{shell}</DualGate>
-        </WalletProviders>
-      </PrivyProviders>
+      <main
+        id="main"
+        className="px-safe mx-auto flex min-h-dvh max-w-md flex-col justify-center py-12 text-center"
+      >
+        <h1 className="text-xl font-semibold tracking-tight">Sign-in unavailable</h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Set <code className="font-mono">NEXT_PUBLIC_PRIVY_APP_ID</code> to enable sign-in.
+        </p>
+      </main>
     );
   }
 
   return (
-    <WalletProviders>
-      <WalletGate>{shell}</WalletGate>
-    </WalletProviders>
+    <PrivyProviders>
+      <PrivyGate>
+        <Shell>{children}</Shell>
+      </PrivyGate>
+    </PrivyProviders>
   );
 }
