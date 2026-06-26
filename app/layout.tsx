@@ -6,6 +6,7 @@ import type { ReactNode } from 'react';
 import './globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://staging.fractionax.app'),
   title: { default: 'FractionAX', template: '%s — FractionAX' },
   description: 'Agentic RWA investment infrastructure on Solana.',
 };

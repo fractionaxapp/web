@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { z } from 'zod';
 
 import { DealCard } from '@/components/deal-card';
+import { RetryButton } from '@/components/retry-button';
 import { buttonVariants } from '@/components/ui/button';
 import { deepCamel } from '@/lib/case';
 import { cn } from '@/lib/utils';
@@ -80,9 +81,10 @@ export default async function DealsPage({
       </div>
 
       {error && (
-        <p role="alert" className="mt-6 text-sm text-destructive">
-          {error}
-        </p>
+        <div role="alert" className="mt-6 flex flex-wrap items-center gap-3 text-sm">
+          <span className="text-destructive">{error}</span>
+          <RetryButton />
+        </div>
       )}
 
       <h2 className="sr-only">Sourced deals</h2>
