@@ -1,9 +1,19 @@
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata, Viewport } from 'next';
+import { Fraunces } from 'next/font/google';
 import type { ReactNode } from 'react';
 
 import './globals.css';
+
+// Editorial display serif for headings — the luxury-editorial voice over the
+// brutalist/terminal frame. Geist Sans = body, Geist Mono = data + kicker labels.
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-fraunces',
+  display: 'swap',
+  axes: ['opsz'],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://staging.fractionax.app'),
@@ -26,7 +36,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
-      className={`${GeistSans.variable} ${GeistMono.variable}`}
+      className={`${GeistSans.variable} ${GeistMono.variable} ${fraunces.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen antialiased">

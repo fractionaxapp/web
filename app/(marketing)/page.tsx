@@ -61,7 +61,7 @@ export default function MarketingHome() {
           <div>
             <div aria-hidden className="mb-6 h-px w-10 bg-brand-gold" />
             <p className="kicker text-primary">Agentic RWA · Solana</p>
-            <h1 className="mt-5 text-balance font-mono uppercase text-[2.75rem] font-semibold leading-[1.04] tracking-tight sm:text-6xl lg:text-7xl">
+            <h1 className="mt-5 text-balance font-serif text-[2.75rem] font-semibold leading-[1.04] tracking-tight sm:text-6xl lg:text-7xl">
               Invest in real-world assets by describing what you want
             </h1>
             <p className="mt-7 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground">
@@ -92,7 +92,7 @@ export default function MarketingHome() {
               The flow
             </p>
             <h2
-              className="reveal-item mt-3 text-balance font-mono uppercase text-3xl font-semibold tracking-tight sm:text-4xl"
+              className="reveal-item mt-3 text-balance font-serif text-3xl font-semibold tracking-tight sm:text-4xl"
               style={revealStyle(1)}
             >
               How it works
@@ -121,7 +121,7 @@ export default function MarketingHome() {
             What you get
           </p>
           <h2
-            className="reveal-item mt-3 text-balance font-mono uppercase text-3xl font-semibold tracking-tight sm:text-4xl"
+            className="reveal-item mt-3 text-balance font-serif text-3xl font-semibold tracking-tight sm:text-4xl"
             style={revealStyle(1)}
           >
             Built for the next wave of RWA
@@ -146,7 +146,7 @@ export default function MarketingHome() {
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
                 <p className="kicker text-muted-foreground">Ready</p>
-                <h2 className="mt-2 font-mono uppercase text-3xl font-semibold tracking-tight">
+                <h2 className="mt-2 font-serif text-3xl font-semibold tracking-tight">
                   Ready to try it?
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">

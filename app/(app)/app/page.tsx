@@ -19,7 +19,7 @@ export default function DashboardHome() {
   return (
     <RequireAuth>
       <main id="main" className="px-safe max-w-3xl py-12">
-        <h1 className="font-mono uppercase text-2xl font-semibold tracking-tight">Copilot</h1>
+        <h1 className="font-serif text-2xl font-semibold tracking-tight">Copilot</h1>
       <p className="mt-1 max-w-2xl text-muted-foreground">
         Describe an investment in plain language — the agents parse your intent, source matching
         deals, and draft a memo.
