@@ -41,7 +41,7 @@ export function MemoView({ memo, currency }: { memo: InvestmentMemo; currency: s
         </div>
       </CardHeader>
       <CardContent className="space-y-4 text-sm">
-        <p className="text-muted-foreground">{memo.summary}</p>
+        <p className="max-w-prose text-muted-foreground">{memo.summary}</p>
         <div className="flex flex-wrap gap-6">
           <Stat label="Valuation" value={formatMinor(memo.valuationMinor, currency)} mono />
           <Stat label="Projected yield" value={`${memo.projectedYieldPct}%`} mono accent />
@@ -52,7 +52,7 @@ export function MemoView({ memo, currency }: { memo: InvestmentMemo; currency: s
             <div className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
               Risks
             </div>
-            <ul className="space-y-2">
+            <ul className="max-w-prose space-y-2">
               {memo.risks.map((risk) => (
                 <li key={risk.title} className="flex gap-2">
                   <Badge variant={risk.severity}>{risk.severity}</Badge>
