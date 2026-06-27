@@ -7,7 +7,13 @@ import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 const ring =
-  'touch-manipulation rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+  'touch-manipulation rounded-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+
+// Mono UPPERCASE chrome links — matches the dashboard's terminal voice.
+const footerLink = cn(
+  'inline-flex min-h-11 items-center font-mono text-xs uppercase tracking-[0.12em] hover:text-foreground',
+  ring,
+);
 
 export default function MarketingLayout({ children }: { children: ReactNode }) {
   return (
@@ -27,7 +33,7 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
             <Link
               href="/app/deals"
               className={cn(
-                'hidden min-h-11 items-center px-3 text-sm text-muted-foreground hover:text-foreground sm:inline-flex',
+                'hidden min-h-11 items-center px-3 font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground hover:text-foreground sm:inline-flex',
                 ring,
               )}
             >
@@ -49,25 +55,25 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-1" aria-label="Footer">
             <Link
               href="/docs"
-              className={cn('inline-flex min-h-11 items-center hover:text-foreground', ring)}
+              className={footerLink}
             >
               Docs
             </Link>
             <Link
               href="/terms"
-              className={cn('inline-flex min-h-11 items-center hover:text-foreground', ring)}
+              className={footerLink}
             >
               Terms
             </Link>
             <Link
               href="/privacy"
-              className={cn('inline-flex min-h-11 items-center hover:text-foreground', ring)}
+              className={footerLink}
             >
               Privacy
             </Link>
             <Link
               href="/app"
-              className={cn('inline-flex min-h-11 items-center hover:text-foreground', ring)}
+              className={footerLink}
             >
               Launch app →
             </Link>

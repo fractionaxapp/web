@@ -56,7 +56,7 @@ export default function MarketingHome() {
   return (
     <main id="main" className="bg-hero-glow blueprint-grid">
       {/* Hero */}
-      <section className="px-safe mx-auto max-w-6xl py-24 sm:py-32">
+      <section className="px-safe mx-auto max-w-5xl py-24 sm:py-32">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div>
             <div aria-hidden className="mb-6 h-px w-10 bg-brand-gold" />
