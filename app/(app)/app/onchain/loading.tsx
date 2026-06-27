@@ -1,20 +1,21 @@
+import { PageHeader } from '@/components/page-header';
 import { Skeleton } from '@/components/ui/skeleton';
 
 // Shown while the live devnet read resolves, so navigation paints instantly.
+// Mirrors the loaded page's PageHeader so there's no header jump.
 export default function OnchainLoading() {
   return (
     <main id="main" className="px-safe mx-auto max-w-5xl py-12">
-      <div className="flex items-center justify-between">
-        <h1 className="font-serif text-2xl font-semibold tracking-tight">On-chain</h1>
-        <Skeleton className="h-6 w-16 rounded-full" />
-      </div>
-      <p className="mt-1 max-w-2xl text-muted-foreground">
-        The Fractionax Solana program and its registry, read live from devnet.
-      </p>
+      <PageHeader
+        kicker="Network"
+        title="On-chain"
+        description="The Fractionax Solana program and its registry, read live from devnet."
+        action={<Skeleton className="h-6 w-16" />}
+      />
 
       <div className="mt-6 grid gap-4" aria-busy="true" aria-label="Loading on-chain state">
-        <Skeleton className="h-32 rounded-xl" />
-        <Skeleton className="h-28 rounded-xl" />
+        <Skeleton className="h-32" />
+        <Skeleton className="h-28" />
       </div>
     </main>
   );
