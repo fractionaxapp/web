@@ -3,6 +3,7 @@ import { headers } from 'next/headers';
 import Link from 'next/link';
 import { z } from 'zod';
 
+import { AgentsWarming } from '@/components/agents-warming';
 import { ClassRail } from '@/components/class-rail';
 import { DealCard } from '@/components/deal-card';
 import { DealsControls } from '@/components/deals-controls';
@@ -30,16 +31,20 @@ export const maxDuration = 30;
 const Deals = z.array(Deal);
 const AGENTS_URL = process.env.AGENTS_URL ?? 'http://localhost:8000';
 
-async function fetchAllDeals(): Promise<{ deals: Deal[]; error: string | null }> {
+async function fetchAllDeals(): Promise<{ deals: Deal[]; error: string | null; waking: boolean }> {
   try {
+    // Short timeout: a warm service answers in <1s, so a stall means a cold
+    // start — surface the auto-retrying "warming" state quickly rather than hang.
     const res = await fetch(`${AGENTS_URL}/deals`, {
       cache: 'no-store',
-      signal: AbortSignal.timeout(25_000),
+      signal: AbortSignal.timeout(10_000),
     });
-    if (!res.ok) return { deals: [], error: 'Couldn’t load deals right now. Try again in a moment.' };
+    if (!res.ok)
+      return { deals: [], error: 'Couldn’t load deals right now. Try again in a moment.', waking: false };
     const parsed = Deals.safeParse(deepCamel(await res.json()));
-    if (!parsed.success) return { deals: [], error: 'Couldn’t read the deals response. Try again.' };
-    return { deals: parsed.data, error: null };
+    if (!parsed.success)
+      return { deals: [], error: 'Couldn’t read the deals response. Try again.', waking: false };
+    return { deals: parsed.data, error: null, waking: false };
   } catch (e) {
     const waking = e instanceof Error && e.name === 'TimeoutError';
     return {
@@ -47,6 +52,7 @@ async function fetchAllDeals(): Promise<{ deals: Deal[]; error: string | null }>
       error: waking
         ? 'The agents are waking up — give it a few seconds, then try again.'
         : 'Couldn’t reach the agents. Check your connection and try again.',
+      waking,
     };
   }
 }
@@ -71,7 +77,7 @@ export default async function DealsPage({
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
   const params: DealsParams = parseParams(await searchParams);
-  const { deals, error } = await fetchAllDeals();
+  const { deals, error, waking } = await fetchAllDeals();
   // Format currency in the visitor's locale (server render has no browser locale).
   const locale =
     (await headers()).get('accept-language')?.split(',')[0]?.split(';')[0]?.trim() || undefined;
@@ -86,10 +92,14 @@ export default async function DealsPage({
       />
 
       {error ? (
-        <div role="alert" className="mt-8 flex flex-wrap items-center gap-3 text-sm">
-          <span className="text-destructive">{error}</span>
-          <RetryButton />
-        </div>
+        waking ? (
+          <AgentsWarming />
+        ) : (
+          <div role="alert" className="mt-8 flex flex-wrap items-center gap-3 text-sm">
+            <span className="text-destructive">{error}</span>
+            <RetryButton />
+          </div>
+        )
       ) : (
         <div className="mt-8 grid gap-6 md:grid-cols-[13rem_minmax(0,1fr)]">
           <aside className="hidden md:block">

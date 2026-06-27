@@ -92,6 +92,7 @@ function Stepper({ steps }: { steps: { label: string; state: StepState }[] }) {
 export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [warming, setWarming] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [intent, setIntent] = useState<InvestmentIntent | null>(null);
   const [deals, setDeals] = useState<Deal[] | null>(null);
@@ -154,14 +155,29 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
     url.searchParams.set('q', text);
     window.history.replaceState(null, '', url);
     setLoading(true);
+    setWarming(false);
     const startedAt = performance.now();
     setError(null);
-    setIntent(null);
-    setDeals(null);
-    setMemo(null);
+    // The agents free tier cold-starts; auto-retry a couple of times with a
+    // "warming up" message so the first ask of the day recovers itself.
+    const MAX_ATTEMPTS = 3;
     try {
-      await streamCopilot(text, { onIntent: setIntent, onDeals: setDeals, onMemo: setMemo });
+      for (let attempt = 1; ; attempt++) {
+        setIntent(null);
+        setDeals(null);
+        setMemo(null);
+        try {
+          await streamCopilot(text, { onIntent: setIntent, onDeals: setDeals, onMemo: setMemo });
+          break;
+        } catch (e) {
+          if (attempt >= MAX_ATTEMPTS) throw e;
+          setWarming(true);
+          await new Promise((resolve) => setTimeout(resolve, 5000));
+        }
+      }
+      setWarming(false);
     } catch (e) {
+      setWarming(false);
       setError(
         e instanceof Error
           ? e.message
@@ -265,6 +281,18 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
           </div>
         )}
       </div>
+
+      {warming && !error && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="mt-6 flex items-center gap-2 border border-dashed p-4 text-sm text-muted-foreground"
+        >
+          <Spinner className="size-4 text-primary" />
+          Warming up the agents — the service spins down when idle, so the first response can take
+          ~30s. Retrying…
+        </div>
+      )}
 
       {error && (
         <div
