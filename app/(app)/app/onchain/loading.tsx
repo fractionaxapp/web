@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 // Shown while the live devnet read resolves, so navigation paints instantly.
 export default function OnchainLoading() {
   return (
-    <main id="main" className="px-safe max-w-3xl py-12">
+    <main id="main" className="px-safe mx-auto max-w-5xl py-12">
       <div className="flex items-center justify-between">
         <h1 className="font-serif text-2xl font-semibold tracking-tight">On-chain</h1>
         <Skeleton className="h-6 w-16 rounded-full" />

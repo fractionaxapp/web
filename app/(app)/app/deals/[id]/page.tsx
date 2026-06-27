@@ -41,7 +41,7 @@ export default async function DealDetailPage({ params }: { params: Promise<{ id:
     'inline-flex rounded text-sm text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 
   return (
-    <main id="main" className="px-safe max-w-3xl py-12">
+    <main id="main" className="px-safe mx-auto max-w-5xl py-12">
       <Link href="/app/deals" className={backLink}>
         ← All deals
       </Link>

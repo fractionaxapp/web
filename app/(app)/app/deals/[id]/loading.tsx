@@ -2,7 +2,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function DealDetailLoading() {
   return (
-    <main id="main" className="px-safe max-w-3xl py-12" aria-busy="true" aria-label="Loading deal">
+    <main id="main" className="px-safe mx-auto max-w-5xl py-12" aria-busy="true" aria-label="Loading deal">
       <Skeleton className="h-5 w-20" />
       <Skeleton className="mt-4 h-8 w-2/3" />
       <Skeleton className="mt-2 h-4 w-1/2" />

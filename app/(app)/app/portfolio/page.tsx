@@ -7,7 +7,7 @@ export const metadata = { title: 'Portfolio' };
 export default function PortfolioPage() {
   return (
     <RequireAuth>
-      <main id="main" className="px-safe max-w-3xl py-12">
+      <main id="main" className="px-safe mx-auto max-w-5xl py-12">
         <PageHeader
           kicker="Holdings"
           title="Portfolio"

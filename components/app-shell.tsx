@@ -10,13 +10,24 @@ import { PRIVY_APP_ID, PrivyProviders } from '@/components/privy';
 const footerLink =
   'inline-flex min-h-11 touch-manipulation items-center rounded-none font-mono text-xs uppercase tracking-[0.12em] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 
+// Mirrors DEFAULT_CLUSTER in @fractionax/solana (kept local — no web3 in the bundle).
+const CLUSTER = 'devnet';
+
 function Shell({ children }: { children: ReactNode }) {
   return (
     <div className="md:flex md:min-h-dvh">
       <DashboardNav />
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="hud-grid flex min-w-0 flex-1 flex-col">
+        {/* HUD status strip — ambient terminal chrome framing the top. */}
+        <div className="px-safe hidden items-center justify-between border-b bg-background/60 py-2 backdrop-blur-sm md:flex">
+          <span className="kicker text-muted-foreground">Fractionax // Console</span>
+          <span className="kicker flex items-center gap-2 text-muted-foreground">
+            <span aria-hidden className="size-1.5 bg-primary" />
+            {CLUSTER}
+          </span>
+        </div>
         <div className="flex-1">{children}</div>
-        <footer className="px-safe border-t py-3">
+        <footer className="px-safe border-t bg-background/60 py-3 backdrop-blur-sm">
           <nav
             className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground"
             aria-label="Footer"

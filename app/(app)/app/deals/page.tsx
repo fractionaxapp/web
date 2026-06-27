@@ -56,7 +56,7 @@ export default async function DealsPage({
     (await headers()).get('accept-language')?.split(',')[0]?.split(';')[0]?.trim() || undefined;
 
   return (
-    <main id="main" className="px-safe max-w-3xl py-12">
+    <main id="main" className="px-safe mx-auto max-w-5xl py-12">
       <PageHeader
         kicker="Discovery"
         title="Deal discovery"
@@ -92,7 +92,7 @@ export default async function DealsPage({
       <h2 className="mb-3 mt-8 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
         Sourced deals{deals.length > 0 ? ` · ${deals.length}` : ''}
       </h2>
-      <div className="grid gap-3">
+      <div className="grid gap-3 lg:grid-cols-2">
         {deals.map((deal) => (
           <DealCard key={deal.id} deal={deal} locale={locale} />
         ))}

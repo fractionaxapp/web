@@ -62,7 +62,7 @@ export default async function OnchainPage() {
   }
 
   return (
-    <main id="main" className="px-safe max-w-3xl py-12">
+    <main id="main" className="px-safe mx-auto max-w-5xl py-12">
       <PageHeader
         kicker="Network"
         title="On-chain"

@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 // cold-start on its free tier). Mirrors the page shape so there's no layout shift.
 export default function DealsLoading() {
   return (
-    <main id="main" className="px-safe max-w-3xl py-12">
+    <main id="main" className="px-safe mx-auto max-w-5xl py-12">
       <h1 className="font-serif text-2xl font-semibold tracking-tight">Deal discovery</h1>
       <p className="mt-1 max-w-2xl text-muted-foreground">
         Browse sourced alternative-asset opportunities — sorted by projected yield.
