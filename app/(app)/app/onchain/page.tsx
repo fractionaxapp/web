@@ -8,6 +8,7 @@ import {
 } from '@fractionax/solana';
 import Link from 'next/link';
 
+import { PageHeader } from '@/components/page-header';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -62,15 +63,16 @@ export default async function OnchainPage() {
 
   return (
     <main id="main" className="px-safe max-w-3xl py-12">
-      <div className="flex items-center justify-between">
-        <h1 className="font-serif text-2xl font-semibold tracking-tight">On-chain</h1>
-        <Badge variant="secondary" className="uppercase">
-          {DEFAULT_CLUSTER}
-        </Badge>
-      </div>
-      <p className="mt-1 max-w-2xl text-muted-foreground">
-        The Fractionax Solana program and its registry, read live from {DEFAULT_CLUSTER}.
-      </p>
+      <PageHeader
+        kicker="Network"
+        title="On-chain"
+        description={`The Fractionax Solana program and its registry, read live from ${DEFAULT_CLUSTER}.`}
+        action={
+          <Badge variant="secondary" className="uppercase">
+            {DEFAULT_CLUSTER}
+          </Badge>
+        }
+      />
 
       <h2 className="sr-only">Program details</h2>
       <Card className="mt-6">

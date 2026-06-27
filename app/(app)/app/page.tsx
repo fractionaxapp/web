@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { Copilot } from '@/components/copilot';
+import { PageHeader } from '@/components/page-header';
 import { RequireAuth } from '@/components/require-auth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -19,13 +20,13 @@ export default function DashboardHome() {
   return (
     <RequireAuth>
       <main id="main" className="px-safe max-w-3xl py-12">
-        <h1 className="font-serif text-2xl font-semibold tracking-tight">Copilot</h1>
-      <p className="mt-1 max-w-2xl text-muted-foreground">
-        Describe an investment in plain language — the agents parse your intent, source matching
-        deals, and draft a memo.
-      </p>
+        <PageHeader
+          kicker="Workspace"
+          title="Copilot"
+          description="Describe an investment in plain language — the agents parse your intent, source matching deals, and draft a memo."
+        />
 
-      <div className="mt-6">
+      <div className="mt-8">
         <Copilot autoFocus />
       </div>
 

@@ -1,3 +1,4 @@
+import { PageHeader } from '@/components/page-header';
 import { PortfolioView } from '@/components/portfolio-view';
 import { RequireAuth } from '@/components/require-auth';
 
@@ -7,10 +8,11 @@ export default function PortfolioPage() {
   return (
     <RequireAuth>
       <main id="main" className="px-safe max-w-3xl py-12">
-        <h1 className="font-serif text-2xl font-semibold tracking-tight">Portfolio</h1>
-        <p className="mt-1 max-w-2xl text-muted-foreground">
-          Your positions, projected yield, and risk concentration.
-        </p>
+        <PageHeader
+          kicker="Holdings"
+          title="Portfolio"
+          description="Your positions, projected yield, and risk concentration."
+        />
         <PortfolioView />
       </main>
     </RequireAuth>
