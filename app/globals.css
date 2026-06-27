@@ -59,7 +59,7 @@
   --input: oklch(0.96 0.006 172.43);
   --ring: oklch(0.52 0.13 172.43);
   /* Deepened so gold yield figures clear AA as text on light surfaces. */
-  --brand-gold: oklch(0.58 0.135 75);
+  --brand-gold: oklch(0.55 0.135 75);
   --brand-forest: oklch(0.337 0.053 176.003);
 }
 
