@@ -2,6 +2,7 @@ import { headers } from 'next/headers';
 import Link from 'next/link';
 
 import { ExpressInterest } from '@/components/express-interest';
+import { PageHeader } from '@/components/page-header';
 import { RetryButton } from '@/components/retry-button';
 import { Badge } from '@/components/ui/badge';
 import { buttonVariants } from '@/components/ui/button';
@@ -71,14 +72,14 @@ export default async function DealDetailPage({ params }: { params: Promise<{ id:
 
       {deal && (
         <>
-          <div className="mt-4 flex items-start justify-between gap-4">
-            <h1 className="text-balance font-serif text-2xl font-semibold tracking-tight">{deal.title}</h1>
-            <Badge variant={deal.riskTier}>{deal.riskTier} risk</Badge>
+          <div className="mt-6">
+            <PageHeader
+              kicker="Opportunity"
+              title={deal.title}
+              description={`${regionName(deal.jurisdiction)} · ${humanize(deal.status)} · sourced ${new Date(deal.sourcedAt).toLocaleDateString(locale)}`}
+              action={<Badge variant={deal.riskTier}>{deal.riskTier} risk</Badge>}
+            />
           </div>
-          <p className="mt-1 text-muted-foreground">
-            {regionName(deal.jurisdiction)} · {humanize(deal.status)} · sourced{' '}
-            {new Date(deal.sourcedAt).toLocaleDateString(locale)}
-          </p>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
             <Stat label="Projected yield" value={`${deal.projectedYieldPct}%`} accent />

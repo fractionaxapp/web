@@ -114,9 +114,10 @@
   .shadow-card {
     box-shadow: 3px 3px 0 0 color-mix(in oklch, var(--foreground) 16%, transparent);
   }
-  /* Loud neon-teal hard shadow for accent surfaces (hero preview, CTA). */
+  /* Quiet dark hard shadow for accent surfaces (hero preview, CTA) — brutalist
+   * weight without the neon glow, so the editorial type leads. */
   .shadow-brutal {
-    box-shadow: 6px 6px 0 0 var(--primary);
+    box-shadow: 5px 5px 0 0 color-mix(in oklch, var(--foreground) 24%, transparent);
   }
   /* Mono micro-label — the "terminal/blueprint" kicker. ≥12px, uppercase, tracked. */
   .kicker {
@@ -153,7 +154,7 @@
     mask-image: radial-gradient(120% 90% at 50% 0%, #000 38%, transparent 82%);
   }
 
-  /* HUD registration corners — thick neon-teal ticks on two corners. */
+  /* Registration corners — gold ticks on two corners (luxury accent). */
   .bracket {
     position: relative;
   }
@@ -168,14 +169,14 @@
   .bracket::before {
     top: -2px;
     left: -2px;
-    border-top: 2px solid var(--primary);
-    border-left: 2px solid var(--primary);
+    border-top: 2px solid var(--brand-gold);
+    border-left: 2px solid var(--brand-gold);
   }
   .bracket::after {
     right: -2px;
     bottom: -2px;
-    border-bottom: 2px solid var(--primary);
-    border-right: 2px solid var(--primary);
+    border-bottom: 2px solid var(--brand-gold);
+    border-right: 2px solid var(--brand-gold);
   }
 
   /* Uniform faint teal HUD grid for the dashboard canvas — fills empty space
