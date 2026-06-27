@@ -21,7 +21,7 @@ function Shell({ children }: { children: ReactNode }) {
         {/* HUD status strip — ambient terminal chrome framing the top. */}
         <div className="px-safe hidden items-center justify-between border-b bg-background/60 py-2 backdrop-blur-sm md:flex">
           <span className="kicker text-muted-foreground">
-            <span translate="no">FractionAX</span> // Console
+            <span translate="no">FractionAX</span> {'// Console'}
           </span>
           <span className="kicker flex items-center gap-2 text-muted-foreground">
             <span aria-hidden className="size-1.5 bg-primary" />
