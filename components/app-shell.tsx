@@ -8,7 +8,7 @@ import { DashboardNav } from '@/components/dashboard-nav';
 import { PRIVY_APP_ID, PrivyProviders } from '@/components/privy';
 
 const footerLink =
-  'inline-flex min-h-11 touch-manipulation items-center rounded hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+  'inline-flex min-h-11 touch-manipulation items-center rounded-none font-mono text-xs uppercase tracking-[0.12em] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 
 function Shell({ children }: { children: ReactNode }) {
   return (
@@ -47,7 +47,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         id="main"
         className="px-safe mx-auto flex min-h-dvh max-w-md flex-col justify-center py-12 text-center"
       >
-        <h1 className="text-xl font-semibold tracking-tight">Sign-in unavailable</h1>
+        <h1 className="font-serif text-2xl font-semibold tracking-tight">Sign-in unavailable</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Set <code className="font-mono">NEXT_PUBLIC_PRIVY_APP_ID</code> to enable sign-in.
         </p>
