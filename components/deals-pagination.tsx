@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { buildHref, PER_PAGE, type DealsParams } from '@/lib/deals-query';
+import { buildHref, type DealsParams } from '@/lib/deals-query';
 import { cn } from '@/lib/utils';
 
 const cell =
@@ -29,8 +29,8 @@ export function DealsPagination({
   pageCount: number;
   total: number;
 }) {
-  const from = (page - 1) * PER_PAGE + 1;
-  const to = Math.min(total, page * PER_PAGE);
+  const from = (page - 1) * params.perPage + 1;
+  const to = Math.min(total, page * params.perPage);
 
   return (
     <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">

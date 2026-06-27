@@ -4,8 +4,12 @@ import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 
 import { ASSET_CLASSES } from '@/lib/asset-classes';
-import { buildHref, type DealsParams, type SortKey } from '@/lib/deals-query';
+import { buildHref, PER_PAGE_OPTIONS, type DealsParams, type SortKey } from '@/lib/deals-query';
 import { cn } from '@/lib/utils';
+
+const YIELD_STEPS = [5, 8, 10, 12, 15];
+const MIN_STEPS = [250, 500, 1000, 5000];
+const numOrUndef = (v: string) => (v ? Number(v) : undefined);
 
 const selectCls =
   'h-10 rounded-none border bg-background px-2 font-mono text-xs uppercase tracking-[0.08em] text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
@@ -85,6 +89,40 @@ export function DealsControls({ params }: { params: DealsParams }) {
         <option value="high">High risk</option>
       </select>
 
+      <label htmlFor="deals-yield" className="sr-only">
+        Minimum yield
+      </label>
+      <select
+        id="deals-yield"
+        className={selectCls}
+        value={params.minYield ?? ''}
+        onChange={(e) => router.push(buildHref(params, { minYield: numOrUndef(e.target.value) }))}
+      >
+        <option value="">Any yield</option>
+        {YIELD_STEPS.map((y) => (
+          <option key={y} value={y}>
+            Yield ≥ {y}%
+          </option>
+        ))}
+      </select>
+
+      <label htmlFor="deals-min" className="sr-only">
+        Maximum minimum investment
+      </label>
+      <select
+        id="deals-min"
+        className={selectCls}
+        value={params.maxMin ?? ''}
+        onChange={(e) => router.push(buildHref(params, { maxMin: numOrUndef(e.target.value) }))}
+      >
+        <option value="">Any minimum</option>
+        {MIN_STEPS.map((m) => (
+          <option key={m} value={m}>
+            Min ≤ {m.toLocaleString()}
+          </option>
+        ))}
+      </select>
+
       <label htmlFor="deals-sort" className="sr-only">
         Sort
       </label>
@@ -102,6 +140,22 @@ export function DealsControls({ params }: { params: DealsParams }) {
         <option value="min:asc">Min: low to high</option>
         <option value="min:desc">Min: high to low</option>
         <option value="recent:desc">Newest first</option>
+      </select>
+
+      <label htmlFor="deals-perpage" className="sr-only">
+        Results per page
+      </label>
+      <select
+        id="deals-perpage"
+        className={selectCls}
+        value={params.perPage}
+        onChange={(e) => router.push(buildHref(params, { perPage: Number(e.target.value) }))}
+      >
+        {PER_PAGE_OPTIONS.map((n) => (
+          <option key={n} value={n}>
+            {n} / page
+          </option>
+        ))}
       </select>
     </div>
   );

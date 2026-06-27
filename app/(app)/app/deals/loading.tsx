@@ -27,14 +27,16 @@ export default function DealsLoading() {
           </div>
         </aside>
 
-        <section className="min-w-0" aria-busy="true" aria-label="Loading deals">
+        <section className="min-w-0 space-y-4" aria-busy="true" aria-label="Loading deals">
           <div className="flex flex-wrap items-center gap-2">
             <Skeleton className="h-10 min-w-40 flex-1" />
             <Skeleton className="h-10 w-28" />
             <Skeleton className="h-10 w-36" />
+            <Skeleton className="h-10 w-24" />
           </div>
-          <Skeleton className="mt-3 h-4 w-24" />
-          <div className="mt-3 border">
+          <Skeleton className="h-[4.5rem] w-full" />
+          <Skeleton className="h-4 w-24" />
+          <div className="border">
             <Skeleton className="h-10 border-b" />
             {ROWS.map((k) => (
               <Skeleton key={k} className="h-12 border-b last:border-0" />

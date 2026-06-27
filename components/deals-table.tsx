@@ -5,7 +5,8 @@ import { classLabel } from '@/lib/asset-classes';
 import { buildHref, type DealRow, type DealsParams } from '@/lib/deals-query';
 import { cn, formatMinor, regionName } from '@/lib/utils';
 
-const th = 'px-3 py-2 font-mono text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground';
+const th =
+  'sticky top-0 z-10 border-b bg-muted px-3 py-2 font-mono text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground';
 const focusRing = 'rounded-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 
 /** A sortable numeric column header — a link that toggles asc/desc on the URL. */
@@ -46,10 +47,10 @@ export function DealsTable({
   locale?: string;
 }) {
   return (
-    <div className="overflow-x-auto border">
+    <div className="max-h-[34rem] overflow-auto border">
       <table className="w-full min-w-[640px] text-sm">
         <thead>
-          <tr className="border-b bg-muted/40">
+          <tr>
             <th scope="col" className={cn(th, 'text-left')}>
               Asset
             </th>

@@ -4,9 +4,13 @@ import Link from 'next/link';
 import { z } from 'zod';
 
 import { ClassRail } from '@/components/class-rail';
+import { DealCard } from '@/components/deal-card';
 import { DealsControls } from '@/components/deals-controls';
+import { DealsFilterChips } from '@/components/deals-filter-chips';
 import { DealsPagination } from '@/components/deals-pagination';
+import { DealsSummary } from '@/components/deals-summary';
 import { DealsTable } from '@/components/deals-table';
+import { DealsViewToggle } from '@/components/deals-view-toggle';
 import { PageHeader } from '@/components/page-header';
 import { RetryButton } from '@/components/retry-button';
 import { buttonVariants } from '@/components/ui/button';
@@ -71,7 +75,7 @@ export default async function DealsPage({
   // Format currency in the visitor's locale (server render has no browser locale).
   const locale =
     (await headers()).get('accept-language')?.split(',')[0]?.split(';')[0]?.trim() || undefined;
-  const { counts, total, page, pageCount, pageRows, totalAll } = selectDeals(deals, params);
+  const { counts, total, page, pageCount, pageRows, totalAll, summary } = selectDeals(deals, params);
 
   return (
     <main id="main" className="px-safe mx-auto max-w-6xl py-12">
@@ -95,9 +99,18 @@ export default async function DealsPage({
             <ClassRail params={params} counts={counts} totalAll={totalAll} />
           </aside>
 
-          <section className="min-w-0">
-            <DealsControls params={params} />
-            <p className="mt-3 font-mono text-xs tabular-nums text-muted-foreground" aria-live="polite">
+          <section className="min-w-0 space-y-4">
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <div className="min-w-0 flex-1">
+                <DealsControls params={params} />
+              </div>
+              <DealsViewToggle params={params} />
+            </div>
+
+            <DealsFilterChips params={params} />
+            <DealsSummary summary={summary} locale={locale} />
+
+            <p className="font-mono text-xs tabular-nums text-muted-foreground" aria-live="polite">
               {total === 0 ? 'No matches' : `${total} ${total === 1 ? 'asset' : 'assets'}`}
               {params.class ? ` · ${classLabel(params.class)}` : ''}
             </p>
@@ -105,8 +118,16 @@ export default async function DealsPage({
             {total === 0 ? (
               <EmptyState />
             ) : (
-              <div className="mt-3 space-y-4">
-                <DealsTable rows={pageRows} params={params} locale={locale} />
+              <div className="space-y-4">
+                {params.view === 'cards' ? (
+                  <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                    {pageRows.map((d) => (
+                      <DealCard key={d.id} deal={d} locale={locale} />
+                    ))}
+                  </div>
+                ) : (
+                  <DealsTable rows={pageRows} params={params} locale={locale} />
+                )}
                 <DealsPagination params={params} page={page} pageCount={pageCount} total={total} />
               </div>
             )}
