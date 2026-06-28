@@ -1,17 +1,21 @@
 import type { Deal } from '@fractionax/domain';
 
-/** The nine alternative-asset classes Fractionax organizes deals under. Order
- * here is the order shown in the class rail. Labels are kept short to fit it. */
+/** Asset classes adopted from the rwa.xyz taxonomy (the catalogue seed uses
+ * these slugs). Order here is the order shown in the class rail. */
 export const ASSET_CLASSES = [
-  { key: 'real_estate', label: 'Real estate' },
-  { key: 'private_credit', label: 'Private credit' },
-  { key: 'invoice', label: 'Invoices' },
-  { key: 'ip_royalty', label: 'IP & royalties' },
-  { key: 'revenue_share', label: 'Revenue share' },
-  { key: 'trade_finance', label: 'Trade finance' },
-  { key: 'infrastructure', label: 'Infrastructure' },
-  { key: 'carbon', label: 'Carbon credits' },
-  { key: 'collectibles', label: 'Collectibles' },
+  { key: 'stocks', label: 'Stocks' },
+  { key: 'stablecoins', label: 'Stablecoins' },
+  { key: 'real-estate', label: 'Real estate' },
+  { key: 'us-treasury-debt', label: 'US Treasury debt' },
+  { key: 'commodities', label: 'Commodities' },
+  { key: 'corporate-credit', label: 'Corporate credit' },
+  { key: 'active-strategies', label: 'Active strategies' },
+  { key: 'diversified-credit', label: 'Diversified credit' },
+  { key: 'non-us-government-debt', label: 'Government debt' },
+  { key: 'asset-backed-credit', label: 'Asset-backed credit' },
+  { key: 'private-equity', label: 'Private equity' },
+  { key: 'specialty-finance', label: 'Specialty finance' },
+  { key: 'venture-capital', label: 'Venture capital' },
 ] as const;
 
 export type AssetClassKey = (typeof ASSET_CLASSES)[number]['key'];
@@ -24,27 +28,18 @@ export const classLabel = (key: string): string => LABEL.get(key as AssetClassKe
 export const isAssetClass = (v: string | undefined): v is AssetClassKey =>
   !!v && (CLASS_KEYS as readonly string[]).includes(v);
 
-// Heuristics for current demo data (ids/titles), checked in order. The three
-// id-encoded kinds (revshare/invoice/royalty) win first so they stay accurate.
-const RULES: ReadonlyArray<readonly [RegExp, AssetClassKey]> = [
-  [/revshare|rev[_-]?share/i, 'revenue_share'],
-  [/invoice|receivable|factor/i, 'invoice'],
-  [/royalty|ip[_-]|music|patent|trademark|licen/i, 'ip_royalty'],
-  [/real|estate|property|apartment|lease|land|reit/i, 'real_estate'],
-  [/credit|loan|debt|private|note/i, 'private_credit'],
-  [/trade|supply|export|import|freight/i, 'trade_finance'],
-  [/infra|equip|machin|solar|turbine|fleet/i, 'infrastructure'],
-  [/carbon|green|sustain|offset|renewable/i, 'carbon'],
-  [/art|collect|wine|watch|memorabilia/i, 'collectibles'],
+// Fallback for legacy demo deals that predate `assetClass` (royalties, invoices,
+// revenue-share), mapping them onto the nearest adopted class.
+const FALLBACK: ReadonlyArray<readonly [RegExp, AssetClassKey]> = [
+  [/invoice|receivable|factor/i, 'asset-backed-credit'],
+  [/royalty|ip[_-]|music|patent|licen|revshare|rev[_-]?share|revenue|franchise/i, 'specialty-finance'],
 ];
 
-/** A deal's asset class. Prefers an explicit `assetClass` from the backend (once
- * the agents populate it); otherwise derives one from the id/asset/title so the
- * class rail works with today's data. */
+/** A deal's asset class. Prefers the explicit `assetClass` from the catalogue;
+ * falls back to id/title heuristics for the legacy demo deals. */
 export function classOf(deal: Deal): AssetClassKey {
-  const explicit = (deal as { assetClass?: string }).assetClass;
-  if (isAssetClass(explicit)) return explicit;
+  if (isAssetClass(deal.assetClass)) return deal.assetClass;
   const hay = `${deal.id} ${deal.assetId} ${deal.title}`;
-  for (const [re, key] of RULES) if (re.test(hay)) return key;
-  return 'revenue_share';
+  for (const [re, key] of FALLBACK) if (re.test(hay)) return key;
+  return 'specialty-finance';
 }
