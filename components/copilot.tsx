@@ -197,10 +197,17 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
     !!deals &&
     deals.length > 0;
 
+  // A memo only shows once it has arrived, or while it could still be streaming in.
+  // Catalogue deals have no backing asset, so a memo may legitimately never come —
+  // don't strand the underwriting step/section on a skeleton when none is coming.
+  const showUnderwriting = !!memo || (expectsMemo && loading);
+
   const steps: { label: string; state: StepState }[] = [
     { label: 'Parsing intent', state: intent ? 'done' : 'active' },
     { label: 'Sourcing deals', state: deals ? 'done' : intent ? 'active' : 'pending' },
-    { label: 'Underwriting', state: memo ? 'done' : deals && expectsMemo ? 'active' : 'pending' },
+    ...(showUnderwriting
+      ? [{ label: 'Underwriting', state: (memo ? 'done' : 'active') as StepState }]
+      : []),
   ];
 
   return (
@@ -337,7 +344,7 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
               </section>
             )}
 
-            {expectsMemo && (
+            {showUnderwriting && (
               <section className="animate-rise">
                 <SectionLabel>Top match — underwriting</SectionLabel>
                 {memo && deals?.[0] ? (
