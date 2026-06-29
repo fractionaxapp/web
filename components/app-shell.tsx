@@ -16,6 +16,12 @@ const CLUSTER = 'devnet';
 function Shell({ children }: { children: ReactNode }) {
   return (
     <div className="md:flex md:min-h-dvh">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:ring-2 focus:ring-ring"
+      >
+        Skip to content
+      </a>
       <DashboardNav />
       <div className="hud-grid flex min-w-0 flex-1 flex-col">
         {/* HUD status strip — ambient terminal chrome framing the top. */}
