@@ -81,7 +81,7 @@ export function DealsControls({ params }: { params: DealsParams }) {
       </label>
       <select
         id="deals-class"
-        className={cn(selectCls, 'md:hidden')}
+        className={cn(selectCls, 'lg:hidden')}
         value={params.class ?? ''}
         onChange={(e) => router.push(buildHref(params, { class: (e.target.value || undefined) as DealsParams['class'] }))}
       >
