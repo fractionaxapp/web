@@ -19,6 +19,7 @@ const selectCls =
 export function DealsControls({ params }: { params: DealsParams }) {
   const router = useRouter();
   const [q, setQ] = useState(params.q);
+  const [showFilters, setShowFilters] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   function search(value: string) {
@@ -31,32 +32,50 @@ export function DealsControls({ params }: { params: DealsParams }) {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      <form
-        role="search"
-        className="min-w-40 flex-1"
-        onSubmit={(e) => {
-          e.preventDefault();
-          clearTimeout(timerRef.current);
-          router.replace(buildHref(params, { q: q.trim() }), { scroll: false });
-        }}
-      >
-        <label htmlFor="deals-search" className="sr-only">
-          Search assets
-        </label>
-        <input
-          id="deals-search"
-          type="search"
-          name="q"
-          autoComplete="off"
-          value={q}
-          onChange={(e) => search(e.target.value)}
-          placeholder="Search assets…"
-          className="h-10 w-full rounded-none border bg-background px-3 text-base text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-sm"
-        />
-      </form>
+    <div className="space-y-2">
+      <div className="flex flex-wrap items-center gap-2">
+        <form
+          role="search"
+          className="min-w-40 flex-1"
+          onSubmit={(e) => {
+            e.preventDefault();
+            clearTimeout(timerRef.current);
+            router.replace(buildHref(params, { q: q.trim() }), { scroll: false });
+          }}
+        >
+          <label htmlFor="deals-search" className="sr-only">
+            Search assets
+          </label>
+          <input
+            id="deals-search"
+            type="search"
+            name="q"
+            autoComplete="off"
+            value={q}
+            onChange={(e) => search(e.target.value)}
+            placeholder="Search assets…"
+            className="h-10 w-full rounded-none border bg-background px-3 text-base text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-sm"
+          />
+        </form>
 
-      {/* Class picker — mobile only; desktop uses the rail. */}
+        {/* Mobile only: collapse the secondary filters so search + class lead. */}
+        <button
+          type="button"
+          onClick={() => setShowFilters((v) => !v)}
+          aria-expanded={showFilters}
+          aria-controls="deals-filters"
+          className={cn(selectCls, 'inline-flex items-center gap-1 sm:hidden')}
+        >
+          Filters
+          <span aria-hidden>{showFilters ? '▴' : '▾'}</span>
+        </button>
+      </div>
+
+      <div
+        id="deals-filters"
+        className={cn('flex-wrap items-center gap-2', showFilters ? 'flex' : 'hidden', 'sm:flex')}
+      >
+        {/* Class picker — mobile only; desktop uses the rail. */}
       <label htmlFor="deals-class" className="sr-only">
         Asset class
       </label>
@@ -139,8 +158,8 @@ export function DealsControls({ params }: { params: DealsParams }) {
         <option value="yield:asc">Yield: low to high</option>
         <option value="min:asc">Min: low to high</option>
         <option value="min:desc">Min: high to low</option>
-        <option value="raise:desc">Raise: largest first</option>
-        <option value="raise:asc">Raise: smallest first</option>
+        <option value="raise:desc">Offering size: largest first</option>
+        <option value="raise:asc">Offering size: smallest first</option>
         <option value="recent:desc">Newest first</option>
       </select>
 
@@ -159,6 +178,7 @@ export function DealsControls({ params }: { params: DealsParams }) {
           </option>
         ))}
       </select>
+      </div>
     </div>
   );
 }

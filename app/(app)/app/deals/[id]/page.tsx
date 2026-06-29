@@ -33,7 +33,7 @@ function Stat({
         <div
           className={cn(
             'mt-1 font-mono text-xl font-semibold tabular-nums',
-            muted ? 'text-muted-foreground/40' : accent ? 'text-brand-gold' : 'text-foreground',
+            muted ? 'text-muted-foreground/60' : accent ? 'text-brand-gold' : 'text-foreground',
           )}
         >
           {value}
@@ -108,6 +108,13 @@ export default async function DealDetailPage({ params }: { params: Promise<{ id:
 
           <div className="mt-8">
             <h2 className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              Invest
+            </h2>
+            <ExpressInterest deal={deal} locale={locale} />
+          </div>
+
+          <div className="mt-8">
+            <h2 className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
               Details
             </h2>
             <Card>
@@ -139,13 +146,6 @@ export default async function DealDetailPage({ params }: { params: Promise<{ id:
                 </dl>
               </CardContent>
             </Card>
-          </div>
-
-          <div className="mt-8">
-            <h2 className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              Invest
-            </h2>
-            <ExpressInterest deal={deal} locale={locale} />
           </div>
 
           <div className="mt-8 border-t pt-6">

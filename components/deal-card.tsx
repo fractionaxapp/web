@@ -38,7 +38,7 @@ export function DealCard({ deal, locale }: { deal: Deal; locale?: string }) {
             <div
               className={cn(
                 'font-mono text-2xl font-semibold tabular-nums',
-                deal.projectedYieldPct > 0 ? 'text-brand-gold' : 'text-muted-foreground/40',
+                deal.projectedYieldPct > 0 ? 'text-brand-gold' : 'text-muted-foreground/60',
               )}
               title={deal.projectedYieldPct > 0 ? undefined : 'No published yield'}
             >

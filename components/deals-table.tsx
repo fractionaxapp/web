@@ -61,7 +61,12 @@ export function DealsTable({
             </th>
             <SortableTh label="Yield" col="yield" params={params} />
             <SortableTh label="Min" col="min" params={params} />
-            <SortableTh label="Raise" col="raise" params={params} className="hidden lg:table-cell" />
+            <SortableTh
+              label="Offering size"
+              col="raise"
+              params={params}
+              className="hidden lg:table-cell"
+            />
             <th scope="col" className={cn(th, 'hidden text-left md:table-cell')}>
               Jurisdiction
             </th>
@@ -85,7 +90,7 @@ export function DealsTable({
                 {d.projectedYieldPct > 0 ? (
                   <span className="text-brand-gold">{d.projectedYieldPct}%</span>
                 ) : (
-                  <span className="text-muted-foreground/40" title="No published yield">
+                  <span className="text-muted-foreground/60" title="No published yield">
                     —
                   </span>
                 )}
