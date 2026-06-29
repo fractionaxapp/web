@@ -97,6 +97,7 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
   const [intent, setIntent] = useState<InvestmentIntent | null>(null);
   const [deals, setDeals] = useState<Deal[] | null>(null);
   const [memo, setMemo] = useState<InvestmentMemo | null>(null);
+  const [showAllDeals, setShowAllDeals] = useState(false);
   const [recents, setRecents] = useState<string[]>([]);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -166,6 +167,7 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
         setIntent(null);
         setDeals(null);
         setMemo(null);
+        setShowAllDeals(false);
         try {
           await streamCopilot(text, { onIntent: setIntent, onDeals: setDeals, onMemo: setMemo });
           break;
@@ -201,6 +203,12 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
   // Catalogue deals have no backing asset, so a memo may legitimately never come —
   // don't strand the underwriting step/section on a skeleton when none is coming.
   const showUnderwriting = !!memo || (expectsMemo && loading);
+
+  // Show only the top matches by default (sorted yield-high-first) so a large result
+  // set doesn't push the underwriting far down the page; expand on demand.
+  const DEALS_PREVIEW = 6;
+  const visibleDeals = deals && !showAllDeals ? deals.slice(0, DEALS_PREVIEW) : deals;
+  const hiddenDealCount = deals ? deals.length - (visibleDeals?.length ?? 0) : 0;
 
   const steps: { label: string; state: StepState }[] = [
     { label: 'Parsing intent', state: intent ? 'done' : 'active' },
@@ -323,27 +331,6 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
               {intent ? <IntentSummary intent={intent} /> : <Skeleton className="h-7 w-72" />}
             </section>
 
-            {intent && (
-              <section className="animate-rise">
-                <SectionLabel>Matching deals{deals ? ` (${deals.length})` : ''}</SectionLabel>
-                {deals ? (
-                  <div className="grid gap-3">
-                    {deals.map((deal) => (
-                      <DealCard key={deal.id} deal={deal} />
-                    ))}
-                    {deals.length === 0 && (
-                      <p className="text-sm text-muted-foreground">No deals matched that intent.</p>
-                    )}
-                  </div>
-                ) : (
-                  <div className="grid gap-3">
-                    <Skeleton className="h-28 rounded-xl" />
-                    <Skeleton className="h-28 rounded-xl" />
-                  </div>
-                )}
-              </section>
-            )}
-
             {showUnderwriting && (
               <section className="animate-rise">
                 <SectionLabel>Top match — underwriting</SectionLabel>
@@ -351,6 +338,36 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
                   <MemoView memo={memo} currency={deals[0].currency} />
                 ) : (
                   <Skeleton className="h-44 rounded-xl" />
+                )}
+              </section>
+            )}
+
+            {intent && (
+              <section className="animate-rise">
+                <SectionLabel>Matching deals{deals ? ` (${deals.length})` : ''}</SectionLabel>
+                {deals && visibleDeals ? (
+                  <div className="grid gap-3">
+                    {visibleDeals.map((deal) => (
+                      <DealCard key={deal.id} deal={deal} />
+                    ))}
+                    {deals.length === 0 && (
+                      <p className="text-sm text-muted-foreground">No deals matched that intent.</p>
+                    )}
+                    {hiddenDealCount > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setShowAllDeals(true)}
+                        className="mt-1 w-full rounded-xl border border-dashed border-border/70 py-3 text-center font-mono text-xs uppercase tracking-wide text-muted-foreground transition-colors hover:border-border hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      >
+                        Show {hiddenDealCount} more {hiddenDealCount === 1 ? 'match' : 'matches'}
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <div className="grid gap-3">
+                    <Skeleton className="h-28 rounded-xl" />
+                    <Skeleton className="h-28 rounded-xl" />
+                  </div>
                 )}
               </section>
             )}
