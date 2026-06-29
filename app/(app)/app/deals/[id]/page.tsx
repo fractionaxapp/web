@@ -7,6 +7,7 @@ import { RetryButton } from '@/components/retry-button';
 import { Badge } from '@/components/ui/badge';
 import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { classLabel, classOf } from '@/lib/asset-classes';
 import { fetchDeal } from '@/lib/deals';
 import { cn, formatMinor, humanize, regionName } from '@/lib/utils';
 
@@ -14,7 +15,17 @@ export const metadata = { title: 'Deal' };
 export const dynamic = 'force-dynamic';
 export const maxDuration = 30;
 
-function Stat({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+function Stat({
+  label,
+  value,
+  accent,
+  muted,
+}: {
+  label: string;
+  value: string;
+  accent?: boolean;
+  muted?: boolean;
+}) {
   return (
     <Card>
       <CardContent className="p-4">
@@ -22,7 +33,7 @@ function Stat({ label, value, accent }: { label: string; value: string; accent?:
         <div
           className={cn(
             'mt-1 font-mono text-xl font-semibold tabular-nums',
-            accent ? 'text-brand-gold' : 'text-foreground',
+            muted ? 'text-muted-foreground/40' : accent ? 'text-brand-gold' : 'text-foreground',
           )}
         >
           {value}
@@ -74,7 +85,7 @@ export default async function DealDetailPage({ params }: { params: Promise<{ id:
         <>
           <div className="mt-6">
             <PageHeader
-              kicker="Opportunity"
+              kicker={`Opportunity · ${classLabel(classOf(deal))}`}
               title={deal.title}
               description={`${regionName(deal.jurisdiction)} · ${humanize(deal.status)} · sourced ${new Date(deal.sourcedAt).toLocaleDateString(locale)}`}
               action={<Badge variant={deal.riskTier}>{deal.riskTier} risk</Badge>}
@@ -82,12 +93,52 @@ export default async function DealDetailPage({ params }: { params: Promise<{ id:
           </div>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            <Stat label="Projected yield" value={`${deal.projectedYieldPct}%`} accent />
+            <Stat
+              label="Projected yield"
+              value={deal.projectedYieldPct > 0 ? `${deal.projectedYieldPct}%` : '—'}
+              accent={deal.projectedYieldPct > 0}
+              muted={deal.projectedYieldPct === 0}
+            />
             <Stat label="Minimum" value={formatMinor(deal.minInvestmentMinor, deal.currency, locale)} />
             <Stat
-              label="Target raise"
+              label="Offering size"
               value={formatMinor(deal.targetRaiseMinor, deal.currency, locale)}
             />
+          </div>
+
+          <div className="mt-8">
+            <h2 className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              Details
+            </h2>
+            <Card>
+              <CardContent className="p-0">
+                <dl className="divide-y text-sm">
+                  {[
+                    { label: 'Asset class', value: classLabel(classOf(deal)), mono: false },
+                    { label: 'Jurisdiction', value: regionName(deal.jurisdiction), mono: false },
+                    { label: 'Currency', value: deal.currency, mono: true },
+                    { label: 'Status', value: humanize(deal.status), mono: false },
+                    {
+                      label: 'Sourced',
+                      value: new Date(deal.sourcedAt).toLocaleDateString(locale),
+                      mono: false,
+                    },
+                    { label: 'Deal ID', value: deal.id, mono: true },
+                    { label: 'Asset ID', value: deal.assetId, mono: true },
+                  ].map((row) => (
+                    <div
+                      key={row.label}
+                      className="flex items-center justify-between gap-4 px-4 py-3"
+                    >
+                      <dt className="text-muted-foreground">{row.label}</dt>
+                      <dd className={cn('text-right', row.mono && 'font-mono tabular-nums')}>
+                        {row.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </CardContent>
+            </Card>
           </div>
 
           <div className="mt-8">
