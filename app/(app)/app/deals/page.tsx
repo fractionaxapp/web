@@ -114,7 +114,10 @@ export default async function DealsPage({
               <div className="min-w-0 w-full sm:flex-1">
                 <DealsControls params={params} />
               </div>
-              <DealsViewToggle params={params} />
+              {/* The view toggle is desktop-only; phones always get cards. */}
+              <div className="hidden sm:block">
+                <DealsViewToggle params={params} />
+              </div>
             </div>
 
             <DealsFilterChips params={params} />
@@ -129,15 +132,24 @@ export default async function DealsPage({
               <EmptyState />
             ) : (
               <div className="space-y-4">
-                {params.view === 'cards' ? (
-                  <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-                    {pageRows.map((d) => (
-                      <DealCard key={d.id} deal={d} locale={locale} />
-                    ))}
-                  </div>
-                ) : (
-                  <DealsTable rows={pageRows} params={params} locale={locale} />
-                )}
+                {/* Phones: always cards — they stack every field, where the wide
+                    multi-column table can't fit. Desktop honors the chosen view. */}
+                <div className="grid gap-3 sm:hidden">
+                  {pageRows.map((d) => (
+                    <DealCard key={d.id} deal={d} locale={locale} />
+                  ))}
+                </div>
+                <div className="hidden sm:block">
+                  {params.view === 'cards' ? (
+                    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                      {pageRows.map((d) => (
+                        <DealCard key={d.id} deal={d} locale={locale} />
+                      ))}
+                    </div>
+                  ) : (
+                    <DealsTable rows={pageRows} params={params} locale={locale} />
+                  )}
+                </div>
                 <DealsPagination params={params} page={page} pageCount={pageCount} total={total} />
               </div>
             )}

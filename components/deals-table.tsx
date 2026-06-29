@@ -50,7 +50,7 @@ export function DealsTable({
 }) {
   return (
     <div className="max-h-[34rem] overflow-auto border">
-      <table className="w-full min-w-0 text-sm sm:min-w-[640px]">
+      <table className="w-full min-w-[640px] text-sm">
         <thead>
           <tr>
             <th scope="col" className={cn(th, 'text-left')}>
@@ -60,7 +60,7 @@ export function DealsTable({
               Class
             </th>
             <SortableTh label="Yield" col="yield" params={params} />
-            <SortableTh label="Min" col="min" params={params} className="hidden sm:table-cell" />
+            <SortableTh label="Min" col="min" params={params} />
             <SortableTh
               label="Offering size"
               col="raise"
@@ -95,7 +95,7 @@ export function DealsTable({
                   </span>
                 )}
               </td>
-              <td className="hidden px-3 py-2.5 text-right font-mono tabular-nums sm:table-cell">
+              <td className="px-3 py-2.5 text-right font-mono tabular-nums">
                 {formatMinor(d.minInvestmentMinor, d.currency, locale)}
               </td>
               <td className="hidden px-3 py-2.5 text-right font-mono tabular-nums text-muted-foreground lg:table-cell">
