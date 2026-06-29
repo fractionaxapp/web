@@ -50,7 +50,7 @@ export function DealsTable({
 }) {
   return (
     <div className="max-h-[34rem] overflow-auto border">
-      <table className="w-full min-w-[640px] text-sm">
+      <table className="w-full min-w-0 text-sm sm:min-w-[640px]">
         <thead>
           <tr>
             <th scope="col" className={cn(th, 'text-left')}>

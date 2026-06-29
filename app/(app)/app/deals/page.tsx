@@ -111,7 +111,7 @@ export default async function DealsPage({
 
           <section className="min-w-0 space-y-4">
             <div className="flex flex-wrap items-start justify-between gap-2">
-              <div className="min-w-0 flex-1">
+              <div className="min-w-0 w-full sm:flex-1">
                 <DealsControls params={params} />
               </div>
               <DealsViewToggle params={params} />

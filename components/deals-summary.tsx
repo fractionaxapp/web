@@ -38,7 +38,7 @@ export function DealsSummary({ summary, locale }: { summary: DealsSummary; local
         <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
           Risk mix
         </div>
-        <div className="mt-1 flex gap-3 font-mono text-sm tabular-nums">
+        <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 font-mono text-sm tabular-nums">
           <span>
             <span className="text-muted-foreground">L</span> {risk.low}
           </span>
