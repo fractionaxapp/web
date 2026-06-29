@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { cn, formatMinor, regionName } from '@/lib/utils';
+import { cn, formatMinor, formatMinorCompact, regionName } from '@/lib/utils';
 
 function Stat({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
   return (
@@ -35,11 +35,22 @@ export function DealCard({ deal, locale }: { deal: Deal; locale?: string }) {
         <div className="flex flex-wrap items-end gap-x-8 gap-y-3">
           <div>
             <div className="text-xs text-muted-foreground">Projected yield</div>
-            <div className="font-mono text-2xl font-semibold tabular-nums text-brand-gold">
-              {deal.projectedYieldPct}%
+            <div
+              className={cn(
+                'font-mono text-2xl font-semibold tabular-nums',
+                deal.projectedYieldPct > 0 ? 'text-brand-gold' : 'text-muted-foreground/40',
+              )}
+              title={deal.projectedYieldPct > 0 ? undefined : 'No published yield'}
+            >
+              {deal.projectedYieldPct > 0 ? `${deal.projectedYieldPct}%` : '—'}
             </div>
           </div>
           <Stat label="Minimum" value={formatMinor(deal.minInvestmentMinor, deal.currency, locale)} mono />
+          <Stat
+            label="Offering size"
+            value={formatMinorCompact(deal.targetRaiseMinor, deal.currency, locale)}
+            mono
+          />
           <Stat label="Jurisdiction" value={regionName(deal.jurisdiction)} />
         </div>
         <Link

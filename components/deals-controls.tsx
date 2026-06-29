@@ -139,6 +139,8 @@ export function DealsControls({ params }: { params: DealsParams }) {
         <option value="yield:asc">Yield: low to high</option>
         <option value="min:asc">Min: low to high</option>
         <option value="min:desc">Min: high to low</option>
+        <option value="raise:desc">Raise: largest first</option>
+        <option value="raise:asc">Raise: smallest first</option>
         <option value="recent:desc">Newest first</option>
       </select>
 

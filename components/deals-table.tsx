@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { classLabel } from '@/lib/asset-classes';
 import { buildHref, type DealRow, type DealsParams } from '@/lib/deals-query';
-import { cn, formatMinor, regionName } from '@/lib/utils';
+import { cn, formatMinor, formatMinorCompact, regionName } from '@/lib/utils';
 
 const th =
   'sticky top-0 z-10 border-b bg-muted px-3 py-2 font-mono text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground';
@@ -14,15 +14,17 @@ function SortableTh({
   label,
   col,
   params,
+  className,
 }: {
   label: string;
-  col: 'yield' | 'min';
+  col: 'yield' | 'min' | 'raise';
   params: DealsParams;
+  className?: string;
 }) {
   const isActive = params.sort === col;
   const nextDir = isActive && params.dir === 'desc' ? 'asc' : 'desc';
   return (
-    <th scope="col" className={cn(th, 'text-right')} aria-sort={isActive ? (params.dir === 'asc' ? 'ascending' : 'descending') : 'none'}>
+    <th scope="col" className={cn(th, 'text-right', className)} aria-sort={isActive ? (params.dir === 'asc' ? 'ascending' : 'descending') : 'none'}>
       <Link
         href={buildHref(params, { sort: col, dir: nextDir })}
         aria-label={`Sort by ${label}, ${nextDir === 'asc' ? 'ascending' : 'descending'}`}
@@ -59,6 +61,7 @@ export function DealsTable({
             </th>
             <SortableTh label="Yield" col="yield" params={params} />
             <SortableTh label="Min" col="min" params={params} />
+            <SortableTh label="Raise" col="raise" params={params} className="hidden lg:table-cell" />
             <th scope="col" className={cn(th, 'hidden text-left md:table-cell')}>
               Jurisdiction
             </th>
@@ -78,11 +81,20 @@ export function DealsTable({
               <td className="hidden px-3 py-2.5 text-muted-foreground sm:table-cell">
                 {classLabel(d.assetClass)}
               </td>
-              <td className="px-3 py-2.5 text-right font-mono tabular-nums text-brand-gold">
-                {d.projectedYieldPct}%
+              <td className="px-3 py-2.5 text-right font-mono tabular-nums">
+                {d.projectedYieldPct > 0 ? (
+                  <span className="text-brand-gold">{d.projectedYieldPct}%</span>
+                ) : (
+                  <span className="text-muted-foreground/40" title="No published yield">
+                    —
+                  </span>
+                )}
               </td>
               <td className="px-3 py-2.5 text-right font-mono tabular-nums">
                 {formatMinor(d.minInvestmentMinor, d.currency, locale)}
+              </td>
+              <td className="hidden px-3 py-2.5 text-right font-mono tabular-nums text-muted-foreground lg:table-cell">
+                {formatMinorCompact(d.targetRaiseMinor, d.currency, locale)}
               </td>
               <td className="hidden px-3 py-2.5 text-muted-foreground md:table-cell">
                 {regionName(d.jurisdiction)}

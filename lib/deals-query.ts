@@ -4,7 +4,7 @@ import { classOf, isAssetClass, type AssetClassKey } from './asset-classes';
 
 export const PER_PAGE_OPTIONS = [20, 50, 100] as const;
 export const DEFAULT_PER_PAGE = 20;
-export const SORTS = ['yield', 'min', 'recent'] as const;
+export const SORTS = ['yield', 'min', 'raise', 'recent'] as const;
 export type SortKey = (typeof SORTS)[number];
 export const VIEWS = ['table', 'cards'] as const;
 export type ViewKey = (typeof VIEWS)[number];
@@ -98,6 +98,7 @@ export function selectDeals(all: Deal[], p: DealsParams) {
   const sign = p.dir === 'asc' ? 1 : -1;
   rows = [...rows].sort((a, b) => {
     if (p.sort === 'min') return sign * (a.deal.minInvestmentMinor - b.deal.minInvestmentMinor);
+    if (p.sort === 'raise') return sign * (a.deal.targetRaiseMinor - b.deal.targetRaiseMinor);
     if (p.sort === 'recent') return sign * (Date.parse(a.deal.sourcedAt) - Date.parse(b.deal.sourcedAt));
     return sign * (a.deal.projectedYieldPct - b.deal.projectedYieldPct);
   });

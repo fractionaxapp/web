@@ -17,6 +17,16 @@ export function formatMinor(minor: number, currency: string, locale?: string): s
   }).format(minor / 100);
 }
 
+/** Compact currency for large figures in dense UI (e.g. "$1.4M", "$185.7B"). */
+export function formatMinorCompact(minor: number, currency: string, locale?: string): string {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency,
+    notation: 'compact',
+    maximumFractionDigits: 1,
+  }).format(minor / 100);
+}
+
 const REGION_NAMES = new Intl.DisplayNames(['en'], { type: 'region' });
 
 /** Turn an ISO region code (e.g. "MY") into a country name ("Malaysia").
