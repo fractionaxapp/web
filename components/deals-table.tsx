@@ -50,7 +50,7 @@ export function DealsTable({
 }) {
   return (
     <div className="max-h-[34rem] overflow-auto border">
-      <table className="w-full min-w-[640px] text-sm">
+      <table className="w-full min-w-[520px] text-sm lg:min-w-[640px]">
         <thead>
           <tr>
             <th scope="col" className={cn(th, 'text-left')}>
@@ -67,7 +67,7 @@ export function DealsTable({
               params={params}
               className="hidden lg:table-cell"
             />
-            <th scope="col" className={cn(th, 'hidden text-left md:table-cell')}>
+            <th scope="col" className={cn(th, 'hidden text-left lg:table-cell')}>
               Jurisdiction
             </th>
             <th scope="col" className={cn(th, 'text-left')}>
@@ -101,7 +101,7 @@ export function DealsTable({
               <td className="hidden px-3 py-2.5 text-right font-mono tabular-nums text-muted-foreground lg:table-cell">
                 {formatMinorCompact(d.targetRaiseMinor, d.currency, locale)}
               </td>
-              <td className="hidden px-3 py-2.5 text-muted-foreground md:table-cell">
+              <td className="hidden px-3 py-2.5 text-muted-foreground lg:table-cell">
                 {regionName(d.jurisdiction)}
               </td>
               <td className="px-3 py-2.5">

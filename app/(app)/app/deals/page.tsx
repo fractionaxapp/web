@@ -101,8 +101,8 @@ export default async function DealsPage({
           </div>
         )
       ) : (
-        <div className="mt-8 grid gap-6 lg:grid-cols-[13rem_minmax(0,1fr)]">
-          <aside className="hidden lg:block">
+        <div className="mt-8 grid gap-6 xl:grid-cols-[13rem_minmax(0,1fr)]">
+          <aside className="hidden xl:block">
             <div className="mb-2 px-3 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
               Classes
             </div>
