@@ -25,7 +25,19 @@ function isActive(pathname: string, href: string): boolean {
   return href === '/app' ? pathname === '/app' : pathname.startsWith(href);
 }
 
-function NavLinks({ pathname, className }: { pathname: string; className: string }) {
+function NavLinks({
+  pathname,
+  className,
+  orientation = 'vertical',
+}: {
+  pathname: string;
+  className: string;
+  orientation?: 'vertical' | 'horizontal';
+}) {
+  // Terminal nav: mono UPPERCASE label with a neon-teal HUD bar marking the active
+  // route. A left border in the vertical sidebar; a bottom border (tab underline)
+  // in the horizontal mobile bar, where a left bar would read as a list cue.
+  const borderSide = orientation === 'vertical' ? 'border-l-2' : 'border-b-2';
   return (
     <nav className={className} aria-label="Dashboard">
       {LINKS.map(({ href, label }) => {
@@ -35,10 +47,9 @@ function NavLinks({ pathname, className }: { pathname: string; className: string
             key={href}
             href={href}
             aria-current={active ? 'page' : undefined}
-            // Terminal nav: mono UPPERCASE label with a neon-teal HUD bar marking
-            // the active route. Square (radius 0) to match the brutalist frame.
             className={cn(
-              'inline-flex min-h-11 touch-manipulation items-center whitespace-nowrap border-l-2 px-3 font-mono text-xs uppercase tracking-[0.12em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+              'inline-flex min-h-11 touch-manipulation items-center whitespace-nowrap px-3 font-mono text-xs uppercase tracking-[0.12em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+              borderSide,
               active
                 ? 'border-primary bg-accent font-medium text-foreground'
                 : 'border-transparent text-muted-foreground hover:bg-accent/50 hover:text-foreground',
@@ -128,7 +139,7 @@ export function DashboardNav() {
             </div>
           </div>
           <div className="mt-1 flex items-center justify-between gap-2">
-            <NavLinks pathname={pathname} className="flex flex-wrap gap-1" />
+            <NavLinks pathname={pathname} className="flex flex-wrap gap-1" orientation="horizontal" />
             <ThemeToggle />
           </div>
         </div>

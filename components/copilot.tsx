@@ -249,7 +249,10 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
             Ask
           </Button>
         </div>
-        {recents.length > 0 ? (
+        {/* Recents and examples behave identically: a click fills the input and
+            focuses it — you run it. Examples stay visible until you've built up a
+            few recents, so first-timers always have prompts to start from. */}
+        {recents.length > 0 && (
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
             <span>Recent:</span>
             {recents.map((r) => (
@@ -257,9 +260,8 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
                 key={r}
                 type="button"
                 disabled={loading}
-                title={`Edit and re-run: ${r}`}
+                title={r}
                 onClick={() => {
-                  // A past prompt is yours to refine — populate and focus, don't auto-run.
                   setMessage(r);
                   inputRef.current?.focus();
                 }}
@@ -276,17 +278,18 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
               Clear
             </button>
           </div>
-        ) : (
+        )}
+        {recents.length < 3 && (
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
             <span>Try:</span>
-            {EXAMPLES.map((example) => (
+            {EXAMPLES.filter((e) => !recents.includes(e)).map((example) => (
               <button
                 key={example}
                 type="button"
                 disabled={loading}
                 onClick={() => {
                   setMessage(example);
-                  void ask(example);
+                  inputRef.current?.focus();
                 }}
                 className={chipClass}
               >

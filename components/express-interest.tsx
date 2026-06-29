@@ -98,7 +98,7 @@ export function ExpressInterest({ deal, locale }: { deal: Deal; locale?: string 
             aria-invalid={error ? true : undefined}
             aria-describedby={error ? errorId : undefined}
             placeholder={String(minMajor)}
-            className="w-32 bg-transparent px-2 py-2 text-base focus:outline-none sm:text-sm"
+            className="w-40 bg-transparent px-2 py-2 text-base focus:outline-none sm:text-sm"
           />
         </div>
         <Button type="submit" className="h-10 px-4">
