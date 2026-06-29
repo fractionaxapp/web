@@ -32,7 +32,7 @@ export function DealCard({ deal, locale }: { deal: Deal; locale?: string }) {
         </div>
       </CardHeader>
       <CardContent className="space-y-4 text-sm">
-        <div className="flex flex-wrap items-end gap-x-8 gap-y-3">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-3">
           <div>
             <div className="text-xs text-muted-foreground">Projected yield</div>
             <div
