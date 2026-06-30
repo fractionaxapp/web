@@ -30,14 +30,16 @@ export default function OpengraphImage() {
               height: 48,
               alignItems: 'center',
               justifyContent: 'center',
-              borderRadius: 12,
+              borderRadius: 0,
               background: '#16af8e',
-              color: '#06201a',
-              fontSize: 30,
-              fontWeight: 700,
             }}
           >
-            F
+            <svg width="22" height="52" viewBox="0 102 101 239" xmlns="http://www.w3.org/2000/svg">
+              <path
+                fill="#ffffff"
+                d="M39.76,166.11v4.42h46.39v34.39h-46.39v136.01H0v-187.75c0-31.56,21.77-51.44,53.01-51.44h47.96v36.29h-33.13c-21.46,0-28.09,8.52-28.09,28.09Z"
+              />
+            </svg>
           </div>
           <div style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.02em' }}>FractionAX</div>
         </div>

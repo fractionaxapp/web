@@ -1,8 +1,8 @@
 import { ImageResponse } from 'next/og';
 
 // 512px maskable icon for PWA installs — full-bleed teal so the platform mask
-// (circle/squircle) never clips a transparent corner; the mark sits in the safe
-// zone. Placeholder until the real square mark is exported.
+// (circle/squircle) never clips a transparent corner; the "f" lettermark sits in
+// the central safe zone.
 export const dynamic = 'force-static';
 
 export function GET() {
@@ -16,12 +16,14 @@ export function GET() {
           alignItems: 'center',
           justifyContent: 'center',
           background: '#16af8e',
-          color: '#ffffff',
-          fontSize: 300,
-          fontWeight: 700,
         }}
       >
-        F
+        <svg width="131" height="310" viewBox="0 102 101 239" xmlns="http://www.w3.org/2000/svg">
+          <path
+            fill="#ffffff"
+            d="M39.76,166.11v4.42h46.39v34.39h-46.39v136.01H0v-187.75c0-31.56,21.77-51.44,53.01-51.44h47.96v36.29h-33.13c-21.46,0-28.09,8.52-28.09,28.09Z"
+          />
+        </svg>
       </div>
     ),
     { width: 512, height: 512 },
