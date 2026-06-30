@@ -9,7 +9,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { classLabel, classOf } from '@/lib/asset-classes';
 import { fetchDeal } from '@/lib/deals';
-import { cn, formatMinor, humanize, regionName } from '@/lib/utils';
+import { cn, formatMinor, humanize, isOutlierYield, regionName } from '@/lib/utils';
 
 export const metadata = { title: 'Deal' };
 export const dynamic = 'force-dynamic';
@@ -96,7 +96,7 @@ export default async function DealDetailPage({ params }: { params: Promise<{ id:
             <Stat
               label="Projected yield"
               value={deal.projectedYieldPct > 0 ? `${deal.projectedYieldPct}%` : '—'}
-              accent={deal.projectedYieldPct > 0}
+              accent={deal.projectedYieldPct > 0 && !isOutlierYield(deal.projectedYieldPct)}
               muted={deal.projectedYieldPct === 0}
             />
             <Stat label="Minimum" value={formatMinor(deal.minInvestmentMinor, deal.currency, locale)} />

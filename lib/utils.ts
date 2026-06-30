@@ -44,3 +44,11 @@ export function humanize(token: string): string {
   const text = token.replaceAll(/[_-]/g, ' ').trim();
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
+
+/** Above this, a projected yield reads as a risk signal rather than "value
+ * earned" — so we stop gilding it in gold (which the brand reserves for
+ * plausible value). The underwriting memo already explains the risk; the
+ * discovery surfaces just stop celebrating it. Tune as licensed data lands (M2). */
+export const OUTLIER_YIELD_PCT = 25;
+export const isOutlierYield = (pct: number): boolean => pct > OUTLIER_YIELD_PCT;
+export const OUTLIER_YIELD_HINT = 'Unusually high yield — weigh against the risk tier';

@@ -3,7 +3,14 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { classLabel } from '@/lib/asset-classes';
 import { buildHref, type DealRow, type DealsParams } from '@/lib/deals-query';
-import { cn, formatMinor, formatMinorCompact, regionName } from '@/lib/utils';
+import {
+  cn,
+  formatMinor,
+  formatMinorCompact,
+  isOutlierYield,
+  OUTLIER_YIELD_HINT,
+  regionName,
+} from '@/lib/utils';
 
 const th =
   'sticky top-0 z-10 border-b bg-muted px-3 py-2 font-mono text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground';
@@ -88,7 +95,12 @@ export function DealsTable({
               </td>
               <td className="px-3 py-2.5 text-right font-mono tabular-nums">
                 {d.projectedYieldPct > 0 ? (
-                  <span className="text-brand-gold">{d.projectedYieldPct}%</span>
+                  <span
+                    className={isOutlierYield(d.projectedYieldPct) ? 'text-foreground' : 'text-brand-gold'}
+                    title={isOutlierYield(d.projectedYieldPct) ? OUTLIER_YIELD_HINT : undefined}
+                  >
+                    {d.projectedYieldPct}%
+                  </span>
                 ) : (
                   <span className="text-muted-foreground/60" title="No published yield">
                     —

@@ -121,8 +121,9 @@ export function DashboardNav() {
           <ThemeToggle />
         </div>
         <NavLinks pathname={pathname} className="flex flex-col gap-1 px-2 pb-2" />
-        <div className="mt-auto space-y-3 border-t p-3">
-          <ClusterStatus />
+        {/* Cluster status lives in the top HUD strip on desktop, so the sidebar
+            only carries the account chip — no duplicate DEVNET indicator. */}
+        <div className="mt-auto border-t p-3">
           <AccountChip />
         </div>
       </aside>

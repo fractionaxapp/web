@@ -1,7 +1,7 @@
 'use client';
 
 import type { Deal, InvestmentIntent, InvestmentMemo } from '@fractionax/domain';
-import { useEffect, useRef, useState } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 import { DealCard } from '@/components/deal-card';
 import { IntentSummary } from '@/components/intent-summary';
@@ -89,7 +89,15 @@ function Stepper({ steps }: { steps: { label: string; state: StepState }[] }) {
 
 /** The natural-language investing tool: parse intent, source deals, draft a memo —
  * streamed as each stage lands. Used standalone on /copilot and on the home hero. */
-export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
+export function Copilot({
+  autoFocus = false,
+  emptyStateExtra,
+}: {
+  autoFocus?: boolean;
+  /** Shown only in the pristine state (before any query) — e.g. nav shortcuts.
+   * Hidden once a query runs so results aren't competing with chrome. */
+  emptyStateExtra?: ReactNode;
+}) {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [warming, setWarming] = useState(false);
@@ -319,6 +327,10 @@ export function Copilot({ autoFocus = false }: { autoFocus?: boolean }) {
         >
           {error}
         </div>
+      )}
+
+      {emptyStateExtra && !intent && !loading && !error && (
+        <div className="mt-10">{emptyStateExtra}</div>
       )}
 
       {(intent || loading) && !error && (

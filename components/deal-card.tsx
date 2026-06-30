@@ -3,7 +3,14 @@ import Link from 'next/link';
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { cn, formatMinor, formatMinorCompact, regionName } from '@/lib/utils';
+import {
+  cn,
+  formatMinor,
+  formatMinorCompact,
+  isOutlierYield,
+  OUTLIER_YIELD_HINT,
+  regionName,
+} from '@/lib/utils';
 
 function Stat({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
   return (
@@ -38,9 +45,19 @@ export function DealCard({ deal, locale }: { deal: Deal; locale?: string }) {
             <div
               className={cn(
                 'font-mono text-2xl font-semibold tabular-nums',
-                deal.projectedYieldPct > 0 ? 'text-brand-gold' : 'text-muted-foreground/60',
+                deal.projectedYieldPct <= 0
+                  ? 'text-muted-foreground/60'
+                  : isOutlierYield(deal.projectedYieldPct)
+                    ? 'text-foreground'
+                    : 'text-brand-gold',
               )}
-              title={deal.projectedYieldPct > 0 ? undefined : 'No published yield'}
+              title={
+                deal.projectedYieldPct <= 0
+                  ? 'No published yield'
+                  : isOutlierYield(deal.projectedYieldPct)
+                    ? OUTLIER_YIELD_HINT
+                    : undefined
+              }
             >
               {deal.projectedYieldPct > 0 ? `${deal.projectedYieldPct}%` : '—'}
             </div>

@@ -130,7 +130,7 @@ export default async function OnchainPage() {
         href="/app"
         className="mt-8 inline-block rounded text-sm text-muted-foreground hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
-        ← Back to dashboard
+        ← Back to Copilot
       </Link>
     </main>
   );
