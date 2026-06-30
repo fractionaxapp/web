@@ -147,7 +147,7 @@ export function PortfolioView() {
 
       <div>
         <h2 className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          Holdings
+          Positions
         </h2>
         <ul className="grid gap-3">
           {positions.map((p) => (
