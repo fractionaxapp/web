@@ -1,14 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getPositions, POSITIONS_CHANGED, type Position, removePosition } from '@/lib/positions';
-import { cn, formatMinor } from '@/lib/utils';
+import { cn, formatMinor, isOutlierYield, OUTLIER_YIELD_HINT } from '@/lib/utils';
 
 function Stat({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
   return (
@@ -73,6 +73,9 @@ function EmptyState() {
 export function PortfolioView() {
   // null = not yet read (avoid a flash of the empty state before localStorage loads)
   const [positions, setPositions] = useState<Position[] | null>(null);
+  // Two-step confirm for the destructive Remove (no undo otherwise).
+  const [confirmId, setConfirmId] = useState<string | null>(null);
+  const confirmTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     const refresh = () => {
@@ -85,6 +88,7 @@ export function PortfolioView() {
     return () => {
       window.removeEventListener(POSITIONS_CHANGED, refresh);
       window.removeEventListener('storage', refresh);
+      clearTimeout(confirmTimer.current);
     };
   }, []);
 
@@ -120,7 +124,7 @@ export function PortfolioView() {
     <div className="mt-6 space-y-6">
       <div className="grid gap-4 sm:grid-cols-3">
         <Stat label="Invested" value={formatMinor(totalMinor, currency)} />
-        <Stat label="Blended yield" value={`${blended.toFixed(1)}%`} accent />
+        <Stat label="Blended yield" value={`${blended.toFixed(1)}%`} accent={!isOutlierYield(blended)} />
         <Stat label="Positions" value={String(positions.length)} />
       </div>
 
@@ -161,7 +165,13 @@ export function PortfolioView() {
                       <span className="font-mono tabular-nums text-foreground">
                         {formatMinor(p.amountMinor, p.currency)}
                       </span>
-                      <span className="font-mono tabular-nums text-brand-gold">
+                      <span
+                        className={cn(
+                          'font-mono tabular-nums',
+                          isOutlierYield(p.projectedYieldPct) ? 'text-foreground' : 'text-brand-gold',
+                        )}
+                        title={isOutlierYield(p.projectedYieldPct) ? OUTLIER_YIELD_HINT : undefined}
+                      >
                         {p.projectedYieldPct}%
                       </span>
                       <Badge variant={p.riskTier}>{p.riskTier}</Badge>
@@ -169,10 +179,27 @@ export function PortfolioView() {
                   </div>
                   <button
                     type="button"
-                    onClick={() => removePosition(p.id)}
-                    className="inline-flex min-h-11 touch-manipulation items-center rounded px-2 text-sm text-muted-foreground transition-colors hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    onClick={() => {
+                      if (confirmId === p.id) {
+                        removePosition(p.id);
+                        setConfirmId(null);
+                      } else {
+                        setConfirmId(p.id);
+                        clearTimeout(confirmTimer.current);
+                        confirmTimer.current = setTimeout(() => setConfirmId(null), 3000);
+                      }
+                    }}
+                    aria-label={
+                      confirmId === p.id ? `Confirm removing ${p.dealTitle}` : `Remove ${p.dealTitle}`
+                    }
+                    className={cn(
+                      'inline-flex min-h-11 touch-manipulation items-center rounded px-2 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                      confirmId === p.id
+                        ? 'text-destructive'
+                        : 'text-muted-foreground hover:text-destructive',
+                    )}
                   >
-                    Withdraw
+                    {confirmId === p.id ? 'Confirm?' : 'Remove'}
                   </button>
                 </CardContent>
               </Card>

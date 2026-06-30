@@ -2,7 +2,7 @@ import type { InvestmentMemo } from '@fractionax/domain';
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { cn, formatMinor } from '@/lib/utils';
+import { cn, formatMinor, isOutlierYield } from '@/lib/utils';
 
 function Stat({
   label,
@@ -44,7 +44,12 @@ export function MemoView({ memo, currency }: { memo: InvestmentMemo; currency: s
         <p className="max-w-prose text-muted-foreground">{memo.summary}</p>
         <div className="flex flex-wrap gap-6">
           <Stat label="Valuation" value={formatMinor(memo.valuationMinor, currency)} mono />
-          <Stat label="Projected yield" value={`${memo.projectedYieldPct}%`} mono accent />
+          <Stat
+            label="Projected yield"
+            value={`${memo.projectedYieldPct}%`}
+            mono
+            accent={!isOutlierYield(memo.projectedYieldPct)}
+          />
           <Stat label="Risk tier" value={memo.riskTier} />
         </div>
         {memo.risks.length > 0 && (
