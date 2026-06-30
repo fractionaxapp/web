@@ -75,7 +75,7 @@ export function PortfolioView() {
   const [positions, setPositions] = useState<Position[] | null>(null);
   // Two-step confirm for the destructive Remove (no undo otherwise).
   const [confirmId, setConfirmId] = useState<string | null>(null);
-  const confirmTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const confirmTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     const refresh = () => {
@@ -88,7 +88,7 @@ export function PortfolioView() {
     return () => {
       window.removeEventListener(POSITIONS_CHANGED, refresh);
       window.removeEventListener('storage', refresh);
-      clearTimeout(confirmTimer.current);
+      clearTimeout(confirmTimerRef.current);
     };
   }, []);
 
@@ -185,8 +185,8 @@ export function PortfolioView() {
                         setConfirmId(null);
                       } else {
                         setConfirmId(p.id);
-                        clearTimeout(confirmTimer.current);
-                        confirmTimer.current = setTimeout(() => setConfirmId(null), 3000);
+                        clearTimeout(confirmTimerRef.current);
+                        confirmTimerRef.current = setTimeout(() => setConfirmId(null), 3000);
                       }
                     }}
                     aria-label={
