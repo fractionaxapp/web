@@ -102,9 +102,12 @@ export default async function OnchainPage() {
             </p>
           )}
           {deployed && error && (
-            <p role="alert" className="text-destructive">
-              Could not read the chain: {error}
-            </p>
+            <div role="alert">
+              <p className="text-destructive">
+                Couldn’t read the on-chain state right now. Try again in a moment.
+              </p>
+              <p className="mt-1 break-all font-mono text-xs text-muted-foreground/70">{error}</p>
+            </div>
           )}
           {deployed && !error && !registry && (
             <p className="text-muted-foreground">
