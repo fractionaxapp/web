@@ -361,25 +361,27 @@ export function Copilot({
               <section className="animate-rise">
                 <SectionLabel>Matching deals{deals ? ` (${deals.length})` : ''}</SectionLabel>
                 {deals && visibleDeals ? (
-                  <div className="grid gap-3">
+                  <div className="grid gap-3 lg:grid-cols-2">
                     {visibleDeals.map((deal) => (
                       <DealCard key={deal.id} deal={deal} />
                     ))}
                     {deals.length === 0 && (
-                      <p className="text-sm text-muted-foreground">No deals matched that intent.</p>
+                      <p className="text-sm text-muted-foreground lg:col-span-2">
+                        No deals matched that intent.
+                      </p>
                     )}
                     {hiddenDealCount > 0 && (
                       <button
                         type="button"
                         onClick={() => setShowAllDeals(true)}
-                        className="mt-1 w-full rounded-xl border border-dashed border-border/70 py-3 text-center font-mono text-xs uppercase tracking-wide text-muted-foreground transition-colors hover:border-border hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        className="mt-1 w-full rounded-xl border border-dashed border-border/70 py-3 text-center font-mono text-xs uppercase tracking-wide text-muted-foreground transition-colors hover:border-border hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 lg:col-span-2"
                       >
                         Show {hiddenDealCount} more {hiddenDealCount === 1 ? 'match' : 'matches'}
                       </button>
                     )}
                   </div>
                 ) : (
-                  <div className="grid gap-3">
+                  <div className="grid gap-3 lg:grid-cols-2">
                     <Skeleton className="h-28 rounded-xl" />
                     <Skeleton className="h-28 rounded-xl" />
                   </div>
