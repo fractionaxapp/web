@@ -124,7 +124,7 @@ export function PortfolioView() {
     <div className="mt-6 space-y-6">
       <div className="grid gap-4 sm:grid-cols-3">
         <Stat label="Invested" value={formatMinor(totalMinor, currency)} />
-        <Stat label="Blended yield" value={`${blended.toFixed(1)}%`} accent={!isOutlierYield(blended)} />
+        <Stat label="Avg yield" value={`${blended.toFixed(1)}%`} accent={!isOutlierYield(blended)} />
         <Stat label="Positions" value={String(positions.length)} />
       </div>
 

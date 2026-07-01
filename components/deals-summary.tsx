@@ -40,13 +40,13 @@ export function DealsSummary({ summary, locale }: { summary: DealsSummary; local
         </div>
         <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 font-mono text-sm tabular-nums">
           <span className="whitespace-nowrap">
-            <span className="text-muted-foreground">L</span> {risk.low}
+            <span className="text-muted-foreground">Low</span> {risk.low}
           </span>
           <span className="whitespace-nowrap">
-            <span className="text-muted-foreground">M</span> {risk.medium}
+            <span className="text-muted-foreground">Med</span> {risk.medium}
           </span>
           <span className="whitespace-nowrap">
-            <span className="text-muted-foreground">H</span> {risk.high}
+            <span className="text-muted-foreground">High</span> {risk.high}
           </span>
         </div>
       </div>

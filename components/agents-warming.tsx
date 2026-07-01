@@ -54,8 +54,8 @@ export function AgentsWarming() {
           </>
         ) : (
           <p className="mt-2 text-sm text-muted-foreground" role="status" aria-live="polite">
-            The agents service spins down when idle, so the first load can take ~30 seconds. This page
-            is retrying automatically — no need to refresh.
+            The first load can take up to 30 seconds. This page is retrying automatically — no need
+            to refresh.
           </p>
         )}
       </div>

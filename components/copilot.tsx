@@ -315,8 +315,7 @@ export function Copilot({
           className="mt-6 flex items-center gap-2 border border-dashed p-4 text-sm text-muted-foreground"
         >
           <Spinner className="size-4 text-primary" />
-          Warming up the agents — the service spins down when idle, so the first response can take
-          ~30s. Retrying…
+          Warming up the agents — the first response can take up to 30 seconds. Retrying…
         </div>
       )}
 
@@ -342,7 +341,7 @@ export function Copilot({
           )}
           <div className="space-y-6" aria-live="polite" aria-busy={loading}>
             <section className="animate-rise">
-              <SectionLabel>Parsed intent</SectionLabel>
+              <SectionLabel>What you asked for</SectionLabel>
               {intent ? <IntentSummary intent={intent} /> : <Skeleton className="h-7 w-72" />}
             </section>
 

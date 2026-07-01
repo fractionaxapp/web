@@ -30,7 +30,7 @@ export function HeroPreview() {
           {/* parsed intent */}
           <div>
             <div className="mb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-              Parsed intent
+              What you asked for
             </div>
             <div className="flex flex-wrap gap-1.5">
               {['Invest', '$1,000', 'Low risk', 'Malaysia'].map((t) => (

@@ -4,6 +4,14 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn, formatMinor, isOutlierYield } from '@/lib/utils';
 
+// Unambiguous verdict labels — the raw enum's "pass" reads as ambiguous on a
+// badge (decline vs. "passed"); "Skip" is clearly a decline.
+const RECOMMENDATION_LABEL: Record<InvestmentMemo['recommendation'], string> = {
+  invest: 'Consider',
+  watch: 'Watch',
+  pass: 'Skip',
+};
+
 function Stat({
   label,
   value,
@@ -37,7 +45,7 @@ export function MemoView({ memo, currency }: { memo: InvestmentMemo; currency: s
       <CardHeader>
         <div className="flex items-center justify-between gap-3">
           <CardTitle className="text-base">Investment memo</CardTitle>
-          <Badge>{memo.recommendation}</Badge>
+          <Badge>{RECOMMENDATION_LABEL[memo.recommendation]}</Badge>
         </div>
       </CardHeader>
       <CardContent className="space-y-4 text-sm">
