@@ -9,7 +9,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { classLabel, classOf } from '@/lib/asset-classes';
 import { fetchDeal } from '@/lib/deals';
-import { cn, formatMinor, humanize, isOutlierYield, regionName } from '@/lib/utils';
+import { cn, formatDate, formatMinor, humanize, isOutlierYield, regionName } from '@/lib/utils';
 
 export const metadata = { title: 'Deal' };
 export const dynamic = 'force-dynamic';
@@ -87,7 +87,7 @@ export default async function DealDetailPage({ params }: { params: Promise<{ id:
             <PageHeader
               kicker={`Opportunity · ${classLabel(classOf(deal))}`}
               title={deal.title}
-              description={`${regionName(deal.jurisdiction)} · ${humanize(deal.status)} · sourced ${new Date(deal.sourcedAt).toLocaleDateString(locale)}`}
+              description={`${regionName(deal.jurisdiction)} · ${humanize(deal.status)} · sourced ${formatDate(deal.sourcedAt, locale)}`}
               action={<Badge variant={deal.riskTier}>{deal.riskTier} risk</Badge>}
             />
           </div>
@@ -127,7 +127,7 @@ export default async function DealDetailPage({ params }: { params: Promise<{ id:
                     { label: 'Status', value: humanize(deal.status), mono: false },
                     {
                       label: 'Sourced',
-                      value: new Date(deal.sourcedAt).toLocaleDateString(locale),
+                      value: formatDate(deal.sourcedAt, locale),
                       mono: false,
                     },
                     { label: 'Deal ID', value: deal.id, mono: true },

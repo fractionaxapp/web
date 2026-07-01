@@ -52,3 +52,13 @@ export function humanize(token: string): string {
 export const OUTLIER_YIELD_PCT = 25;
 export const isOutlierYield = (pct: number): boolean => pct > OUTLIER_YIELD_PCT;
 export const OUTLIER_YIELD_HINT = 'Unusually high yield — weigh against the risk tier';
+
+/** Format an ISO date with a spelled-out month, e.g. "18 Aug 2024" — avoids the
+ * ambiguity of numeric dates (06/07 = Jun 7 or Jul 6?). Locale-aware ordering. */
+export function formatDate(iso: string, locale?: string): string {
+  return new Date(iso).toLocaleDateString(locale, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+}
