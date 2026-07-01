@@ -52,8 +52,7 @@ export function ExpressInterest({ deal, locale }: { deal: Deal; locale?: string 
       >
         <p className="font-medium">Interest recorded.</p>
         <p className="mt-1 text-muted-foreground">
-          We’ll prepare this intent for your approval. It’s now in your portfolio (devnet — no funds
-          moved).
+          We’ll prepare it for your approval. It’s now in your portfolio (devnet — no funds moved).
         </p>
         <Link
           href="/app/portfolio"

@@ -219,7 +219,7 @@ export function Copilot({
   const hiddenDealCount = deals ? deals.length - (visibleDeals?.length ?? 0) : 0;
 
   const steps: { label: string; state: StepState }[] = [
-    { label: 'Parsing intent', state: intent ? 'done' : 'active' },
+    { label: 'Reading your request', state: intent ? 'done' : 'active' },
     { label: 'Sourcing deals', state: deals ? 'done' : intent ? 'active' : 'pending' },
     ...(showUnderwriting
       ? [{ label: 'Underwriting', state: (memo ? 'done' : 'active') as StepState }]
@@ -366,7 +366,7 @@ export function Copilot({
                     ))}
                     {deals.length === 0 && (
                       <p className="text-sm text-muted-foreground lg:col-span-2">
-                        No deals matched that intent.
+                        No deals matched your request.
                       </p>
                     )}
                     {hiddenDealCount > 0 && (
