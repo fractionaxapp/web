@@ -1,7 +1,7 @@
 import { headers } from 'next/headers';
 import Link from 'next/link';
 
-import { ExpressInterest } from '@/components/express-interest';
+import { InvestPanel } from '@/components/invest-panel';
 import { PageHeader } from '@/components/page-header';
 import { RetryButton } from '@/components/retry-button';
 import { Badge } from '@/components/ui/badge';
@@ -110,7 +110,7 @@ export default async function DealDetailPage({ params }: { params: Promise<{ id:
             <h2 className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
               Invest
             </h2>
-            <ExpressInterest deal={deal} locale={locale} />
+            <InvestPanel deal={deal} locale={locale} />
           </div>
 
           <div className="mt-8">
