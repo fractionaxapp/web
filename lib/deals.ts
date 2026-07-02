@@ -6,12 +6,18 @@ import { deepCamel } from './case';
 const Deals = z.array(Deal);
 const AGENTS_URL = process.env.AGENTS_URL ?? 'http://localhost:8000';
 
-/** Fetch deals live from the agents service, failing gracefully (never a 504). */
+/** Fetch deals live from the agents service, failing gracefully (never a 504).
+ * `limit` caps how many are returned so callers rendering a page of rows don't
+ * transfer/parse the whole catalogue. */
 export async function fetchDeals(
   riskTier?: string,
+  limit?: number,
 ): Promise<{ deals: Deal[]; error: string | null }> {
   try {
-    const qs = riskTier ? `?risk_tier=${riskTier}` : '';
+    const params = new URLSearchParams();
+    if (riskTier) params.set('risk_tier', riskTier);
+    if (limit && limit > 0) params.set('limit', String(limit));
+    const qs = params.toString() ? `?${params}` : '';
     const res = await fetch(`${AGENTS_URL}/deals${qs}`, {
       cache: 'no-store',
       signal: AbortSignal.timeout(25_000),

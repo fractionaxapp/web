@@ -36,10 +36,16 @@ async function readCatalogueStatus(): Promise<CatalogueStatus> {
   }
 }
 
+const ROW_LIMIT = 40;
+
 export default async function AdminDealsPage() {
-  const { deals, error } = await fetchDeals();
-  const dealCount = await readDealCount();
-  const catalogue = await readCatalogueStatus();
+  // Fetch in parallel, and pull only the rows we render — the total comes from the
+  // catalogue status (a cheap COUNT) rather than transferring the whole catalogue.
+  const [{ deals, error }, dealCount, catalogue] = await Promise.all([
+    fetchDeals(undefined, ROW_LIMIT),
+    readDealCount(),
+    readCatalogueStatus(),
+  ]);
   const [registryPda] = getRegistryPda(FRACTIONAX_PROGRAM_ID);
 
   return (
@@ -88,7 +94,7 @@ export default async function AdminDealsPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y">
-                  {deals.slice(0, 40).map((d) => (
+                  {deals.map((d) => (
                     <tr key={d.id}>
                       <td className="px-4 py-3">
                         <div className="max-w-[28ch] truncate font-medium" title={d.title}>
@@ -116,8 +122,8 @@ export default async function AdminDealsPage() {
       )}
 
       <p className="mt-6 text-xs text-muted-foreground">
-        Showing up to 40 of {deals.length} sourced deals. Registering increments the on-chain deal
-        counter (metadata stays off-chain until tokenization). Devnet — no real funds move.
+        Showing up to {ROW_LIMIT} of {catalogue.count} deals. Registering increments the on-chain
+        deal counter (metadata stays off-chain until tokenization). Devnet — no real funds move.
       </p>
     </main>
   );
