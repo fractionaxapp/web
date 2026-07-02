@@ -4,6 +4,9 @@ import { deepCamel, deepSnake } from '@/lib/case';
 
 const AGENTS_URL = process.env.AGENTS_URL ?? 'http://localhost:8000';
 
+// Headroom for a cold Render free-tier agents service; the decision itself is fast.
+export const maxDuration = 30;
+
 /**
  * Proxy the Compliance Agent's eligibility check. The client posts a camelCase
  * `{ investor, dealId }`; we snake_case it for the agents service and camelCase
