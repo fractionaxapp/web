@@ -38,18 +38,26 @@ async function readCatalogueStatus(): Promise<CatalogueStatus> {
 
 const ROW_LIMIT = 40;
 
+async function timed<T>(p: Promise<T>): Promise<[T, number]> {
+  const s = performance.now();
+  const r = await p;
+  return [r, Math.round(performance.now() - s)];
+}
+
 export default async function AdminDealsPage() {
   // Fetch in parallel, and pull only the rows we render — the total comes from the
   // catalogue status (a cheap COUNT) rather than transferring the whole catalogue.
-  const [{ deals, error }, dealCount, catalogue] = await Promise.all([
-    fetchDeals(undefined, ROW_LIMIT),
-    readDealCount(),
-    readCatalogueStatus(),
+  const _t0 = performance.now();
+  const [[{ deals, error }, tDeals], [dealCount, tCount], [catalogue, tCat]] = await Promise.all([
+    timed(fetchDeals(undefined, ROW_LIMIT)),
+    timed(readDealCount()),
+    timed(readCatalogueStatus()),
   ]);
+  const _perf = `perf-ms fetchDeals=${tDeals} onchain=${tCount} catalogue=${tCat} all=${Math.round(performance.now() - _t0)}`;
   const [registryPda] = getRegistryPda(FRACTIONAX_PROGRAM_ID);
 
   return (
-    <main id="main" className="px-safe mx-auto max-w-6xl py-10">
+    <main id="main" data-perf={_perf} className="px-safe mx-auto max-w-6xl py-10">
       <PageHeader
         kicker="Super admin"
         title="Deals"
