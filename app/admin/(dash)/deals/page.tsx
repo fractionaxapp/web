@@ -7,7 +7,7 @@ import {
 } from '@fractionax/solana';
 
 import { ImportDeals } from '@/components/admin/import-deals';
-import { RegisterDeal } from '@/components/admin/register-deal';
+import { RegisterRows } from '@/components/admin/register-rows';
 import { PageHeader } from '@/components/page-header';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -93,7 +93,7 @@ export default async function AdminDealsPage() {
                     <th className="px-4 py-3 font-medium">On-chain</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y">
+                <RegisterRows>
                   {deals.map((d) => (
                     <tr key={d.id}>
                       <td className="px-4 py-3">
@@ -110,11 +110,17 @@ export default async function AdminDealsPage() {
                         {formatMinor(d.minInvestmentMinor, d.currency)}
                       </td>
                       <td className="px-4 py-3">
-                        <RegisterDeal dealId={d.id} />
+                        <button
+                          type="button"
+                          data-deal-id={d.id}
+                          className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                        >
+                          Register on-chain
+                        </button>
                       </td>
                     </tr>
                   ))}
-                </tbody>
+                </RegisterRows>
               </table>
             </div>
           </CardContent>
